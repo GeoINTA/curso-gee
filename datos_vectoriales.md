@@ -18,10 +18,10 @@ Earth Engine también soporta MultiPoint, MultiLineString y MultiPolygon. GeoJSO
 
 Vamos a crear y mapear una geometría
 
-  var point = ee.Geometry.Point([-60.54, -31.85]);
+    var point = ee.Geometry.Point([-60.54, -31.85]);
 
 [ee.Geometry.Point](https://developers.google.com/earth-engine/api_docs%23eegeometrypoint) es la llamada a la API Earth Engine que recibe dos parámetros una lista
-ee.List([]) y el segundo que es opcional una proyección que puede ser especificada como código EPSG^[[1]](#ftnt1)^. El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
+ee.List([]) y el segundo que es opcional una proyección que puede ser especificada como código EPSG [[1]](#ftnt1). El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
 
 La definición de esa geometría (según la definición [GeoJSON](https://tools.ietf.org/html/rfc7946))
 sería:
@@ -35,14 +35,12 @@ sería:
       ]
     }
 
-De esa forma los datos son almacenados y utilizados internamente por la
-librería. Para poder ver en el Code Editor el formato nativo podemos
-hacer print(point); y luego en la consola hacer clic en JSON.
+De esa forma los datos son almacenados y utilizados internamente por la librería. Para poder ver en el Code Editor el formato nativo podemos hacer > print(point); y luego en la consola hacer clic en JSON.
 
 También podemos agregar la geometría en el mapa utilizando la siguiente
 instrucción:
 
-Map.addLayer(point,{'color':'00FF11'} ,'Punto');
+    Map.addLayer(point,{'color':'00FF11'} ,'Punto');
 
 Tips: Si quiere modificar el color de la geometría el formato
 hexadecimal de colores html puede obtenerse desde Google realizando la
