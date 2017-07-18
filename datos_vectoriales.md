@@ -42,7 +42,7 @@ instrucción:
 
     Map.addLayer(point,{'color':'00FF11'} ,'Punto');
 
-**Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de colores html puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/#q='picker color').
+**Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de colores html puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/#q=picker+color).
 
 El resto de las geometrías se construyen de la misma forma, veamos:
 
@@ -92,20 +92,20 @@ A mapear!!
 
 -   Polígono
 
-    var polygon = ee.Geometry.Polygon(
-    [[[-62.935, -34.415],
-    [-61.745, -34.411],
-    [-61.388, -34.068],
-    [-62.663, -34.075]]]);
-
+```javascript
+    var vertices = [ [-62.935,-34.415], [-61.745,-34.411], [-61.388,-34.068],[-62.663,-34.075] ];
+    var poligono = ee.Geometry.Polygon( vertices );
+```
 
 [ee.Geometry.Polygon](https://developers.google.com/earth-engine/api_docs#eegeometrypolygon) recibe una lista de anillos que definen los límites del polígono. Puede ser una lista de coordenadas en el formato 'Polygon' de GeoJSON, o una lista de ee.Geometry que describe un LinearRing. El resto de los parámetros son similares al resto de las geometrías.
 
-    Map.addLayer(polygon, {'color':'16a322'} ,'Polígono');
+```javascript
+    Map.addLayer(poligono, {'color':'16a322'} ,'Polígono');
+```
 
 -   Geometrías Multiparte: Una geometría individual puede consistir en múltiples geometrías. Para dividir una Geometría de varias partes en sus geometrías constitutivas, use **geometry.geometries()**. Ejemplo:
 
-```
+```javascript
     var multiPoint = ee.Geometry.MultiPoint(
           [
             [-62.319,-32.856],
@@ -153,7 +153,7 @@ Una geometría creada en Earth Engine es geodésica (es decir, los bordes son la
 
 En la configuración predeterminada de la instanciación de un objeto ee.Geometry.XXXXX este se crea como EPSG:4326, es decir, será una geometría geodésica.
 
-```
+```javascript
     var PoligonoGeo = ee.Geometry.Polygon([
     [
         [-71.411,-39.470], [-57.128,-39.402],
@@ -164,23 +164,23 @@ En la configuración predeterminada de la instanciación de un objeto ee.Geometr
 
 Esa misma geometría puede ser expresada en el plano, ya sea cuando se crea o puede ser convertida:
 
+```javascript
+
     var PoligonoPlano = ee.Geometry(PoligonoGeo, null, false);
+```
 
 Veámos cómo se ven estas geometrías en el mapa:
 
+```javascript
     Map.centerObject(PoligonoGeo);
-
     Map.addLayer(PoligonoGeo, {color: 'FF0000'}, 'Geodésico');
-
     Map.addLayer(PoligonoPlano, {color: '000000'}, 'Plano');
+```
 
-Operaciones con Geometrías {#h.e860ppwtnt27 .c48 .c59}
---------------------------
+## Operaciones con Geometrías
 
-Earth Engine admite una amplia variedad de operaciones en objetos
-Geometry. Estos incluyen operaciones en geometrías individuales tales
-como calcular un buffer, centroide, bounding box, perímetro, envolvente
-convexa, etc.
+
+Earth Engine admite una amplia variedad de operaciones en objetos Geometry. Estos incluyen operaciones en geometrías individuales tales como calcular un buffer, centroide, bounding box, perímetro, envolvente convexa, etc.
 
 Utilizando la definición del polígono de la anterior vamos a realizar
 algunas operaciones de geometrías:
