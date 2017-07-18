@@ -48,7 +48,9 @@ El resto de las geometrías se construyen de la misma forma, veamos:
 
 -   Líneas
 
+```
     var lineString = ee.Geometry.LineString([[-63, -36], [-60.54, -31.85], [-58, -28], [-63, -27]]);
+```
 
 [ee.Geometry.LineString](https://developers.google.com/earth-engine/api_docs#eegeometrylinestring) recibe una lista de puntos y parámetros opcionales.
 
@@ -63,11 +65,12 @@ Podemos centrar el mapa en una geometría o feature particular, eso lo podemos h
 
 -   Anillo de línea
 
+```
     var linearRing = ee.Geometry.LinearRing(
     [[-63, -36.09],[-59.54,-31.85],
     [-58, -28], [-63, -25],
     [-64, -27],[-63, -36]]);
-    
+```    
 
 [ee.Geometry.LinearRing](https://developers.google.com/earth-engine/api_docs#eegeometrylinearring) recibe una lista de puntos que a diferencia de LineString comienza y termina con el mismo punto para poder cerrar el anillo. También tiene parámetros opcionales.
 
@@ -102,6 +105,7 @@ A mapear!!
 
 -   Geometrías Multiparte: Una geometría individual puede consistir en múltiples geometrías. Para dividir una Geometría de varias partes en sus geometrías constitutivas, use **geometry.geometries()**. Ejemplo:
 
+```
     var multiPoint = ee.Geometry.MultiPoint(
                   [[-62.319,-32.856],
                   [-62.528,-32.944],
@@ -109,11 +113,14 @@ A mapear!!
                   [-62.193,-33.008],
                   [-62.166,-32.805]]);
     Map.addLayer(multiPoint, {'color':'16a322'} ,'multiPoint');
+```
 
 Vamos a imprimir los puntos de  la geometría, así que al objeto multiPoint le vamos a pedir todas las geometrías que lo componen.
 
+```
     var las_geometrias = multiPoint.geometries();
     print(las_geometrias);
+```
 
 1.  ¿Qué tipo de dato es la variable **las\_geometrias**?
 2.  ¿Cómo puedo recuperar una de las geometrías contenidas en
@@ -127,8 +134,8 @@ Existe una forma muy práctica de dibujar Geometrías desde el mismo mapa del Co
 
 Veamos un ejemplo:
 
-| | |
------
+|  |  |
+| - | - |
 | Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. Para dejar de dibujar se hace clic en la mano de la izquierda. | ![Selección\_508.png](images/image18.png) |
 
 
