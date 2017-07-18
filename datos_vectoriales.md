@@ -137,24 +137,11 @@ Veamos un ejemplo:
 |  |  |
 | - | - |
 | Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. Para dejar de dibujar se hace clic en la mano de la izquierda. | ![Selección\_508.png](images/image18.png) |
+| Una vez que se activa la herramienta esta se habilita para poder dibujar. Se asigna un color al azar y cada figura que se trace formará parte de una geometría múltiple. | ![Selección\_509.png](images/image28.png) |
+| Es posible incorporar desde la sección de Geometry Imports una nueva capa que se instancia como una nueva variable de la clase Geometry.XXXX. | ![Selección\_510.png](images/image1.png) |
+| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. | ![](images/image7.png) |
 
 
-| Una vez que se activa la herramienta | ![Selección\_509.png](images/image28.png) |
-| esta se habilita para poder dibujar. |                                 |
-| Se asigna un color al azar y cada    |                                      |
-| figura que se trace formará parte de |                                      |
-| una geometría múltiple.              |                                      |
-
-| Es posible incorporar desde la       | ![Selección\_510.png](images/image1.png) |
-| sección de Geometry Imports una      |                                  |
-| nueva capa que se instancia como una |                                      |
-| nueva variable de la clase           |                                      |
-| Geometry.XXXX.                       |                                      |
-
-| Las capas de geometrías que se van   | ![](images/image7.png)               |
-| incorporando serán ubicadas en la    |                                      |
-| sección de Imports del editor de     |                                      |
-| código fuente.                       |                                      |
 |                                      |                                      |
 | Estos objetos son mostrados de       |                                      |
 | manera formateada. Pero haciendo     |                                      |
