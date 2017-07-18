@@ -18,14 +18,16 @@ Earth Engine también soporta MultiPoint, MultiLineString y MultiPolygon. GeoJSO
 
 Vamos a crear y mapear una geometría
 
+```javascript
     var point = ee.Geometry.Point([-60.54, -31.85]);
+```
 
 [ee.Geometry.Point](https://developers.google.com/earth-engine/api_docs#eegeometrypoint) es la llamada a la API Earth Engine que recibe dos parámetros una lista
 **ee.List([])** y el segundo que es opcional una proyección que puede ser especificada como código EPSG [[1]](#ftnt1). El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
 
-La definición de esa geometría (según la definición [GeoJSON](https://tools.ietf.org/html/rfc7946))
-sería:
+La definición de esa geometría (según la definición [GeoJSON](https://tools.ietf.org/html/rfc7946)) sería:
 
+```javascript
     {
       "geodesic": true, // WGS84 Lat/Lon 
       "type": "Point",
@@ -34,13 +36,16 @@ sería:
         -31.85
       ]
     }
+```
 
 De esa forma los datos son almacenados y utilizados internamente por la librería. Para poder ver en el Code Editor el formato nativo podemos hacer **print(point);** y luego en la consola hacer clic en JSON.
 
 También podemos agregar la geometría en el mapa utilizando la siguiente
 instrucción:
 
+```javascript
     Map.addLayer(point,{'color':'00FF11'} ,'Punto');
+```
 
 **Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de colores html puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/#q=picker+color).
 
@@ -48,7 +53,7 @@ El resto de las geometrías se construyen de la misma forma, veamos:
 
 -   Líneas
 
-```
+```javascript
     var lineString = ee.Geometry.LineString([[-63, -36], [-60.54, -31.85], [-58, -28], [-63, -27]]);
 ```
 
@@ -56,16 +61,19 @@ El resto de las geometrías se construyen de la misma forma, veamos:
 
 Agregue la geometría al mapa:
 
+```javascript
     Map.addLayer(lineString,{'color':'CC0011'} ,'Linea');
+```
 
 Podemos centrar el mapa en una geometría o feature particular, eso lo podemos hacer con Map.centerObject así:
 
+```javascript
     Map.centerObject(lineString, 7);
-
+```
 
 -   Anillo de línea
 
-```
+```javascript
     var linearRing = ee.Geometry.LinearRing(
     [[-63, -36.09],[-59.54,-31.85],
     [-58, -28], [-63, -25],
@@ -76,19 +84,23 @@ Podemos centrar el mapa en una geometría o feature particular, eso lo podemos h
 
 Y si, al mapa!!
 
+```javascript
     Map.addLayer(linearRing,{'color':'b227b0'} ,'Anillo');
+```
 
 -   Rectángulo
 
+```javascript
     var rectangle = ee.Geometry.Rectangle([-62,-33, -59,-31]);
-    
+```
 
 [ee.Geometry.Rectangle](https://developers.google.com/earth-engine/api_docs#eegeometryrectangle) recibe una lista con esquinas mínimas y máximas del rectángulo, como una lista de dos puntos en formato de coordenadas GeoJSON 'Point' o una lista de dos ee.Geometry que describen un punto, o una lista de cuatro números en el orden __xMin, yMin , xMax, yMax__.
 
 A mapear!!
 
+```javascript
     Map.addLayer(rectangle,{'color':'fbff23'} ,'Rectángulo');
-
+```
 
 -   Polígono
 
@@ -121,7 +133,7 @@ A mapear!!
 
 Vamos a imprimir los puntos de  la geometría, así que al objeto multiPoint le vamos a pedir todas las geometrías que lo componen.
 
-```
+```javascript
     var las_geometrias = multiPoint.geometries();
     print(las_geometrias);
 ```
@@ -187,64 +199,68 @@ algunas operaciones de geometrías:
 
 -   Cálculo de área en KM²
 
-print('Área: ', poligono.area().divide(1000 \* 1000));
-
-        Todos los valores de mediciones de distancias vienen expresados
-en metros.
-
+```javascript
+    print('Área: ', poligono.area().divide(1000 \* 1000));
+    // Todos los valores de mediciones de distancias vienen expresados en metros.
+```
 -   Longitud de perímetro en KM
 
-print('Perímetro: ', poligono.perimeter().divide(1000));
-
+```javascript
+    print('Perímetro: ', poligono.perimeter().divide(1000));
+```
 -   Mostrar el GeoJSON 'type'.
 
-print('Geometry type: ', poligono.type());
+```javascript
+    print('Geometry type: ', poligono.type());
+```
 
 -   Mostrar la lista de coordenadas.
 
-          print('Coordenadas: ', poligono.coordinates());
+```javascript
+    print('Coordenadas: ', poligono.coordinates());
+```
 
 -   Muestra true/false si las coordenadas son o no geodésicas.
 
-print('¿Está en coordenadas geodésicas? ', poligono.geodesic());
+```javascript
+    print('¿Está en coordenadas geodésicas? ', poligono.geodesic());
+```
 
 -   Muestra el BBOX de una geometría
 
-print('Bounding Box', poligono.bounds());
-
-bounds retorna el rectángulo que envuelve a la geometría en una
-geometría plana.
+```javascript
+    print('Bounding Box', poligono.bounds());
+    // bounds retorna el rectángulo que envuelve a la geometría en una geometría plana.
+```
 
 -   Calcular el buffer de un polígono
 
-          var buffer = poligono.buffer(5000);
+```javascript
 
-        La distancia del buffer está expresada en metros.
+    var buffer = poligono.buffer(5000);
+    // La distancia del buffer está expresada en metros.
+```
 
 -   Calcular el centroide de un polígono..
 
-          var centroid = poligono.centroid();
-
+```javascript
+    var centroid = poligono.centroid();
+```
  
-
 Ahora podemos mapear algunas de estas operaciones:
 
-Map.addLayer(buffer, {'color':'0be51e'}, 'buffer');
+```javascript
+    Map.addLayer(buffer, {'color':'0be51e'}, 'buffer');
+    Map.addLayer(poligono, {}, 'el polígono');
+    Map.addLayer(centroid, {'color':'e5280b'}, 'centroide');
+    Map.centerObject(buffer, 7);
+```
 
-Map.addLayer(poligono, {}, 'el polígono');
+Las  operaciones que hemos realizado han sido todas con operadores unarios, donde a la geometría le pedimos (o le calculamos) algo. Ahora vamos a probar algunos operadores entre geometrías.
 
-Map.addLayer(centroid, {'color':'e5280b'}, 'centroide');
+Comenzamos con dos geometrías de polígono que las he creado desde el mapa como se mostró previamente.
 
-Map.centerObject(buffer, 7);
-
- 
-
-Las  operaciones que hemos realizado han sido todas con operadores
-unarios, donde a la geometría le pedimos (o le calculamos) algo. Ahora
-vamos a probar algunos operadores entre geometrías.
-
-Comenzamos con dos geometrías de polígono que las he creado desde el
-mapa como se mostró previamente.
+```javascript
 
 var poli1 = ee.Geometry.Polygon(
 
@@ -268,308 +284,222 @@ var poli2 = ee.Geometry.Polygon(
 
             [-63.59367370605469, -25.061343255018567]]]);
 
-Calculamos la unión de las dos geometrías. Donde el primer parámetro es
-la geometría que se quiere unir y el segundo es un margen de error.
-ErrorMargin es la cantidad máxima de error tolerada al realizar
-cualquier reproyección necesaria, el valor está expresado en metros.
+```
+Calculamos la unión de las dos geometrías. Donde el primer parámetro es la geometría que se quiere unir y el segundo es un margen de error. **ErrorMargin** es la cantidad máxima de error tolerada al realizar cualquier reproyección necesaria, el valor está expresado en metros.
 
-var poli1Upoli2 = poli1.union(poli2, ee.ErrorMargin(1));
+```javascript
 
-Map.addLayer(poli1Upoli2, {color: 'FF00FF'}, 'Unión');        
+    var poli1Upoli2 = poli1.union(poli2, ee.ErrorMargin(1));
 
-// Centramos el mapa en la unión
+    Map.addLayer(poli1Upoli2, {color: 'FF00FF'}, 'Unión');        
 
-Map.centerObject(poli1Upoli2, 12);
-
+    // Centramos el mapa en la unión
+    Map.centerObject(poli1Upoli2, 12);
+```
  
 
-Calculamos la intersección de los dos polígonos con la
-función intersection que
+Calculamos la intersección de los dos polígonos con la función intersection que
 
-var intersection = poli1.intersection(poli2, ee.ErrorMargin(1));
-
-Map.addLayer(intersection, {color: '00FF00'}, 'Intersección');
-
+```javascript
+    var intersection = poli1.intersection(poli2, ee.ErrorMargin(1));
+    Map.addLayer(intersection, {color: '00FF00'}, 'Intersección');
+```
  
 
-Calculamos la diferencia entre el polígono 1 y el polígono 2. Es el área
-de la primer geometría que no comparte con la segunda.
+Calculamos la diferencia entre el polígono 1 y el polígono 2. Es el área de la primer geometría que no comparte con la segunda.
 
-var diff1 = poli1.difference(poli2, ee.ErrorMargin(1));
+```javascript
+    var diff1 = poli1.difference(poli2, ee.ErrorMargin(1));
+    Map.addLayer(diff1, {color: 'FFFF00'}, 'Diferencia( P1 - P2)');
+```
 
-Map.addLayer(diff1, {color: 'FFFF00'}, 'Diferencia( P1 - P2)');
+Calculamos la diferencia simétrica, esta se define como el área de la geometría A y el área de la geometría B excepción el área común a ambas.
 
-Calculamos la diferencia simétrica, esta se define como el área de la
-geometría A y el área de la geometría B excepción el área común a ambas.
+```javascript
+    var dif_sim = poli1.symmetricDifference( poli2, ee.ErrorMargin(1));
+    Map.addLayer(dif_sim, {color: '000000'}, 'Diferencia Simétrica');
 
-var dif\_sim = poli1.symmetricDifference(
+    // Mapeamos las dos geometrías con las que hicimos los ejemplos.
+    Map.addLayer(poli1, {color: 'FF0000'}, 'Polígono 1');
+    Map.addLayer(poli2, {color: '0000FF'}, 'Polígono 2');
+```
 
-poli2,
+**Desafío 2:** Verifique si una de las rectas que pasan por los puntos **[-63.635, -25.051]** y **[-63.617, -25.146]** intersecta la intersección (valga la redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
 
-ee.ErrorMargin(1));
+**Desafío 3:** Ahora compruebe si el punto definido abajo está contenido en la geometría que resultó de la diferencia simétrica.
 
-Map.addLayer(dif\_sim, {color: '000000'}, 'Diferencia Simétrica');
+```javascript
+    var punto = ee.Geometry.Point([-63.6084366, -25.0803128]);
+```
 
- 
+## Creación de Features
 
-Mapeamos las dos geometrías con las que hicimos los ejemplos.
+Un Feature de Earth Engine se define como un GeoJSON Feature. En pocas palabras, es un objeto con una propiedad de tipo Geometry y una propiedad de properties que almacena un diccionario de otras propiedades.
 
-Map.addLayer(poli1, {color: 'FF0000'}, 'Polígono 1');
+Entonces, necesitamos un objeto Geometry y opcionalmente un diccionario con los atributos de ese Feature.
 
-Map.addLayer(poli2, {color: '0000FF'}, 'Polígono 2');
-
-### Desafío 2: {#h.2n3vz432laxa .c57}
-
-Verifique si una de las rectas que pasan por los puntos [-63.635,
--25.051] y [-63.617, -25.146] intersecta la intersección (valga la
-redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
-
-### Desafío 3: {#h.35dab22g0dqa .c57}
-
-Ahora compruebe si el punto definido abajo está contenido en la
-geometría que resultó de la diferencia simétrica.
-
-var punto = ee.Geometry.Point([-63.6084366, -25.0803128]);
-
-Creación de Features {#h.bta4hzrzki33 .c48}
---------------------
-
-Un Feature de Earth Engine se define como un GeoJSON Feature. En pocas
-palabras, es un objeto con una propiedad de tipo Geometry y una
-propiedad de properties que almacena un diccionario de otras
-propiedades.
-
-Entonces, necesitamos un objeto Geometry y opcionalmente un diccionario
-con los atributos de ese Feature.
+```javascript
 
 // La geometría
-
 var poligono = ee.Geometry.Polygon(\
         [[[-63.33892822265625, -25.150878651548442],\
           [-63.33824157714844, -25.17791290009134],\
           [-63.31043243408203, -25.17760219565173],\
           [-63.31043243408203, -25.15025710411473]]]);
+```
 
 La declaración del Feature:
 
-var miFeature =
-[ee.Feature](https://developers.google.com/earth-engine/api_docs#eefeature&sa=D&ust=1500416741607000&usg=AFQjCNGWMEwJtg4xa9N_WR2mWC9yPEKPug)(poligono,
+```javascript
+    var miFeature = ee.Feature(poligono,
+        {variable_1: 100,
+         variable_2: 'Hola'});
+```
 
-{variable\_1: 100,
+Al igual que con las geometrías podemos enviarlos a la consola utilizando print o mostrarlos en el mapa.
 
- variable\_2: 'Hola'});
+```javascript
+    
+    print(miFeature);
+    Map.addLayer(miFeature, {}, 'Mi Feature!');
+    Map.centerObject(miFeature, 12);
+    
+```
 
-Al igual que con las geometrías podemos enviarlos a la consola
-utilizando print o mostrarlos en el mapa.
+La geometría del Feature puede ser nula y se podría crear el Feature solo con un diccionario:
 
-print(miFeature);
+```javascript
 
-Map.addLayer(miFeature, {}, 'Mi Feature!');
+    var dict = {distancia: ee.Number(10).add(150), lugar: 'Chivilcoy'};
+    var featureSinGeo = ee.Feature(null, dict);
+```
 
-Map.centerObject(miFeature, 12);
+Los Features tienen las mismas funcionalidades para gestionar sus geometrías que los objetos Geometry. Además, poseen otros métodos setters & getters para el manejo de las propiedades.
 
-La geometría del Feature puede ser nula y se podría crear el Feature
-solo con un diccionario:
+```javascript
 
-var dict = {distancia: ee.Number(10).add(150),
-
- lugar: 'Chivilcoy'};
-
-var featureSinGeo = ee.Feature(null, dict);
-
-Los Features tienen las mismas funcionalidades para gestionar sus
-geometrías que los objetos Geometry. Además, poseen otros métodos
-setters & getters para el manejo de las propiedades.
-
-  var feature\_ejemplo = ee.Feature(
-
+  var feature_ejemplo = ee.Feature(
         ee.Geometry.Point([-63.2951545715332,-25.163930416282465]))
-
           .set('Nombre', 'Eldes Monte')
-
           .set('Altura', 100);
 
   // Recupero una propiedad del feature
 
-  var nombre = feature\_ejemplo.get('Nombre');
-
+  var nombre = feature_ejemplo.get('Nombre');
   print(nombre);
 
   // Asigno una nueva propiedad
-
-  feature\_ejemplo = feature\_ejemplo.set('Población', 75000);
+  feature_ejemplo = feature_ejemplo.set('Población', 75000);
 
   // Sobreescribo un nuevo diccionario
-
   var newDict = {Nombre: 'El Lote', Altura: 300};
 
-  var feature\_ejemplo = feature\_ejemplo.set(newDict);
+  var feature_ejemplo = feature_ejemplo.set(newDict);
 
   // Se muestran los resultados
+  print(feature_ejemplo);
 
-  print(feature\_ejemplo);
+  Map.addLayer(feature_ejemplo, {}, 'Ejemplo 2');
 
-  Map.addLayer(feature\_ejemplo, {}, 'Ejemplo 2');
+```
 
-Creación y administración de colecciones de features. {#h.t0orutybzsz8 .c41}
-=====================================================
+## Creación y administración de colecciones de features
 
-Los grupos de features relacionados se pueden combinar en una
-[FeatureCollection](https://developers.google.com/earth-engine/api_docs#eefeaturecollection&sa=D&ust=1500416741611000&usg=AFQjCNFHqT6H03JIbeWy1atC8A35KuyzfQ),
-para permitir operaciones adicionales en todo el conjunto tales como:
-filtrado, clasificación y renderizado. Además de simples features
-(geometría + propiedades), FeatureCollection también puede contener
-otras colecciones.
+Los grupos de features relacionados se pueden combinar en una [FeatureCollection](https://developers.google.com/earth-engine/api_docs#eefeaturecollection), para permitir operaciones adicionales en todo el conjunto tales como: filtrado, clasificación y renderizado. Además de simples features (geometría + propiedades), FeatureCollection también puede contener otras colecciones.
 
-1.  Podemos construir un FeatureCollection a partir de una lista de
-    features, donde estos pueden tener o no el mismo tipo de geometría.
+1.  Podemos construir un FeatureCollection a partir de una lista de features, donde estos pueden tener o no el mismo tipo de geometría.
 
-        
+```javascript
 
          var features = [
+                ee.Feature(ee.Geometry.Point(-62.709,-31.428), {Estación: 'La Francia'}),
+                ee.Feature(ee.Geometry.Point(-61.248,-31.475), {Estación: 'Pilar'}),
+                ee.Feature(ee.Geometry.Point(-61.765,-31.840), {Estación: 'Sastre'}),
+                ee.Feature(ee.Geometry.Point(-62.534,-31.858), {Estación: 'Las Varas'})];
 
-                ee.Feature(ee.Geometry.Point(-62.709,-31.428),
+        var fc_desdeUnaLista = ee.FeatureCollection(features);
 
-{Estación: 'La Francia'}),
+        print(fc_desdeUnaLista);
+        Map.addLayer(fc_desdeUnaLista, {}, 'FC_Puntos');
+        Map.centerObject(fc_desdeUnaLista);
+```
 
-                ee.Feature(ee.Geometry.Point(-61.248,-31.475),
+2.  También podemos incorporar un FeatureCollection a partir de un Google Fusion Table. Google Fusion Tables (GFT) es un servicio de Google que permite manejar tablas. Esto habilita la importación de archivos vectoriales a la plataforma Google Earth Engine (GEE) a través de archivos vectoriales en formato KML.
 
-{Estación: 'Pilar'}),
+    * Crear un nuevo Fusion Table
 
-                ee.Feature(ee.Geometry.Point(-61.765,-31.840),
+Estas tablas las gestionamos desde [Google Drive](https://drive.google.com), la utilidad debe estar habilitada si no aparece en el menú NUEVO. La habilitación se realiza desde:
 
-{Estación: 'Sastre'}),
-
-                ee.Feature(ee.Geometry.Point(-62.534,-31.858),
-
-{Estación: 'Las Varas'})];
-
-        var fc\_desdeUnaLista =
-[ee.FeatureCollection](https://developers.google.com/earth-engine/api_docs#eefeaturecollection&sa=D&ust=1500416741613000&usg=AFQjCNENXQi5TRsMjkNPbwP3hiRpY5-pIg)(features);
-
-          print(fc\_desdeUnaLista);
-
- 
-
-          Map.addLayer(fc\_desdeUnaLista, {}, 'FC\_Puntos');
-
-          Map.centerObject(fc\_desdeUnaLista);
-
-2.  También podemos incorporar un FeatureCollection a partir de un
-    Google Fusion Table. Google Fusion Tables (GFT) es un servicio de
-    Google que permite manejar tablas. Esto habilita la importación de
-    archivos vectoriales a la plataforma Google Earth Engine (GEE) a
-    través de archivos vectoriales en formato KML.
-
-        Crear un nuevo Fusion Table
-
-Estas tablas las gestionamos desde [Google
-Drive](https://drive.google.com&sa=D&ust=1500416741615000&usg=AFQjCNEI74PUsDTPJU3zIfVyI1_smx6j8g),
-la utilidad debe estar habilitada si no aparece en el menú NUEVO. La
-habilitación se realiza desde:
-
-NUEVO \> Más \> + Conectar más aplicaciones
+    NUEVO \> Más \> + Conectar más aplicaciones
 
 ![Selección\_536.png](images/image15.png)
 
-Una vez habilitada vamos a poder subir una nueva tabla a través de la
-opción NUEVO \> Más \> Google Fusion Table (o Tablas dinámicas de Google
-en español).
+Una vez habilitada vamos a poder subir una nueva tabla a través de la opción NUEVO \> Más \> Google Fusion Table (o Tablas dinámicas de Google en español).
 
-        
 
-+--------------------------------------+--------------------------------------+
-| ![Screenshot - 170617 -              | ![Screenshot - 170617 -              |
-| 16:58:15.png](images/image22.png)    | 17:18:05.png](images/image5.png)     |
-+--------------------------------------+--------------------------------------+
+|  |  |
+| - | - |
+| ![Screenshot - 170617 - 16:58:15.png](images/image22.png) | ![Screenshot - 170617 - 17:18:05.png](images/image5.png) |
 
-La creación del Fusion Table importamos desde el sistema de archivos un
-documento .kml y luego hacemos clic en Next.
+La creación del Fusion Table importamos desde el sistema de archivos un documento .kml y luego hacemos clic en Next.
 
-        ![](images/image2.png)
+![](images/image2.png)
 
-Nos va a mostrar un preview del archivo donde podremos verificar los
-nombres de los atributos y el tipo de geometría que estamos subiendo.
+Nos va a mostrar un preview del archivo donde podremos verificar los nombres de los atributos y el tipo de geometría que estamos subiendo.
 Luego, Next.
 
-        ![](images/image31.png)
+![](images/image31.png)
 
-En esta sección podremos editar algunos parámetros de la nueva tabla
-como el nombre, la descripción y algunos permisos básicos. Damos clic en
-Finish.
+En esta sección podremos editar algunos parámetros de la nueva tabla como el nombre, la descripción y algunos permisos básicos. Damos clic en Finish.
 
 ![](images/image12.png)
 
-Ahora si ya está disponible la nueva tabla. Si vamos a la solapa Map of
-geometry podemos ver desplegada sobre un mapa de Google la columna
-geometría que se subió con el archivo kml.
+Ahora si ya está disponible la nueva tabla. Si vamos a la solapa Map of geometry podemos ver desplegada sobre un mapa de Google la columna geometría que se subió con el archivo kml.
 
 ![](images/image9.png)
 
-En la opción Share se puede ajustar las opción de seguridad de la nueva
-capa que fue subida al GFT.
+En la opción Share se puede ajustar las opción de seguridad de la nueva capa que fue subida al GFT.
 
 ![](images/image23.png)
 
-Para poder importar este archivo a GEE necesitamos el ID de la tabla,
-para ello vamos a File y seleccionamos About this table. Ahí
-encontraremos el identificador (Id).
+Para poder importar este archivo a GEE necesitamos el ID de la tabla, para ello vamos a File y seleccionamos About this table. Ahí encontraremos el identificador (Id).
 
 ![](images/image6.png)
 
-También en la opción “Enlace para compartir” disponible en Share,
-tenemos disponible el identificador de la GFT a través del cual vamos a
-vincular la tabla con nuestro script.
+También en la opción “Enlace para compartir” disponible en Share, tenemos disponible el identificador de la GFT a través del cual vamos a vincular la tabla con nuestro script.
 
 ![](images/image10.png)
 
-        
 
-                        
+    * Crear un FeatureCollection desde GFT
 
-Crear un FeatureCollection desde GFT
+Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a ft:. Por ejemplo:
 
-Para cargar una FeatureCollection desde una Fusion Table, proporcione al
-constructor (ee.FeatureCollection) el ID de tabla agregado a ft:. Por
-ejemplo:
-
-var desdeFT =
-
-ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw\_mqM\_8f3sZxZX0ltICc');
-
-print(desdeFT);
-
-Map.addLayer(desdeFT, {}, 'Región Chaqueña');
-
-Map.centerObject(desdeFT);
+```javascript
+    var desdeFT = ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw\_mqM\_8f3sZxZX0ltICc');
+    print(desdeFT);
+    Map.addLayer(desdeFT, {}, 'Región Chaqueña');
+    Map.centerObject(desdeFT);
+```
 
 3.  Creación de un FeatureCollection a partir de Tablas
 
-Es posible instanciar un FC utilizando tablas que tenemos almacenadas en
-un Assets. Para crear esta nueva tabla podemos utilizar un Shapefile o
-un .zip que contenga todos los archivos que componen el Shapefile. El
-tamaño máximo permitido es 10GB.
+Es posible instanciar un FC utilizando tablas que tenemos almacenadas en un Assets. Para crear esta nueva tabla podemos utilizar un Shapefile o
+un .zip que contenga todos los archivos que componen el Shapefile. El tamaño máximo permitido es 10GB.
 
-+--------------------------------------+--------------------------------------+
-| Los pasos para subir un Shapefile    | ![](images/image25.png)              |
-| son seleccionar desde Assets NEW \>  |                                      |
-| Table Upload.                        |                                      |
-+--------------------------------------+--------------------------------------+
+| | |
+| - | - |
+| Los pasos para subir un Shapefile son seleccionar desde Assets NEW \> Table Upload.  | ![](images/image25.png)              |
 
-+--------------------------------------+--------------------------------------+
-| Luego seleccionamos desde nuestro    | ![](images/image4.png)               |
-| sistema de archivo el shapefile y    |                                      |
-| todos los archivos que lo componen   |                                      |
-| (podemos seleccionar el .zip         |                                      |
-| también).                            |                                      |
-+--------------------------------------+--------------------------------------+
 
-+--------------------------------------+--------------------------------------+
-| Por default toma el nombre del shp   | ![](images/image3.png)               |
-| para la tabla pero se puede editar.  |                                      |
-|                                      |                                      |
-|                                      |                                      |
-|                                      |                                      |
+| | |
+| - | - |
+| Luego seleccionamos desde nuestro sistema de archivo el shapefile y todos los archivos que lo componen (podemos seleccionar el .zip también).   | ![](images/image4.png)               |
+
+
+| | |
+| - | - |
+| Por default toma el nombre del shp para la tabla pero se puede editar. | ![](images/image3.png)               |
 | Además, podemos indicar la           |                                      |
 | codificación de caracteres que posee |                                      |
 | el shp para no encontrarnos luego    |                                      |
@@ -577,7 +507,7 @@ tamaño máximo permitido es 10GB.
 | Esta opción está en Advanced.        |                                      |
 |                                      |                                      |
 | Ok para finalizar.                   |                                      |
-+--------------------------------------+--------------------------------------+
+
 
 El upload no es instantáneo y puede demorar algunos minutos dependiendo
 de la congestión de la plataforma y el tamaño que tenga el archivo.
