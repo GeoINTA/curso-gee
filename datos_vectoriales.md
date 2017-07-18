@@ -21,7 +21,7 @@ Vamos a crear y mapear una geometría
     var point = ee.Geometry.Point([-60.54, -31.85]);
 
 [ee.Geometry.Point](https://developers.google.com/earth-engine/api_docs%23eegeometrypoint) es la llamada a la API Earth Engine que recibe dos parámetros una lista
-ee.List([]) y el segundo que es opcional una proyección que puede ser especificada como código EPSG [[1]](#ftnt1). El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
+**ee.List([])** y el segundo que es opcional una proyección que puede ser especificada como código EPSG [[1]](#ftnt1). El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
 
 La definición de esa geometría (según la definición [GeoJSON](https://tools.ietf.org/html/rfc7946))
 sería:
@@ -35,138 +35,94 @@ sería:
       ]
     }
 
-De esa forma los datos son almacenados y utilizados internamente por la librería. Para poder ver en el Code Editor el formato nativo podemos hacer > print(point); y luego en la consola hacer clic en JSON.
+De esa forma los datos son almacenados y utilizados internamente por la librería. Para poder ver en el Code Editor el formato nativo podemos hacer **print(point);** y luego en la consola hacer clic en JSON.
 
 También podemos agregar la geometría en el mapa utilizando la siguiente
 instrucción:
 
     Map.addLayer(point,{'color':'00FF11'} ,'Punto');
 
-Tips: Si quiere modificar el color de la geometría el formato
-hexadecimal de colores html puede obtenerse desde Google realizando la
-búsqueda con [picker
-color](https://www.google.com.ar/%23q%3Dpicker%2Bcolor&sa=D&ust=1500416741579000&usg=AFQjCNGfn3HNPcS6_E7RO22TMfyDv4JJAQ).
+**Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de colores html puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/%23q%3Dpicker%2Bcolor&sa=D&ust=1500416741579000&usg=AFQjCNGfn3HNPcS6_E7RO22TMfyDv4JJAQ).
 
 El resto de las geometrías se construyen de la misma forma, veamos:
 
 -   Líneas
 
-var lineString = ee.Geometry.LineString([
+    var lineString = ee.Geometry.LineString([[-63, -36], [-60.54, -31.85], [-58, -28], [-63, -27]]);
 
-[-63, -36], [-60.54, -31.85], [-58, -28], [-63, -27]]);
-
-[ee.Geometry.LineString](https://developers.google.com/earth-engine/api_docs%23eegeometrylinestring&sa=D&ust=1500416741581000&usg=AFQjCNHFsGG24E7PSZbhsCQ8EP4s_dGKQg) recibe
-una lista de puntos y parámetros opcionales.
+[ee.Geometry.LineString](https://developers.google.com/earth-engine/api_docs%23eegeometrylinestring) recibe una lista de puntos y parámetros opcionales.
 
 Agregue la geometría al mapa:
 
-Map.addLayer(lineString,{'color':'CC0011'} ,'Linea');
+    Map.addLayer(lineString,{'color':'CC0011'} ,'Linea');
 
-Podemos centrar el mapa en una geometría o feature particular, eso lo
-podemos hacer con Map.centerObject así:
+Podemos centrar el mapa en una geometría o feature particular, eso lo podemos hacer con Map.centerObject así:
 
-Map.centerObject(lineString, 7);
+    Map.centerObject(lineString, 7);
 
 -   Anillo de línea
 
-        var linearRing = ee.Geometry.LinearRing(
+    var linearRing = ee.Geometry.LinearRing(
+    [[-63, -36.09],[-59.54,-31.85],
+    [-58, -28], [-63, -25],
+    [-64, -27],[-63, -36]]);
 
-[        [-63, -36.09],[-59.54,-31.85],
-
-[-58, -28], [-63, -25],
-
-[-64, -27],[-63, -36]]);
-
-[ee.Geometry.LinearRing](https://developers.google.com/earth-engine/api_docs%23eegeometrylinearring&sa=D&ust=1500416741582000&usg=AFQjCNHCkwxK_ES-AKZhYQ2Ks7d_cbXGJA) recibe
-una lista de puntos que a diferencia de LineString comienza y termina
-con el mismo punto para poder cerrar el anillo. También tiene parámetros
-opcionales.
+[ee.Geometry.LinearRing](https://developers.google.com/earth-engine/api_docs%23eegeometrylinearring) recibe una lista de puntos que a diferencia de LineString comienza y termina con el mismo punto para poder cerrar el anillo. También tiene parámetros opcionales.
 
 Y si, al mapa!!
 
-Map.addLayer(linearRing,{'color':'b227b0'} ,'Anillo');
+    Map.addLayer(linearRing,{'color':'b227b0'} ,'Anillo');
 
 -   Rectángulo
 
-        var rectangle = ee.Geometry.Rectangle([-62,-33, -59,-31]);
+    var rectangle = ee.Geometry.Rectangle([-62,-33, -59,-31]);
 
-[ee.Geometry.Rectangle](https://developers.google.com/earth-engine/api_docs%23eegeometryrectangle&sa=D&ust=1500416741584000&usg=AFQjCNH3REmoS0pEpSMjzTctTijjttLIYA) recibe
-una lista con esquinas mínimas y máximas del rectángulo, como una lista
-de dos puntos en formato de coordenadas GeoJSON 'Point' o una lista de
-dos ee.Geometry que describen un punto, o una lista de cuatro números en
-el orden xMin, yMin , XMax, yMax.
+[ee.Geometry.Rectangle](https://developers.google.com/earth-engine/api_docs%23eegeometryrectangle) recibe una lista con esquinas mínimas y máximas del rectángulo, como una lista de dos puntos en formato de coordenadas GeoJSON 'Point' o una lista de dos ee.Geometry que describen un punto, o una lista de cuatro números en el orden __xMin, yMin , xMax, yMax__.
 
 A mapear!!
 
-Map.addLayer(rectangle,{'color':'fbff23'} ,'Rectángulo');
+    Map.addLayer(rectangle,{'color':'fbff23'} ,'Rectángulo');
 
-        
 
 -   Polígono
 
-        var polygon = ee.Geometry.Polygon(
+    var polygon = ee.Geometry.Polygon(
+    [[[-62.935, -34.415],
+    [-61.745, -34.411],
+    [-61.388, -34.068],
+    [-62.663, -34.075]]]);
 
-                        [[        [-62.935, -34.415],
+[ee.Geometry.Polygon](https://developers.google.com/earth-engine/api_docs%23eegeometrypolygon) recibe una lista de anillos que definen los límites del polígono. Puede ser una lista de coordenadas en el formato 'Polygon' de GeoJSON, o una lista de ee.Geometry que describe un LinearRing. El resto de los parámetros son similares al resto de las geometrías.
 
-[-61.745, -34.411],
+    Map.addLayer(polygon, {'color':'16a322'} ,'Polígono');
 
-[-61.388, -34.068],
+-   Geometrías Multiparte: Una geometría individual puede consistir en múltiples geometrías. Para dividir una Geometría de varias partes en sus geometrías constitutivas, use **geometry.geometries()**. Ejemplo:
 
-[-62.663, -34.075]]]);
-
-[ee.Geometry.Polygon](https://developers.google.com/earth-engine/api_docs%23eegeometrypolygon&sa=D&ust=1500416741585000&usg=AFQjCNFFylTt3RQMzHv_Bi4sLlH1B49CaA) recibe
-una lista de anillos que definen los límites del polígono. Puede ser una
-lista de coordenadas en el formato 'Polygon' de GeoJSON, o una lista de
-ee.Geometry que describe un LinearRing. El resto de los parámetros son
-similares al resto de las geometrías.
-
-Map.addLayer(polygon, {'color':'16a322'} ,'Polígono');
-
--   Geometrías Multiparte: Una geometría individual puede consistir en
-    múltiples geometrías. Para dividir una Geometría de varias partes en
-    sus geometrías constitutivas, use geometry.geometries(). Ejemplo:
-
-var multiPoint =
-ee.[Geometry.MultiPoint](https://developers.google.com/earth-engine/api_docs%23eegeometrymultipoint&sa=D&ust=1500416741586000&usg=AFQjCNHXYiIULdY9WZRjv2w1rkphho2uPw)(
-
+    var multiPoint = ee.Geometry.MultiPoint(
                   [[-62.319,-32.856],
-
                   [-62.528,-32.944],
-
                   [-62.418,-33.109],
-
                   [-62.193,-33.008],
-
                   [-62.166,-32.805]]);
+    Map.addLayer(multiPoint, {'color':'16a322'} ,'multiPoint');
 
-Map.addLayer(multiPoint, {'color':'16a322'} ,'multiPoint');
+Vamos a imprimir los puntos de  la geometría, así que al objeto multiPoint le vamos a pedir todas las geometrías que lo componen.
 
-Vamos a imprimir los puntos de  la geometría, así que al objeto
-multiPoint le vamos a pedir todas las geometrías que lo componen.
+    var las_geometrias = multiPoint.geometries();
+    print(las_geometrias);
 
-var las\_geometrias = multiPoint.geometries();
-
-print(las\_geometrias);
-
-1.  ¿Qué tipo de dato es la variable las\_geometrias?
+1.  ¿Qué tipo de dato es la variable **las\_geometrias**?
 2.  ¿Cómo puedo recuperar una de las geometrías contenidas en
-    las\_geometrias?
+    **las\_geometrias**? lista.get(id)
 
-lista.get(id)
+**Desafío 1:** Convierta los puntos existentes en multiPoint a un LinearRing.
 
-### Desafío 1: {#h.p5dt3r4xq5ve .c57}
+## Crear Geometrías desde el mapa
 
-        Convierta los puntos existentes en multiPoint a un LinearRing.
-
-Crear Geometrías desde el mapa {#h.2anf4m2mgslh .c48}
-------------------------------
-
-Existe una forma muy práctica de dibujar Geometrías desde el mismo mapa
-del Code Editor.
+Existe una forma muy práctica de dibujar Geometrías desde el mismo mapa del Code Editor.
 
 Veamos un ejemplo:
 
-+--------------------------------------+--------------------------------------+
 | Las opciones para dibujar están      | ![Selección\_508.png](images/image18 |
 | ubicadas en el sector superior       | .png)                                |
 | izquierdo del mapa.                  |                                      |
@@ -177,25 +133,20 @@ Veamos un ejemplo:
 | líneas y polígonos. Para dejar de    |                                      |
 | dibujar se hace clic en la mano de   |                                      |
 | la izquierda.                        |                                      |
-+--------------------------------------+--------------------------------------+
 
-+--------------------------------------+--------------------------------------+
+
 | Una vez que se activa la herramienta | ![Selección\_509.png](images/image28 |
 | esta se habilita para poder dibujar. | .png)                                |
 | Se asigna un color al azar y cada    |                                      |
 | figura que se trace formará parte de |                                      |
 | una geometría múltiple.              |                                      |
-+--------------------------------------+--------------------------------------+
 
-+--------------------------------------+--------------------------------------+
 | Es posible incorporar desde la       | ![Selección\_510.png](images/image1. |
 | sección de Geometry Imports una      | png)                                 |
 | nueva capa que se instancia como una |                                      |
 | nueva variable de la clase           |                                      |
 | Geometry.XXXX.                       |                                      |
-+--------------------------------------+--------------------------------------+
 
-+--------------------------------------+--------------------------------------+
 | Las capas de geometrías que se van   | ![](images/image7.png)               |
 | incorporando serán ubicadas en la    |                                      |
 | sección de Imports del editor de     |                                      |
@@ -206,45 +157,31 @@ Veamos un ejemplo:
 | clic en el ícono azul se muestra el  |                                      |
 | código fuente correspondiente para   |                                      |
 | la creación de la geometría.         |                                      |
-+--------------------------------------+--------------------------------------+
 
-+--------------------------------------+--------------------------------------+
 | El código fuente generado puede      | ![Selección\_512.png](images/image24 |
 | copiarse y pegarse en el script que  | .png)                                |
 | se está escribiendo.                 |                                      |
 |                                      |                                      |
 | Ojo: En algunos Navegadores no copia |                                      |
 | (Firefox 49.0.2, por ejemplo.)       |                                      |
-+--------------------------------------+--------------------------------------+
 
-Geometrías Geodésicas y planas {#h.baiszkntgcik .c48}
-------------------------------
+## Geometrías Geodésicas y planas
 
-Una geometría creada en Earth Engine es geodésica (es decir, los bordes
-son la trayectoria más corta en la superficie de una esfera) o planar
-(es decir, los bordes son el camino más corto en un plano cartesiano
-bidimensional).
+Una geometría creada en Earth Engine es geodésica (es decir, los bordes son la trayectoria más corta en la superficie de una esfera) o planar (es decir, los bordes son el camino más corto en un plano cartesiano bidimensional).
 
-En la configuración predeterminada de la instanciación de un objeto
-ee.Geometry.XXXXX este se crea como EPSG:4326, es decir, será una
-geometría geodésica.
+En la configuración predeterminada de la instanciación de un objeto ee.Geometry.XXXXX este se crea como EPSG:4326, es decir, será una geometría geodésica.
 
-var PoligonoGeo = ee.Geometry.Polygon([
+    var PoligonoGeo = ee.Geometry.Polygon([
+    [
+        [-71.411,-39.470], [-57.128,-39.402],
+        [-57.304,-33.394], [-70.751,-33.358],
+        [-71.411,-39.470]] 
+    ]);
 
-  [        [-71.411,-39.470], [-57.128,-39.402],
 
-[-57.304,-33.394], [-70.751,-33.358],
+Esa misma geometría puede ser expresada en el plano, ya sea cuando se crea o puede ser convertida:
 
-[-71.411,-39.470]]
-
-]);
-
-Esa misma geometría puede ser expresada en el plano, ya sea cuando se
-crea o puede ser convertida:
-
-var PoligonoPlano =
-[ee.Geometry](https://developers.google.com/earth-engine/api_docs%23eegeometry&sa=D&ust=1500416741595000&usg=AFQjCNFw1hbhxcBsUZO1JklmT7ukbZrZ3w)(PoligonoGeo,
-null, false);
+    var PoligonoPlano = ee.Geometry(PoligonoGeo, null, false);
 
 Veámos cómo se ven estas geometrías en el mapa:
 
