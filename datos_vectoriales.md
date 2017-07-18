@@ -42,7 +42,7 @@ instrucción:
 
     Map.addLayer(point,{'color':'00FF11'} ,'Punto');
 
-**Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de colores html puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/#q%3Dpicker%2Bcolor&sa=D&ust=1500416741579000&usg=AFQjCNGfn3HNPcS6_E7RO22TMfyDv4JJAQ).
+**Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de colores html puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/#q='picker color').
 
 El resto de las geometrías se construyen de la misma forma, veamos:
 
@@ -107,12 +107,16 @@ A mapear!!
 
 ```
     var multiPoint = ee.Geometry.MultiPoint(
-                  [[-62.319,-32.856],
-                  [-62.528,-32.944],
-                  [-62.418,-33.109],
-                  [-62.193,-33.008],
-                  [-62.166,-32.805]]);
+          [
+            [-62.319,-32.856],
+            [-62.528,-32.944],
+            [-62.418,-33.109],
+            [-62.193,-33.008],
+            [-62.166,-32.805]
+            ]);
+            
     Map.addLayer(multiPoint, {'color':'16a322'} ,'multiPoint');
+    
 ```
 
 Vamos a imprimir los puntos de  la geometría, así que al objeto multiPoint le vamos a pedir todas las geometrías que lo componen.
@@ -139,22 +143,9 @@ Veamos un ejemplo:
 | Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. Para dejar de dibujar se hace clic en la mano de la izquierda. | ![Selección\_508.png](images/image18.png) |
 | Una vez que se activa la herramienta esta se habilita para poder dibujar. Se asigna un color al azar y cada figura que se trace formará parte de una geometría múltiple. | ![Selección\_509.png](images/image28.png) |
 | Es posible incorporar desde la sección de Geometry Imports una nueva capa que se instancia como una nueva variable de la clase Geometry.XXXX. | ![Selección\_510.png](images/image1.png) |
-| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. | ![](images/image7.png) |
+| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. Estos objetos son mostrados de manera formateada. Pero haciendo clic en el ícono azul se muestra el código fuente correspondiente para la creación de la geometría. | ![](images/image7.png) |
+| El código fuente generado puede copiarse y pegarse en el script que se está escribiendo. **Ojo**: En algunos Navegadores no copia (Firefox 49.0.2, por ejemplo.) | ![Selección\_512.png](images/image24.png) |
 
-
-|                                      |                                      |
-| Estos objetos son mostrados de       |                                      |
-| manera formateada. Pero haciendo     |                                      |
-| clic en el ícono azul se muestra el  |                                      |
-| código fuente correspondiente para   |                                      |
-| la creación de la geometría.         |                                      |
-
-| El código fuente generado puede      | ![Selección\_512.png](images/image24.png)|
-| copiarse y pegarse en el script que  |                                 |
-| se está escribiendo.                 |                                      |
-|                                      |                                      |
-| Ojo: En algunos Navegadores no copia |                                      |
-| (Firefox 49.0.2, por ejemplo.)       |                                      |
 
 ## Geometrías Geodésicas y planas
 
@@ -162,13 +153,14 @@ Una geometría creada en Earth Engine es geodésica (es decir, los bordes son la
 
 En la configuración predeterminada de la instanciación de un objeto ee.Geometry.XXXXX este se crea como EPSG:4326, es decir, será una geometría geodésica.
 
+```
     var PoligonoGeo = ee.Geometry.Polygon([
     [
         [-71.411,-39.470], [-57.128,-39.402],
         [-57.304,-33.394], [-70.751,-33.358],
         [-71.411,-39.470]] 
     ]);
-
+```
 
 Esa misma geometría puede ser expresada en el plano, ya sea cuando se crea o puede ser convertida:
 
