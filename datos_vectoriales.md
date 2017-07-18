@@ -1,24 +1,10 @@
+# Unidad 1: Manejo de datos vectoriales
 
-Tutorial 1
+Unidad 1: Manejo de datos vectoriales: Manejo de geometrías y generación de features. Creación y administración de colecciones de features. Carga y visualización de vectores utilizando Google Fusion Table (FT). Manejo de  iteraciones sobre colecciones de features. Exportar como tabla de datos. Realizar gráficos.
 
-Unidad 1: Manejo de datos vectoriales
+## Manejo de geometrías y generación de features
 
- 
-
-Unidad 1: Manejo de datos vectoriales: Manejo de geometrías y generación
-de features. Creación y administración de colecciones de features. Carga
-y visualización de vectores utilizando Google Fusion Table (FT). Manejo
-de  iteraciones sobre colecciones de features. Exportar como tabla de
-datos. Realizar gráficos.
-
-Manejo de geometrías y generación de features. {#h.uk77yz1qodh9 .c41}
-==============================================
-
-Earth Engine maneja datos vectoriales con el tipo Geometry. La
-especificación
-[GeoJSON](https://www.google.com/url?q=https://tools.ietf.org/html/rfc7946&sa=D&ust=1500416741576000&usg=AFQjCNHdqhHL46t64uLiWqwued8KdZwU5w) describe
-en detalle el tipo de geometrías soportadas por Earth Engine,
-incluyendo:
+Earth Engine maneja datos vectoriales con el tipo Geometry. La especificación [GeoJSON](https://tools.ietf.org/html/rfc7946) describe en detalle el tipo de geometrías soportadas por Earth Engine, incluyendo:
 
 -   Point: una lista de coordenadas en alguna proyección,
 -   LineString: una lista de puntos,
@@ -26,35 +12,28 @@ incluyendo:
 -   Polygon: una lista de LinearRings donde la primera es una cáscara y
     los anillos subsiguientes son agujeros.
 
-Earth Engine también soporta MultiPoint, MultiLineString y MultiPolygon.
-GeoJSON GeometryCollection también es compatible, aunque tiene el nombre
-MultiGeometry dentro de Earth Engine.
+Earth Engine también soporta MultiPoint, MultiLineString y MultiPolygon. GeoJSON GeometryCollection también es compatible, aunque tiene el nombre MultiGeometry dentro de Earth Engine.
 
-Creación de Geometrías {#h.lc2d0xlgp91i .c48}
-----------------------
+### Creación de Geometrías
 
 Vamos a crear y mapear una geometría
 
-var point = ee.Geometry.Point([-60.54, -31.85]);
+  var point = ee.Geometry.Point([-60.54, -31.85]);
 
-[ee.Geometry.Point](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometrypoint&sa=D&ust=1500416741577000&usg=AFQjCNGtWM2sETbFGcBpi_BfwAMEVw0Atg) es
-la llamada a la API Earth Engine que recibe dos parámetros una lista
-ee.List([]) y el segundo que es opcional una proyección que puede ser
-especificada como código EPSG^[[1]](#ftnt1)^. El valor predeterminado es
-EPSG:4326 (WGS84 Lat/Lon)
+[ee.Geometry.Point](https://developers.google.com/earth-engine/api_docs%23eegeometrypoint) es la llamada a la API Earth Engine que recibe dos parámetros una lista
+ee.List([]) y el segundo que es opcional una proyección que puede ser especificada como código EPSG^[[1]](#ftnt1)^. El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
 
-La definición de esa geometría (según la definición
-[GeoJSON](https://www.google.com/url?q=https://tools.ietf.org/html/rfc7946&sa=D&ust=1500416741578000&usg=AFQjCNH7Nj_tcnltAPGVR_pckqlhqzKfJA))
+La definición de esa geometría (según la definición [GeoJSON](https://tools.ietf.org/html/rfc7946))
 sería:
 
-{\
-  "geodesic": true, // WGS84 Lat/Lon \
-  "type": "Point",\
-  "coordinates": [\
-    -60.54,\
-    -31.85\
-  ]\
-}
+    {
+      "geodesic": true, // WGS84 Lat/Lon 
+      "type": "Point",
+      "coordinates": [
+        -60.54,
+        -31.85
+      ]
+    }
 
 De esa forma los datos son almacenados y utilizados internamente por la
 librería. Para poder ver en el Code Editor el formato nativo podemos
@@ -68,7 +47,7 @@ Map.addLayer(point,{'color':'00FF11'} ,'Punto');
 Tips: Si quiere modificar el color de la geometría el formato
 hexadecimal de colores html puede obtenerse desde Google realizando la
 búsqueda con [picker
-color](https://www.google.com/url?q=https://www.google.com.ar/%23q%3Dpicker%2Bcolor&sa=D&ust=1500416741579000&usg=AFQjCNGfn3HNPcS6_E7RO22TMfyDv4JJAQ).
+color](https://www.google.com.ar/%23q%3Dpicker%2Bcolor&sa=D&ust=1500416741579000&usg=AFQjCNGfn3HNPcS6_E7RO22TMfyDv4JJAQ).
 
 El resto de las geometrías se construyen de la misma forma, veamos:
 
@@ -78,7 +57,7 @@ var lineString = ee.Geometry.LineString([
 
 [-63, -36], [-60.54, -31.85], [-58, -28], [-63, -27]]);
 
-[ee.Geometry.LineString](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometrylinestring&sa=D&ust=1500416741581000&usg=AFQjCNHFsGG24E7PSZbhsCQ8EP4s_dGKQg) recibe
+[ee.Geometry.LineString](https://developers.google.com/earth-engine/api_docs%23eegeometrylinestring&sa=D&ust=1500416741581000&usg=AFQjCNHFsGG24E7PSZbhsCQ8EP4s_dGKQg) recibe
 una lista de puntos y parámetros opcionales.
 
 Agregue la geometría al mapa:
@@ -100,7 +79,7 @@ Map.centerObject(lineString, 7);
 
 [-64, -27],[-63, -36]]);
 
-[ee.Geometry.LinearRing](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometrylinearring&sa=D&ust=1500416741582000&usg=AFQjCNHCkwxK_ES-AKZhYQ2Ks7d_cbXGJA) recibe
+[ee.Geometry.LinearRing](https://developers.google.com/earth-engine/api_docs%23eegeometrylinearring&sa=D&ust=1500416741582000&usg=AFQjCNHCkwxK_ES-AKZhYQ2Ks7d_cbXGJA) recibe
 una lista de puntos que a diferencia de LineString comienza y termina
 con el mismo punto para poder cerrar el anillo. También tiene parámetros
 opcionales.
@@ -113,7 +92,7 @@ Map.addLayer(linearRing,{'color':'b227b0'} ,'Anillo');
 
         var rectangle = ee.Geometry.Rectangle([-62,-33, -59,-31]);
 
-[ee.Geometry.Rectangle](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometryrectangle&sa=D&ust=1500416741584000&usg=AFQjCNH3REmoS0pEpSMjzTctTijjttLIYA) recibe
+[ee.Geometry.Rectangle](https://developers.google.com/earth-engine/api_docs%23eegeometryrectangle&sa=D&ust=1500416741584000&usg=AFQjCNH3REmoS0pEpSMjzTctTijjttLIYA) recibe
 una lista con esquinas mínimas y máximas del rectángulo, como una lista
 de dos puntos en formato de coordenadas GeoJSON 'Point' o una lista de
 dos ee.Geometry que describen un punto, o una lista de cuatro números en
@@ -137,7 +116,7 @@ Map.addLayer(rectangle,{'color':'fbff23'} ,'Rectángulo');
 
 [-62.663, -34.075]]]);
 
-[ee.Geometry.Polygon](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometrypolygon&sa=D&ust=1500416741585000&usg=AFQjCNFFylTt3RQMzHv_Bi4sLlH1B49CaA) recibe
+[ee.Geometry.Polygon](https://developers.google.com/earth-engine/api_docs%23eegeometrypolygon&sa=D&ust=1500416741585000&usg=AFQjCNFFylTt3RQMzHv_Bi4sLlH1B49CaA) recibe
 una lista de anillos que definen los límites del polígono. Puede ser una
 lista de coordenadas en el formato 'Polygon' de GeoJSON, o una lista de
 ee.Geometry que describe un LinearRing. El resto de los parámetros son
@@ -150,7 +129,7 @@ Map.addLayer(polygon, {'color':'16a322'} ,'Polígono');
     sus geometrías constitutivas, use geometry.geometries(). Ejemplo:
 
 var multiPoint =
-ee.[Geometry.MultiPoint](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometrymultipoint&sa=D&ust=1500416741586000&usg=AFQjCNHXYiIULdY9WZRjv2w1rkphho2uPw)(
+ee.[Geometry.MultiPoint](https://developers.google.com/earth-engine/api_docs%23eegeometrymultipoint&sa=D&ust=1500416741586000&usg=AFQjCNHXYiIULdY9WZRjv2w1rkphho2uPw)(
 
                   [[-62.319,-32.856],
 
@@ -266,7 +245,7 @@ Esa misma geometría puede ser expresada en el plano, ya sea cuando se
 crea o puede ser convertida:
 
 var PoligonoPlano =
-[ee.Geometry](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eegeometry&sa=D&ust=1500416741595000&usg=AFQjCNFw1hbhxcBsUZO1JklmT7ukbZrZ3w)(PoligonoGeo,
+[ee.Geometry](https://developers.google.com/earth-engine/api_docs%23eegeometry&sa=D&ust=1500416741595000&usg=AFQjCNFw1hbhxcBsUZO1JklmT7ukbZrZ3w)(PoligonoGeo,
 null, false);
 
 Veámos cómo se ven estas geometrías en el mapa:
@@ -456,7 +435,7 @@ var poligono = ee.Geometry.Polygon(\
 La declaración del Feature:
 
 var miFeature =
-[ee.Feature](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eefeature&sa=D&ust=1500416741607000&usg=AFQjCNGWMEwJtg4xa9N_WR2mWC9yPEKPug)(poligono,
+[ee.Feature](https://developers.google.com/earth-engine/api_docs%23eefeature&sa=D&ust=1500416741607000&usg=AFQjCNGWMEwJtg4xa9N_WR2mWC9yPEKPug)(poligono,
 
 {variable\_1: 100,
 
@@ -518,7 +497,7 @@ Creación y administración de colecciones de features. {#h.t0orutybzsz8 .c41}
 =====================================================
 
 Los grupos de features relacionados se pueden combinar en una
-[FeatureCollection](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eefeaturecollection&sa=D&ust=1500416741611000&usg=AFQjCNFHqT6H03JIbeWy1atC8A35KuyzfQ),
+[FeatureCollection](https://developers.google.com/earth-engine/api_docs%23eefeaturecollection&sa=D&ust=1500416741611000&usg=AFQjCNFHqT6H03JIbeWy1atC8A35KuyzfQ),
 para permitir operaciones adicionales en todo el conjunto tales como:
 filtrado, clasificación y renderizado. Además de simples features
 (geometría + propiedades), FeatureCollection también puede contener
@@ -548,7 +527,7 @@ otras colecciones.
 {Estación: 'Las Varas'})];
 
         var fc\_desdeUnaLista =
-[ee.FeatureCollection](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eefeaturecollection&sa=D&ust=1500416741613000&usg=AFQjCNENXQi5TRsMjkNPbwP3hiRpY5-pIg)(features);
+[ee.FeatureCollection](https://developers.google.com/earth-engine/api_docs%23eefeaturecollection&sa=D&ust=1500416741613000&usg=AFQjCNENXQi5TRsMjkNPbwP3hiRpY5-pIg)(features);
 
           print(fc\_desdeUnaLista);
 
@@ -567,7 +546,7 @@ otras colecciones.
         Crear un nuevo Fusion Table
 
 Estas tablas las gestionamos desde [Google
-Drive](https://www.google.com/url?q=https://drive.google.com&sa=D&ust=1500416741615000&usg=AFQjCNEI74PUsDTPJU3zIfVyI1_smx6j8g),
+Drive](https://drive.google.com&sa=D&ust=1500416741615000&usg=AFQjCNEI74PUsDTPJU3zIfVyI1_smx6j8g),
 la utilidad debe estar habilitada si no aparece en el menú NUEVO. La
 habilitación se realiza desde:
 
@@ -716,7 +695,7 @@ Map.addLayer(muestreos, {}, 'Muestras');
 ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
 
 var randomPoints =
-[ee.FeatureCollection.randomPoints](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eefeaturecollectionrandompoints&sa=D&ust=1500416741628000&usg=AFQjCNH5uXf6r6NRCHA4aC-SOc9nTiCaZw)(
+[ee.FeatureCollection.randomPoints](https://developers.google.com/earth-engine/api_docs%23eefeaturecollectionrandompoints&sa=D&ust=1500416741628000&usg=AFQjCNH5uXf6r6NRCHA4aC-SOc9nTiCaZw)(
 
 region,
 
@@ -788,11 +767,11 @@ print('Superficie Total (Ha):',
 
  
 
-### Desafío 4 {#h.rfc91eh18ea3 .c57}
+### Desafío 4 
 
 Calcule el tamaño promedio de las parcelas muestreadas.
 
-Construcción de Filtros {#h.2kynfsaqhzkg .c41}
+Construcción de Filtros
 =======================
 
 var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
@@ -822,7 +801,7 @@ print('Cantidad de features después de filtrar:', filtrados.size());
 Map.addLayer(filtrados, {color: '1ae008'}, 'Filtrados por región');
 
 var filtradasXarea =
-filtrados.filter([ee.Filter.gt](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eefiltergt&sa=D&ust=1500416741636000&usg=AFQjCNGnKyLieX0jTnktMF1-2_wALOkmRQ)('area\_ha',
+filtrados.filter([ee.Filter.gt](https://developers.google.com/earth-engine/api_docs%23eefiltergt&sa=D&ust=1500416741636000&usg=AFQjCNGnKyLieX0jTnktMF1-2_wALOkmRQ)('area\_ha',
 10));
 
 print('Parcelas de más de 10 ha:', filtradasXarea.size());
@@ -857,7 +836,7 @@ Manejo de  iteraciones sobre colecciones de features. {#h.ifc34hw823ya .c41}
 Existen varias opciones para poder iterar sobre un FeatureCollection,
 una forma simple de modificar cada uno de los Features de un
 FeatureCollection es utilizando la instrucción
-[ee.FeatureCollection.map](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs%23eefeaturecollectionmap&sa=D&ust=1500416741638000&usg=AFQjCNEOOIoHesk17rSOuyMXY4TIuQNrMw).
+[ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs%23eefeaturecollectionmap&sa=D&ust=1500416741638000&usg=AFQjCNEOOIoHesk17rSOuyMXY4TIuQNrMw).
 Esta instrucción permite recorrer cada Feature y generar un
 FeatureCollection nuevo.
 
@@ -1110,7 +1089,7 @@ Bibliografía {#h.n9shj7ji2ll .c58}
 ============
 
 API | Google Earth Engine API.
-[https://developers.google.com/earth-engine/api\_docs](https://www.google.com/url?q=https://developers.google.com/earth-engine/api_docs&sa=D&ust=1500416741653000&usg=AFQjCNEGSbERzdNudCWnXjdyiTKrUeLFPQ)
+[https://developers.google.com/earth-engine/api\_docs](https://developers.google.com/earth-engine/api_docs&sa=D&ust=1500416741653000&usg=AFQjCNEGSbERzdNudCWnXjdyiTKrUeLFPQ)
 
 * * * * *
 
