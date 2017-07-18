@@ -2,7 +2,7 @@
 
 ## Día 1
 
-Descripción general Google Earth Engine (Componentes de GE. Code Editor, Explorer y Clientes API).Mostrar un script complejo con un producto final.
+Descripción general Google Earth Engine (Componentes de GE. Code Editor, Explorer y Clientes API). Mostrar un script complejo con un producto final.
 
 Colecciones disponibles. Herramientas de clasificación. Ventajas y limitaciones frente a otras plataformas.
 
