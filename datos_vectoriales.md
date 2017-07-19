@@ -152,11 +152,11 @@ Veamos un ejemplo:
 
 |  |  |
 | - | - |
-| Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. Para dejar de dibujar se hace clic en la mano de la izquierda. | ![Selección\_508.png](images/image18.png) |
-| Una vez que se activa la herramienta esta se habilita para poder dibujar. Se asigna un color al azar y cada figura que se trace formará parte de una geometría múltiple. | ![Selección\_509.png](images/image28.png) |
-| Es posible incorporar desde la sección de Geometry Imports una nueva capa que se instancia como una nueva variable de la clase Geometry.XXXX. | ![Selección\_510.png](images/image1.png) |
-| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. Estos objetos son mostrados de manera formateada. Pero haciendo clic en el ícono azul se muestra el código fuente correspondiente para la creación de la geometría. | ![](images/image7.png) |
-| El código fuente generado puede copiarse y pegarse en el script que se está escribiendo. **Ojo**: En algunos Navegadores no copia (Firefox 49.0.2, por ejemplo.) | ![Selección\_512.png](images/image24.png) |
+| Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. <br/>Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. <br/>Para dejar de dibujar se hace clic en la mano de la izquierda. | ![Selección\_508.png](images/image18.png) |
+| Una vez que se activa la herramienta esta se habilita para poder dibujar. <br/>Se asigna un color al azar y cada figura que se trace formará parte de una geometría múltiple. | ![Selección\_509.png](images/image28.png) |
+| Es posible incorporar desde la sección de Geometry Imports una nueva capa que <br/>se instancia como una nueva variable de la clase Geometry.XXXX. | ![Selección\_510.png](images/image1.png) |
+| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. <br/>Estos objetos son mostrados de manera formateada. Pero haciendo clic <br/>en el ícono azul se muestra el código fuente correspondiente para la creación de la geometría. | ![](images/image7.png) |
+| El código fuente generado puede copiarse y pegarse en el script que se está escribiendo. <br/>**Ojo**: En algunos Navegadores no copia (Firefox 49.0.2, por ejemplo.) | ![Selección\_512.png](images/image24.png) |
 
 
 ## Geometrías Geodésicas y planas
@@ -166,27 +166,26 @@ Una geometría creada en Earth Engine es geodésica (es decir, los bordes son la
 En la configuración predeterminada de la instanciación de un objeto ee.Geometry.XXXXX este se crea como EPSG:4326, es decir, será una geometría geodésica.
 
 ```javascript
-    var PoligonoGeo = ee.Geometry.Polygon([
-    [
-        [-71.411,-39.470], [-57.128,-39.402],
-        [-57.304,-33.394], [-70.751,-33.358],
-        [-71.411,-39.470]] 
-    ]);
+var PoligonoGeo = ee.Geometry.Polygon([
+[
+    [-71.411,-39.470], [-57.128,-39.402],
+    [-57.304,-33.394], [-70.751,-33.358],
+    [-71.411,-39.470]] 
+]);
 ```
 
 Esa misma geometría puede ser expresada en el plano, ya sea cuando se crea o puede ser convertida:
 
 ```javascript
-
-    var PoligonoPlano = ee.Geometry(PoligonoGeo, null, false);
+var PoligonoPlano = ee.Geometry(PoligonoGeo, null, false);
 ```
 
 Veámos cómo se ven estas geometrías en el mapa:
 
 ```javascript
-    Map.centerObject(PoligonoGeo);
-    Map.addLayer(PoligonoGeo, {color: 'FF0000'}, 'Geodésico');
-    Map.addLayer(PoligonoPlano, {color: '000000'}, 'Plano');
+Map.centerObject(PoligonoGeo);
+Map.addLayer(PoligonoGeo, {color: 'FF0000'}, 'Geodésico');
+Map.addLayer(PoligonoPlano, {color: '000000'}, 'Plano');
 ```
 
 ## Operaciones con Geometrías
@@ -200,60 +199,59 @@ algunas operaciones de geometrías:
 -   Cálculo de área en KM²
 
 ```javascript
-    print('Área: ', poligono.area().divide(1000 * 1000));
-    // Todos los valores de mediciones de distancias vienen expresados en metros.
+print('Área: ', poligono.area().divide(1000 * 1000));
+// Todos los valores de mediciones de distancias vienen expresados en metros.
 ```
 -   Longitud de perímetro en KM
 
 ```javascript
-    print('Perímetro: ', poligono.perimeter().divide(1000));
+print('Perímetro: ', poligono.perimeter().divide(1000));
 ```
 -   Mostrar el GeoJSON 'type'.
 
 ```javascript
-    print('Geometry type: ', poligono.type());
+print('Geometry type: ', poligono.type());
 ```
 
 -   Mostrar la lista de coordenadas.
 
 ```javascript
-    print('Coordenadas: ', poligono.coordinates());
+print('Coordenadas: ', poligono.coordinates());
 ```
 
 -   Muestra true/false si las coordenadas son o no geodésicas.
 
 ```javascript
-    print('¿Está en coordenadas geodésicas? ', poligono.geodesic());
+print('¿Está en coordenadas geodésicas? ', poligono.geodesic());
 ```
 
 -   Muestra el BBOX de una geometría
 
 ```javascript
-    print('Bounding Box', poligono.bounds());
-    // bounds retorna el rectángulo que envuelve a la geometría en una geometría plana.
+print('Bounding Box', poligono.bounds());
+// bounds retorna el rectángulo que envuelve a la geometría en una geometría plana.
 ```
 
 -   Calcular el buffer de un polígono
 
 ```javascript
-
-    var buffer = poligono.buffer(5000);
-    // La distancia del buffer está expresada en metros.
+var buffer = poligono.buffer(5000);
+// La distancia del buffer está expresada en metros.
 ```
 
 -   Calcular el centroide de un polígono..
 
 ```javascript
-    var centroid = poligono.centroid();
+var centroid = poligono.centroid();
 ```
  
 Ahora podemos mapear algunas de estas operaciones:
 
 ```javascript
-    Map.addLayer(buffer, {'color':'0be51e'}, 'buffer');
-    Map.addLayer(poligono, {}, 'el polígono');
-    Map.addLayer(centroid, {'color':'e5280b'}, 'centroide');
-    Map.centerObject(buffer, 7);
+Map.addLayer(buffer, {'color':'0be51e'}, 'buffer');
+Map.addLayer(poligono, {}, 'el polígono');
+Map.addLayer(centroid, {'color':'e5280b'}, 'centroide');
+Map.centerObject(buffer, 7);
 ```
 
 Las  operaciones que hemos realizado han sido todas con operadores unarios, donde a la geometría le pedimos (o le calculamos) algo. Ahora vamos a probar algunos operadores entre geometrías.
@@ -263,65 +261,54 @@ Comenzamos con dos geometrías de polígono que las he creado desde el mapa como
 ```javascript
 
 var poli1 = ee.Geometry.Polygon(
-
-          [[[-63.62113952636719, -25.129433436071757],
-
-            [-63.572044372558594, -25.128811779454853],
-
-            [-63.57135772705078, -25.054501051619468],
-
-            [-63.622169494628906, -25.05512308589585]]]);
-
-               
+     [[[-63.62113952636719, -25.129433436071757],
+       [-63.572044372558594, -25.128811779454853],
+       [-63.57135772705078, -25.054501051619468],
+       [-63.622169494628906, -25.05512308589585]]]);
 
 var poli2 = ee.Geometry.Polygon(
-
-          [[[-63.645172119140625, -25.061965254565465],
-
-            [-63.65753173828125, -25.13005508952488],
-
-            [-63.59367370605469, -25.128811779454853],
-
-            [-63.59367370605469, -25.061343255018567]]]);
-
+       [[[-63.645172119140625, -25.061965254565465],
+         [-63.65753173828125, -25.13005508952488],
+         [-63.59367370605469, -25.128811779454853],
+         [-63.59367370605469, -25.061343255018567]]]);
 ```
 Calculamos la unión de las dos geometrías. Donde el primer parámetro es la geometría que se quiere unir y el segundo es un margen de error. **ErrorMargin** es la cantidad máxima de error tolerada al realizar cualquier reproyección necesaria, el valor está expresado en metros.
 
+
 ```javascript
+var poli1Upoli2 = poli1.union(poli2, ee.ErrorMargin(1));
 
-    var poli1Upoli2 = poli1.union(poli2, ee.ErrorMargin(1));
+Map.addLayer(poli1Upoli2, {color: 'FF00FF'}, 'Unión');        
 
-    Map.addLayer(poli1Upoli2, {color: 'FF00FF'}, 'Unión');        
-
-    // Centramos el mapa en la unión
-    Map.centerObject(poli1Upoli2, 12);
+// Centramos el mapa en la unión
+Map.centerObject(poli1Upoli2, 12);
 ```
  
 
 Calculamos la intersección de los dos polígonos con la función intersection que
 
 ```javascript
-    var intersection = poli1.intersection(poli2, ee.ErrorMargin(1));
-    Map.addLayer(intersection, {color: '00FF00'}, 'Intersección');
+var intersection = poli1.intersection(poli2, ee.ErrorMargin(1));
+Map.addLayer(intersection, {color: '00FF00'}, 'Intersección');
 ```
  
 
 Calculamos la diferencia entre el polígono 1 y el polígono 2. Es el área de la primer geometría que no comparte con la segunda.
 
 ```javascript
-    var diff1 = poli1.difference(poli2, ee.ErrorMargin(1));
-    Map.addLayer(diff1, {color: 'FFFF00'}, 'Diferencia( P1 - P2)');
+var diff1 = poli1.difference(poli2, ee.ErrorMargin(1));
+Map.addLayer(diff1, {color: 'FFFF00'}, 'Diferencia( P1 - P2)');
 ```
 
 Calculamos la diferencia simétrica, esta se define como el área de la geometría A y el área de la geometría B excepción el área común a ambas.
 
 ```javascript
-    var dif_sim = poli1.symmetricDifference( poli2, ee.ErrorMargin(1));
-    Map.addLayer(dif_sim, {color: '000000'}, 'Diferencia Simétrica');
+var dif_sim = poli1.symmetricDifference( poli2, ee.ErrorMargin(1));
+Map.addLayer(dif_sim, {color: '000000'}, 'Diferencia Simétrica');
 
-    // Mapeamos las dos geometrías con las que hicimos los ejemplos.
-    Map.addLayer(poli1, {color: 'FF0000'}, 'Polígono 1');
-    Map.addLayer(poli2, {color: '0000FF'}, 'Polígono 2');
+// Mapeamos las dos geometrías con las que hicimos los ejemplos.
+Map.addLayer(poli1, {color: 'FF0000'}, 'Polígono 1');
+Map.addLayer(poli2, {color: '0000FF'}, 'Polígono 2');
 ```
 
 **Desafío 2:** Verifique si una de las rectas que pasan por los puntos **[-63.635, -25.051]** y **[-63.617, -25.146]** intersecta la intersección (valga la redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
@@ -329,7 +316,7 @@ Calculamos la diferencia simétrica, esta se define como el área de la geometr�
 **Desafío 3:** Ahora compruebe si el punto definido abajo está contenido en la geometría que resultó de la diferencia simétrica.
 
 ```javascript
-    var punto = ee.Geometry.Point([-63.6084366, -25.0803128]);
+var punto = ee.Geometry.Point([-63.6084366, -25.0803128]);
 ```
 
 ## Creación de Features
@@ -342,64 +329,60 @@ Entonces, necesitamos un objeto Geometry y opcionalmente un diccionario con los 
 
 // La geometría
 var poligono = ee.Geometry.Polygon(\
-        [[[-63.33892822265625, -25.150878651548442],\
-          [-63.33824157714844, -25.17791290009134],\
-          [-63.31043243408203, -25.17760219565173],\
-          [-63.31043243408203, -25.15025710411473]]]);
+       [[[-63.33892822265625, -25.150878651548442],\
+         [-63.33824157714844, -25.17791290009134],\
+         [-63.31043243408203, -25.17760219565173],\
+         [-63.31043243408203, -25.15025710411473]]]);
 ```
 
 La declaración del Feature:
 
 ```javascript
-    var miFeature = ee.Feature(poligono,
-        {variable_1: 100,
-         variable_2: 'Hola'});
+var miFeature = ee.Feature(poligono,
+    {variable_1: 100,
+     variable_2: 'Hola'});
 ```
 
 Al igual que con las geometrías podemos enviarlos a la consola utilizando print o mostrarlos en el mapa.
 
-```javascript
-    
-    print(miFeature);
-    Map.addLayer(miFeature, {}, 'Mi Feature!');
-    Map.centerObject(miFeature, 12);
-    
+```javascript    
+print(miFeature);
+Map.addLayer(miFeature, {}, 'Mi Feature!');
+Map.centerObject(miFeature, 12);    
 ```
 
 La geometría del Feature puede ser nula y se podría crear el Feature solo con un diccionario:
 
 ```javascript
-
-    var dict = {distancia: ee.Number(10).add(150), lugar: 'Chivilcoy'};
-    var featureSinGeo = ee.Feature(null, dict);
+var dict = {distancia: ee.Number(10).add(150), lugar: 'Chivilcoy'};
+var featureSinGeo = ee.Feature(null, dict);
 ```
 
 Los Features tienen las mismas funcionalidades para gestionar sus geometrías que los objetos Geometry. Además, poseen otros métodos setters & getters para el manejo de las propiedades.
 
 ```javascript
+var feature_ejemplo = ee.Feature(
+      ee.Geometry.Point([-63.2951545715332,-25.163930416282465]))
+        .set('Nombre', 'Eldes Monte')
+        .set('Altura', 100);
 
-  var feature_ejemplo = ee.Feature(
-        ee.Geometry.Point([-63.2951545715332,-25.163930416282465]))
-          .set('Nombre', 'Eldes Monte')
-          .set('Altura', 100);
+// Recupero una propiedad del feature
 
-  // Recupero una propiedad del feature
+var nombre = feature_ejemplo.get('Nombre');
+print(nombre);
 
-  var nombre = feature_ejemplo.get('Nombre');
-  print(nombre);
+// Asigno una nueva propiedad
+feature_ejemplo = feature_ejemplo.set('Población', 75000);
 
-  // Asigno una nueva propiedad
-  feature_ejemplo = feature_ejemplo.set('Población', 75000);
+// Sobreescribo un nuevo diccionario
+var newDict = {Nombre: 'El Lote', Altura: 300};
 
-  // Sobreescribo un nuevo diccionario
-  var newDict = {Nombre: 'El Lote', Altura: 300};
+var feature_ejemplo = feature_ejemplo.set(newDict);
 
-  var feature_ejemplo = feature_ejemplo.set(newDict);
+// Se muestran los resultados
+print(feature_ejemplo);
 
-  // Se muestran los resultados
-  print(feature_ejemplo);
-
-  Map.addLayer(feature_ejemplo, {}, 'Ejemplo 2');
+Map.addLayer(feature_ejemplo, {}, 'Ejemplo 2');
 
 ```
 
@@ -411,17 +394,17 @@ Los grupos de features relacionados se pueden combinar en una [FeatureCollection
 
 ```javascript
 
-         var features = [
-                ee.Feature(ee.Geometry.Point(-62.709,-31.428), {Estación: 'La Francia'}),
-                ee.Feature(ee.Geometry.Point(-61.248,-31.475), {Estación: 'Pilar'}),
-                ee.Feature(ee.Geometry.Point(-61.765,-31.840), {Estación: 'Sastre'}),
-                ee.Feature(ee.Geometry.Point(-62.534,-31.858), {Estación: 'Las Varas'})];
+var features = [
+    ee.Feature(ee.Geometry.Point(-62.709,-31.428), {Estación: 'La Francia'}),
+    ee.Feature(ee.Geometry.Point(-61.248,-31.475), {Estación: 'Pilar'}),
+    ee.Feature(ee.Geometry.Point(-61.765,-31.840), {Estación: 'Sastre'}),
+    ee.Feature(ee.Geometry.Point(-62.534,-31.858), {Estación: 'Las Varas'})];
 
-        var fc_desdeUnaLista = ee.FeatureCollection(features);
+var fc_desdeUnaLista = ee.FeatureCollection(features);
 
-        print(fc_desdeUnaLista);
-        Map.addLayer(fc_desdeUnaLista, {}, 'FC_Puntos');
-        Map.centerObject(fc_desdeUnaLista);
+print(fc_desdeUnaLista);
+Map.addLayer(fc_desdeUnaLista, {}, 'FC_Puntos');
+Map.centerObject(fc_desdeUnaLista);
 ```
 
 2.  También podemos incorporar un FeatureCollection a partir de un Google Fusion Table. Google Fusion Tables (GFT) es un servicio de Google que permite manejar tablas. Esto habilita la importación de archivos vectoriales a la plataforma Google Earth Engine (GEE) a través de archivos vectoriales en formato KML.
@@ -501,12 +484,12 @@ un .zip que contenga todos los archivos que componen el Shapefile. El tamaño m�
 
 | | |
 | - | - |
-| Luego seleccionamos desde nuestro sistema de archivo el shapefile y todos los archivos que lo componen (podemos seleccionar el .zip también).   | ![](images/image4.png)               |
+| Luego seleccionamos desde nuestro sistema de archivo el shapefile y todos los archivos <br/>que lo componen (podemos seleccionar el .zip también).   | ![](images/image4.png)               |
 
 
 | | |
 | - | - |
-| Por default toma el nombre del shp para la tabla pero se puede editar.<br>Además, podemos indicar la <br>codificación de caracteres que posee <br>el shp para no encontrarnos luego<br>con caracteres mal interpretados.<br>Esta opción está en Advanced.<br><br>Ok para finalizar. | ![](images/image3.png)               |
+| Por default toma el nombre del shp para la tabla pero se puede editar. Además, podemos indicar la <br>codificación de caracteres que posee el shp para no encontrarnos luego<br>con caracteres mal interpretados.<br>Esta opción está en Advanced.<br><br>Ok para finalizar. | ![](images/image3.png)               |
 
 El upload no es instantáneo y puede demorar algunos minutos dependiendo de la congestión de la plataforma y el tamaño que tenga el archivo. Podemos verificar el progreso desde la solapa TASK:
 
@@ -522,13 +505,13 @@ El upload no es instantáneo y puede demorar algunos minutos dependiendo de la c
 
 ```javascript
 
-    var txt_assets = 'users/<usuario>/muestras';
+var txt_assets = 'users/<usuario>/muestras';
 
-    var muestreos = ee.FeatureCollection(txt_assets);
+var muestreos = ee.FeatureCollection(txt_assets);
 
-    print(muestreos);
+print(muestreos);
 
-    Map.addLayer(muestreos, {}, 'Muestras');
+Map.addLayer(muestreos, {}, 'Muestras');
 ```
         
 
@@ -536,16 +519,16 @@ El upload no es instantáneo y puede demorar algunos minutos dependiendo de la c
 
 ```javascript
 
-    var region = ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
-    var randomPoints = ee.FeatureCollection.randomPoints( region, 
-        100, // cantidad de puntos
-        123); // seed
+var region = ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
+var randomPoints = ee.FeatureCollection.randomPoints( region, 
+    100, // cantidad de puntos
+    123); // seed
 
-    print(randomPoints)
+print(randomPoints)
 
-    Map.centerObject(randomPoints);
+Map.centerObject(randomPoints);
 
-    Map.addLayer(randomPoints, {}, 'Puntos al azar');
+Map.addLayer(randomPoints, {}, 'Puntos al azar');
 ```
 
 5.  Creación de FeaturesCollection desde el Mapa
@@ -570,29 +553,29 @@ Existen varios métodos para recuperar información y metadatos de un FC.
 
 ```javascript
 
-    var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 
-    var muestreos = ee.FeatureCollection(key);
+var muestreos = ee.FeatureCollection(key);
 
-    Map.addLayer(muestreos, {}, 'Áreas muestreadas');
+Map.addLayer(muestreos, {}, 'Áreas muestreadas');
 
-    Map.centerObject(muestreos);
+Map.centerObject(muestreos);
 
-    print(muestreos.limit(1)); // Limitamos el # de features
+print(muestreos.limit(1)); // Limitamos el # de features
 
-    print('Lista de atributos:',muestreos.first().propertyNames()); //Listar los atributos del primer feature
+print('Lista de atributos:',muestreos.first().propertyNames()); //Listar los atributos del primer feature
 
-    print('Cantidad: ', muestreos.size()); // # de features en la colección
+print('Cantidad: ', muestreos.size()); // # de features en la colección
 ```
 
 Operaciones de agregación por columnas.
 
 ```javascript
-    // Contar cuántas instancias de cada clase hay
-    print('Clases Distintas:',  muestreos.aggregate_count_distinct('class'));
+// Contar cuántas instancias de cada clase hay
+print('Clases Distintas:',  muestreos.aggregate_count_distinct('class'));
 
-    // Suma toda la columna area_ha
-    print('Superficie Total (Ha):', muestreos.aggregate\_sum('area\_ha'));
+// Suma toda la columna area_ha
+print('Superficie Total (Ha):', muestreos.aggregate\_sum('area\_ha'));
 ```
 
 **Desafío 4**: Calcule el tamaño promedio de las parcelas muestreadas.
@@ -604,24 +587,23 @@ Operaciones de agregación por columnas.
 
 ```javascript
 
-    var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+var muestreos = ee.FeatureCollection(key);
 
-    var muestreos = ee.FeatureCollection(key);
+Map.addLayer(muestreos, {}, 'Áreas muestreadas');
 
-    Map.addLayer(muestreos, {}, 'Áreas muestreadas');
+var limites = ee.Geometry.Rectangle( [-60.501708984375, -26.754194629270284, -60.373992919921875, -26.84051574561839]);
 
-    var limites = ee.Geometry.Rectangle( [-60.501708984375, -26.754194629270284, -60.373992919921875, -26.84051574561839]);
+var filtrados = muestreos.filterBounds(limites);
 
-    var filtrados = muestreos.filterBounds(limites);
+print('Cantidad de features después de filtrar:', filtrados.size());
 
-    print('Cantidad de features después de filtrar:', filtrados.size());
+Map.addLayer(filtrados, {color: '1ae008'}, 'Filtrados por región');
 
-    Map.addLayer(filtrados, {color: '1ae008'}, 'Filtrados por región');
+var filtradasXarea = filtrados.filter(ee.Filter.gt('area_ha', 10));
 
-    var filtradasXarea = filtrados.filter(ee.Filter.gt('area_ha', 10));
-
-    print('Parcelas de más de 10 ha:', filtradasXarea.size());
-    Map.addLayer(filtradasXarea, {color: 'f4df42'}, 'Más de 10  ha');
+print('Parcelas de más de 10 ha:', filtradasXarea.size());
+Map.addLayer(filtradasXarea, {color: 'f4df42'}, 'Más de 10  ha');
 
 ```
 
@@ -635,8 +617,8 @@ Selección de propiedades de un Feature para generar un nuevo FeatureCollection.
 
 ```javascript
 
-    var fc_seleccion = filtrados.select( ['area_ha', 'class'], ['AREA','CLASE']);
-    print(fc_seleccion);
+var fc_seleccion = filtrados.select( ['area_ha', 'class'], ['AREA','CLASE']);
+print(fc_seleccion);
 ```
 
 ## Manejo de  iteraciones sobre colecciones de features
@@ -685,10 +667,11 @@ Map.addLayer( muestreos.map(agregar_geometria), {}, 'Muestras');
 
 **Desafío 7**: Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”.
 
+
 Existe otra forma de recorrer un FeatureCollection que es con el método [iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
 
-```javascript
 
+```javascript
 var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 var muestreos = ee.FeatureCollection(key);
 
@@ -705,7 +688,6 @@ var contar_clases = function(feat, n_dict){
 
 var n_class = muestreos.distinct(['class']).iterate(contar_clases, n_dict);
 print(n_class);
-
 ```
 
 ## Exportar como tabla de datos
@@ -727,34 +709,34 @@ Para exportar un FeatureCollection a Google Drive se requiere la instrucción Ex
 ### CSV
 
 ```javascript
-    Export.table.toDrive({
-          collection: <Nombre del FC>,
-          description:'Una descripción de la tabla para encontrarla en Drive',
-          fileFormat: 'CSV'
+Export.table.toDrive({
+    collection: <Nombre del FC>,
+    description:'Una descripción de la tabla para encontrarla en Drive',
+    fileFormat: 'CSV'
 });
 ```
 
 Ejemplo:
 
 ```javascript
-    var key = 'ft:1t-2SIDNQHZji_6iSWww0pAbd_4i33l8o68NUh4an';
-    var muestreos = ee.FeatureCollection(key);
+var key = 'ft:1t-2SIDNQHZji_6iSWww0pAbd_4i33l8o68NUh4an';
+var muestreos = ee.FeatureCollection(key);
 
-    var mapear_clase = function( elemento ){
-    return elemento.set('tipo',
-    ee.Algorithms.If( ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))  ,
-          'Bosque',
-          'No Bosque'));
-    };
+var mapear_clase = function( elemento ){
+return elemento.set('tipo',
+ee.Algorithms.If( ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))  ,
+      'Bosque',
+      'No Bosque'));
+};
 
-    var fc_tipo = muestreos.map( mapear_clase );
+var fc_tipo = muestreos.map( mapear_clase );
 
-    // Exportar a CSV
-    Export.table.toDrive({
-    collection: fc_tipo,
-    description: 'TablaBosqueNoBosque', //Es el nombre que tendrá el archivo
-    fileFormat: 'CSV'
-    });
+// Exportar a CSV
+Export.table.toDrive({
+collection: fc_tipo,
+description: 'TablaBosqueNoBosque', //Es el nombre que tendrá el archivo
+fileFormat: 'CSV'
+});
 ```
 
 Luego de exportar se incluirá una nueva tarea que hay que poner a
@@ -784,14 +766,15 @@ Ejemplos:
 
 Graficar Features por Histogramas
 
+
 ```javascript
-    var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 
-    var muestreos = ee.FeatureCollection(key);
+var muestreos = ee.FeatureCollection(key);
 
-    var histograma = ui.Chart.feature.histogram(muestreos, 'area_ha', 5);
+var histograma = ui.Chart.feature.histogram(muestreos, 'area_ha', 5);
 
-    print(histograma);
+print(histograma);
 ```
 
 ![](images/image16.png)
