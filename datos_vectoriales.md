@@ -200,7 +200,7 @@ algunas operaciones de geometrías:
 -   Cálculo de área en KM²
 
 ```javascript
-    print('Área: ', poligono.area().divide(1000 \* 1000));
+    print('Área: ', poligono.area().divide(1000 * 1000));
     // Todos los valores de mediciones de distancias vienen expresados en metros.
 ```
 -   Longitud de perímetro en KM
@@ -430,53 +430,60 @@ Los grupos de features relacionados se pueden combinar en una [FeatureCollection
 
 Estas tablas las gestionamos desde [Google Drive](https://drive.google.com), la utilidad debe estar habilitada si no aparece en el menú NUEVO. La habilitación se realiza desde:
 
-    NUEVO \> Más \> + Conectar más aplicaciones
+    NUEVO > Más > + Conectar más aplicaciones
 
 ![Selección\_536.png](images/image15.png)
 
-Una vez habilitada vamos a poder subir una nueva tabla a través de la opción NUEVO \> Más \> Google Fusion Table (o Tablas dinámicas de Google en español).
+Una vez habilitada vamos a poder subir una nueva tabla a través de la opción NUEVO > Más > Google Fusion Table (o Tablas dinámicas de Google en español).
 
 
 |  |  |
 | - | - |
 | ![Screenshot - 170617 - 16:58:15.png](images/image22.png) | ![Screenshot - 170617 - 17:18:05.png](images/image5.png) |
 
+
 La creación del Fusion Table importamos desde el sistema de archivos un documento .kml y luego hacemos clic en Next.
 
 ![](images/image2.png)
+
 
 Nos va a mostrar un preview del archivo donde podremos verificar los nombres de los atributos y el tipo de geometría que estamos subiendo.
 Luego, Next.
 
 ![](images/image31.png)
 
+
 En esta sección podremos editar algunos parámetros de la nueva tabla como el nombre, la descripción y algunos permisos básicos. Damos clic en Finish.
 
 ![](images/image12.png)
+
 
 Ahora si ya está disponible la nueva tabla. Si vamos a la solapa Map of geometry podemos ver desplegada sobre un mapa de Google la columna geometría que se subió con el archivo kml.
 
 ![](images/image9.png)
 
+
 En la opción Share se puede ajustar las opción de seguridad de la nueva capa que fue subida al GFT.
 
 ![](images/image23.png)
 
+
 Para poder importar este archivo a GEE necesitamos el ID de la tabla, para ello vamos a File y seleccionamos About this table. Ahí encontraremos el identificador (Id).
 
 ![](images/image6.png)
+
 
 También en la opción “Enlace para compartir” disponible en Share, tenemos disponible el identificador de la GFT a través del cual vamos a vincular la tabla con nuestro script.
 
 ![](images/image10.png)
 
 
-    * Crear un FeatureCollection desde GFT
+**Crear un FeatureCollection desde GFT**
 
-Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a ft:. Por ejemplo:
+Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a **ft:**. Por ejemplo:
 
 ```javascript
-    var desdeFT = ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw\_mqM\_8f3sZxZX0ltICc');
+    var desdeFT = ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw_mqM_8f3sZxZX0ltICc');
     print(desdeFT);
     Map.addLayer(desdeFT, {}, 'Región Chaqueña');
     Map.centerObject(desdeFT);
@@ -499,79 +506,57 @@ un .zip que contenga todos los archivos que componen el Shapefile. El tamaño m�
 
 | | |
 | - | - |
-| Por default toma el nombre del shp para la tabla pero se puede editar. | ![](images/image3.png)               |
-| Además, podemos indicar la           |                                      |
-| codificación de caracteres que posee |                                      |
-| el shp para no encontrarnos luego    |                                      |
-| con caracteres mal interpretados.    |                                      |
-| Esta opción está en Advanced.        |                                      |
-|                                      |                                      |
-| Ok para finalizar.                   |                                      |
+| Por default toma el nombre del shp para la tabla pero se puede editar.<br>Además, podemos indicar la <br>codificación de caracteres que posee <br>el shp para no encontrarnos luego<br>con caracteres mal interpretados.<br>Esta opción está en Advanced.<br><br>Ok para finalizar. | ![](images/image3.png)               |
+
+El upload no es instantáneo y puede demorar algunos minutos dependiendo de la congestión de la plataforma y el tamaño que tenga el archivo. Podemos verificar el progreso desde la solapa TASK:
 
 
-El upload no es instantáneo y puede demorar algunos minutos dependiendo
-de la congestión de la plataforma y el tamaño que tenga el archivo.
-Podemos verificar el progreso desde la solapa TASK:
-
-+--------------------------------------+--------------------------------------+
+| | |
+| - | - |
 | Tarea en proceso.                    | ![](images/image20.png)              |
-+--------------------------------------+--------------------------------------+
 | Tarea finalizada.                    | ![](images/image8.png)               |
-+--------------------------------------+--------------------------------------+
 
-+--------------------------------------+--------------------------------------+
-| Finalizada la carga la Tabla estará  | ![](images/image30.png)              |
-| disponible en el Assets de nuestro   |                                      |
-| usuario.                             |                                      |
-+--------------------------------------+--------------------------------------+
+| | |
+| - | - |
+| Finalizada la carga la Tabla estará <br/> disponible en el Assets de nuestro usuario. | ![](images/image30.png)              |
 
-var txt\_assets = 'users/\<usuario\>/muestras';
+```javascript
 
-var muestreos = ee.FeatureCollection(txt\_assets);
+    var txt_assets = 'users/<usuario>/muestras';
 
-print(muestreos);
+    var muestreos = ee.FeatureCollection(txt_assets);
 
-Map.addLayer(muestreos, {}, 'Muestras');
+    print(muestreos);
 
+    Map.addLayer(muestreos, {}, 'Muestras');
+```
         
 
-4.  Es posible crear un FeatureCollection a partir de generar una
-    muestra al azar de puntos dada una región.
+4.  Es posible crear un FeatureCollection a partir de generar una muestra al azar [ee.FeatureCollection.randomPoints](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionrandompoints) de puntos dada una región.
 
-        var region =
+```javascript
 
-ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
+    var region = ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
+    var randomPoints = ee.FeatureCollection.randomPoints( region, 
+        100, // cantidad de puntos
+        123); // seed
 
-var randomPoints =
-[ee.FeatureCollection.randomPoints](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionrandompoints&sa=D&ust=1500416741628000&usg=AFQjCNH5uXf6r6NRCHA4aC-SOc9nTiCaZw)(
+    print(randomPoints)
 
-region,
+    Map.centerObject(randomPoints);
 
-100, // cantidad de puntos
-
-123); // seed
-
-print(randomPoints)
-
-Map.centerObject(randomPoints);
-
-Map.addLayer(randomPoints, {}, 'Puntos al azar');
+    Map.addLayer(randomPoints, {}, 'Puntos al azar');
+```
 
 5.  Creación de FeaturesCollection desde el Mapa
 
-Al igual que mostramos anteriormente como dibujar geometrías, es posible
-definir FeaturesCollection dibujando desde el mapa.
+Al igual que mostramos anteriormente como dibujar geometrías, es posible definir FeaturesCollection dibujando desde el mapa.
 
 ![](images/image17.png)        
 
-En la configuración podemos darle un nombre al Layer y agregar
-propiedades con valores por defecto y definir el color.
+En la configuración podemos darle un nombre al Layer y agregar propiedades con valores por defecto y definir el color.
 
-                ![](images/image29.png)
-
-        
-
-        
+![](images/image29.png)
 
 ![](images/image27.png)
 
@@ -579,139 +564,105 @@ Podemos incorporar esto FeaturesCollection desde la sección de Imports.
 
 ![](images/image14.png)
 
-Operaciones Básicas sobre FeaturesCollection {#h.wy02xu8jk1z .c41}
-============================================
+## Operaciones Básicas sobre FeaturesCollection
 
 Existen varios métodos para recuperar información y metadatos de un FC.
 
-var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+```javascript
 
-var muestreos = ee.FeatureCollection(key);
+    var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 
-Map.addLayer(muestreos, {}, 'Áreas muestreadas');
+    var muestreos = ee.FeatureCollection(key);
 
-Map.centerObject(muestreos);
+    Map.addLayer(muestreos, {}, 'Áreas muestreadas');
 
-print(muestreos.limit(1)); // Limitamos el \# de features
+    Map.centerObject(muestreos);
 
-print('Lista de atributos:',muestreos.first().propertyNames()); //
-Listar los atributos del primer feature
+    print(muestreos.limit(1)); // Limitamos el # de features
 
-print('Cantidad: ', muestreos.size()); // \# de features en la colección
+    print('Lista de atributos:',muestreos.first().propertyNames()); //Listar los atributos del primer feature
+
+    print('Cantidad: ', muestreos.size()); // # de features en la colección
+```
 
 Operaciones de agregación por columnas.
 
-// Contar cuántas instancias de cada clase hay
+```javascript
+    // Contar cuántas instancias de cada clase hay
+    print('Clases Distintas:',  muestreos.aggregate_count_distinct('class'));
 
-print('Clases Distintas:',
+    // Suma toda la columna area_ha
+    print('Superficie Total (Ha):', muestreos.aggregate\_sum('area\_ha'));
+```
 
- muestreos.aggregate\_count\_distinct('class'));
+**Desafío 4**: Calcule el tamaño promedio de las parcelas muestreadas.
 
-// Suma toda la columna area\_ha
 
-print('Superficie Total (Ha):',
+## Construcción de Filtros
 
-         muestreos.aggregate\_sum('area\_ha'));
+[ee.Filter.gt](https://developers.google.com/earth-engine/api_docs#eefiltergt)
 
- 
+```javascript
 
-### Desafío 4 
+    var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 
-Calcule el tamaño promedio de las parcelas muestreadas.
+    var muestreos = ee.FeatureCollection(key);
 
-Construcción de Filtros
-=======================
+    Map.addLayer(muestreos, {}, 'Áreas muestreadas');
 
-var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+    var limites = ee.Geometry.Rectangle( [-60.501708984375, -26.754194629270284, -60.373992919921875, -26.84051574561839]);
 
-var muestreos = ee.FeatureCollection(key);
+    var filtrados = muestreos.filterBounds(limites);
 
-Map.addLayer(muestreos, {}, 'Áreas muestreadas');
+    print('Cantidad de features después de filtrar:', filtrados.size());
 
-var limites = ee.Geometry.Rectangle(
+    Map.addLayer(filtrados, {color: '1ae008'}, 'Filtrados por región');
 
-[-60.501708984375,
+    var filtradasXarea = filtrados.filter(ee.Filter.gt('area_ha', 10));
 
- -26.754194629270284,
+    print('Parcelas de más de 10 ha:', filtradasXarea.size());
+    Map.addLayer(filtradasXarea, {color: 'f4df42'}, 'Más de 10  ha');
 
- -60.373992919921875,
+```
 
- -26.84051574561839]);
+**Desafío 5**: Construya un filtro que permita filtrar las clases de tipo 131.
 
- 
+**Desafío 6**: ¿Cuántas parcelas fueron etiquetadas como ARBUSTAL en la descripción?
 
-var filtrados = muestreos.filterBounds(limites);
+## Operador Selection
 
-print('Cantidad de features después de filtrar:', filtrados.size());
+Selección de propiedades de un Feature para generar un nuevo FeatureCollection.
 
- 
+```javascript
 
-Map.addLayer(filtrados, {color: '1ae008'}, 'Filtrados por región');
+    var fc_seleccion = filtrados.select( ['area_ha', 'class'], ['AREA','CLASE']);
+    print(fc_seleccion);
+```
 
-var filtradasXarea =
-filtrados.filter([ee.Filter.gt](https://developers.google.com/earth-engine/api_docs#eefiltergt&sa=D&ust=1500416741636000&usg=AFQjCNGnKyLieX0jTnktMF1-2_wALOkmRQ)('area\_ha',
-10));
+## Manejo de  iteraciones sobre colecciones de features
 
-print('Parcelas de más de 10 ha:', filtradasXarea.size());
+Existen varias opciones para poder iterar sobre un FeatureCollection, una forma simple de modificar cada uno de los Features de un FeatureCollection es utilizando la instrucción [ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionmap). Esta instrucción permite recorrer cada Feature y generar un FeatureCollection nuevo. 
 
-Map.addLayer(filtradasXarea, {color: 'f4df42'}, 'Más de 10  ha');
+Veamos un ejemplo simple, supongamos que queremos incorporar al FeatureCollection de las muestras un atributo que sea perímetro. Esto requiere que para cada elemento (de tipo Feature) de la colección hagamos el cálculo, eso sería: 
 
-### Desafío 5 {#h.mhq9fym1yean .c32}
+```javascript
 
-Construya un filtro que permita filtrar las clases de tipo 131.
-
-### Desafío 6 {#h.6epghz33o2hn .c32}
-
-¿Cuántas parcelas fueron etiquetadas como ARBUSTAL en la descripción?
-
-Operador Selection {#h.k5vwvhdz18jn .c41}
-==================
-
-Selección de propiedades de un Feature para generar un nuevo
-FeatureCollection.
-
-var fc\_seleccion = filtrados.select(
-
-['area\_ha', 'class'],
-
-['AREA','CLASE']);
-
-print(fc\_seleccion);
-
-Manejo de  iteraciones sobre colecciones de features. {#h.ifc34hw823ya .c41}
-=====================================================
-
-Existen varias opciones para poder iterar sobre un FeatureCollection,
-una forma simple de modificar cada uno de los Features de un
-FeatureCollection es utilizando la instrucción
-[ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionmap&sa=D&ust=1500416741638000&usg=AFQjCNEOOIoHesk17rSOuyMXY4TIuQNrMw).
-Esta instrucción permite recorrer cada Feature y generar un
-FeatureCollection nuevo.
-
-Veamos un ejemplo simple, supongamos que queremos incorporar al
-FeatureCollection de las muestras un atributo que sea perímetro. Esto
-requiere que para cada elemento (de tipo Feature) de la colección
-hagamos el cálculo, eso sería:
-
-var get\_perimetro = function(elemento){
-
+var get_perimetro = function(elemento){
         return elemento.set(
-
-{perimetro: elemento.geometry().perimeter()}
-
-);
-
+            {perimetro: elemento.geometry().perimeter()}
+        );
 }
 
-var m\_con\_perimetro = muestreos.map(get\_perimetro);
+var m_con_perimetro = muestreos.map(get_perimetro);
+print(m_con_perimetro);
 
-print(m\_con\_perimetro);
+```
 
-Otro ejemplo de map, supongamos que tenemos un CSV con las coordenadas
-expresadas en grados decimales y queremos generar la geometría para cada
-Feature del FeatureCollection:
+Otro ejemplo de map, supongamos que tenemos un CSV con las coordenadas expresadas en grados decimales y queremos generar la geometría para cada Feature del FeatureCollection:
 
-var key = 'ft:1t-2SIDNQHZji\_6iSWww0pAbd\_4i33l8o68NUh4an';
+```javascript
+
+var key = 'ft:1t-2SIDNQHZji_6iSWww0pAbd_4i33l8o68NUh4an';
 
 var muestreos = ee.FeatureCollection(key);
 
@@ -719,71 +670,53 @@ var muestreos = ee.FeatureCollection(key);
 
 print( muestreos.limit(1) );
 
- 
-
-var agregar\_geometria = function( elemento ){
-
-   
-
-var geom = ee.Geometry.Point([
-
-                elemento.get('longitud'),
-
-               elemento.get('latitud')]);
-
-           
-
-        return elemento.setGeometry(geom);
-
+var agregar_geometria = function( elemento ){
+    var geom = ee.Geometry.Point(
+        [
+            elemento.get('longitud'),
+            elemento.get('latitud')
+        ]);
+    
+    return elemento.setGeometry(geom);
   };
 
-Map.addLayer( muestreos.map(agregar\_geometria), {}, 'Muestras');
+Map.addLayer( muestreos.map(agregar_geometria), {}, 'Muestras');
+```
 
-### Desafío 7 {#h.b8c1hlkra51j .c57}
+**Desafío 7**: Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”.
 
-Escriba una función de mapeo que para valores de class entre 20 y 23
-completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso
-contrario complete con “No Bosque”.
+Existe otra forma de recorrer un FeatureCollection que es con el método ![iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
 
-Existe otra forma de recorrer un FeatureCollection que es con el método
-iterate.
+```javascript
 
 var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
-
 var muestreos = ee.FeatureCollection(key);
 
-var n\_dict = ee.Dictionary({});
+var n_dict = ee.Dictionary({});
 
-var n\_class = muestreos.distinct(['class']).iterate(
+var contar_clases = function(feat, n_dict){
+  return ee.Dictionary(n_dict).set(
+    feat.get('class'),
+    muestreos.filter(
+      ee.Filter.eq('class', feat.get('class')))
+    .aggregate_count('class')
+    );
+}
 
-function(feat, n\_dict){
+var n_class = muestreos.distinct(['class']).iterate(contar_clases, n_dict);
+print(n_class);
 
-  return ee.Dictionary(n\_dict).set(
+```
 
-        feat.get('class'),
+## Exportar como tabla de datos
 
-        muestreos.filter(
-
-          ee.Filter.eq('class', feat.get('class')))
-
-.aggregate\_count('class')
-
-        );
-
-}, n\_dict);
-
-print(n\_class);
-
-Exportar como tabla de datos. {#h.jwtjm01c5qaq .c41}
-=============================
-
-Para exportar un FeatureCollection a Google Drive se requiere la
-instrucción Export.table.toDrive()
+Para exportar un FeatureCollection a Google Drive se requiere la instrucción Export.table.toDrive()
 
 ![](images/image26.png)
 
-KML
+### KML
 
+```javascript
 Export.table.toDrive({
 
           collection: \<Nombre del FC\>,
@@ -795,7 +728,7 @@ Drive',
 
 });
 
-CSV
+### CSV
 
 Export.table.toDrive({
 
