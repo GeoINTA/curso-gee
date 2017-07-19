@@ -685,7 +685,7 @@ Map.addLayer( muestreos.map(agregar_geometria), {}, 'Muestras');
 
 **Desafío 7**: Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”.
 
-Existe otra forma de recorrer un FeatureCollection que es con el método ![iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
+Existe otra forma de recorrer un FeatureCollection que es con el método [iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
 
 ```javascript
 
@@ -717,63 +717,45 @@ Para exportar un FeatureCollection a Google Drive se requiere la instrucción Ex
 ### KML
 
 ```javascript
-Export.table.toDrive({
-
-          collection: \<Nombre del FC\>,
-
-          description:'Una descripción de la capa para encontrarlo en
-Drive',
-
-          fileFormat: 'KML o KMZ'
-
-});
+    Export.table.toDrive({
+              collection: <Nombre del FC>,
+              description:'Una descripción de la capa para encontrarlo en Drive',
+              fileFormat: 'KML o KMZ'
+    });
+```
 
 ### CSV
 
-Export.table.toDrive({
-
-          collection: \<Nombre del FC\>,
-
-          description:'Una descripción de la tabla para encontrarla en
-Drive',
-
+```javascript
+    Export.table.toDrive({
+          collection: <Nombre del FC>,
+          description:'Una descripción de la tabla para encontrarla en Drive',
           fileFormat: 'CSV'
-
 });
+```
 
 Ejemplo:
 
-var key = 'ft:1t-2SIDNQHZji\_6iSWww0pAbd\_4i33l8o68NUh4an';
+```javascript
+    var key = 'ft:1t-2SIDNQHZji_6iSWww0pAbd_4i33l8o68NUh4an';
+    var muestreos = ee.FeatureCollection(key);
 
-var muestreos = ee.FeatureCollection(key);
+    var mapear_clase = function( elemento ){
+    return elemento.set('tipo',
+    ee.Algorithms.If( ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))  ,
+          'Bosque',
+          'No Bosque'));
+    };
 
-var mapear\_clase = function( elemento ){
+    var fc_tipo = muestreos.map( mapear_clase );
 
-return elemento.set('tipo',
-
-ee.Algorithms.If(
-ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))
- ,
-
-          'Bosque',
-
-          'No Bosque'));
-
-};
-
-var fc\_tipo = muestreos.map( mapear\_clase );
-
-// Exportar a CSV
-
-Export.table.toDrive({
-
-collection: fc\_tipo,
-
-description: 'TablaBosqueNoBosque', //Es el nombre que tendrá el archivo
-
-fileFormat: 'CSV'
-
-});
+    // Exportar a CSV
+    Export.table.toDrive({
+    collection: fc_tipo,
+    description: 'TablaBosqueNoBosque', //Es el nombre que tendrá el archivo
+    fileFormat: 'CSV'
+    });
+```
 
 Luego de exportar se incluirá una nueva tarea que hay que poner a
 correr.
@@ -786,11 +768,10 @@ de la plataforma.
 
 ![](images/image19.png)
 
-Realizar gráficos. {#h.5z2q7tivh7s7 .c41}
-==================
 
-En GEE es posible realizar diferentes tipos de gráficos utilizando la
-librería ui.Chart. Las opciones disponibles para FeaturesCollection son:
+## Realizar gráficos
+
+En GEE es posible realizar diferentes tipos de gráficos utilizando la librería ui.Chart. Las opciones disponibles para FeaturesCollection son:
 
 -   ui.Chart.feature.byFeature(features, xProperty, yProperties)
 -   ui.Chart.feature.byProperty(features, xProperties, seriesProperty)
@@ -803,74 +784,59 @@ Ejemplos:
 
 Graficar Features por Histogramas
 
-var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+```javascript
+    var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 
-var muestreos = ee.FeatureCollection(key);
+    var muestreos = ee.FeatureCollection(key);
 
- 
+    var histograma = ui.Chart.feature.histogram(muestreos, 'area_ha', 5);
 
-var histograma = ui.Chart.feature.histogram(muestreos, 'area\_ha', 5);
-
-print(histograma);
+    print(histograma);
+```
 
 ![](images/image16.png)
 
 Graficar Features por Grupos
 
-var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
+```javascript
 
+var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 var muestreos = ee.FeatureCollection(key);
 
 // Agrego el perímetro
-
-var get\_perimetro = function(elemento){
-
+var get_perimetro = function(elemento){
 return elemento.set({perimetro: elemento.geometry().perimeter()});
-
 }
 
-var m\_con\_perimetro = muestreos.map(get\_perimetro);
+var m_con_perimetro = muestreos.map(get_perimetro);
 
 // Agrego el tipo Bosque / No Bosque
-
-var mapear\_clase = function( elemento ){
-
+var mapear_clase = function( elemento ){
 return elemento.set('tipo',
-
-ee.Algorithms.If(
-ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))
- ,
-
-          'Bosque',
-
-          'No Bosque'));
-
+ee.Algorithms.If( ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))  ,
+      'Bosque',
+      'No Bosque'));
 };
+var fc_tipo = m_con_perimetro.map( mapear_clase );
 
-var fc\_tipo = m\_con\_perimetro.map( mapear\_clase );
-
-var chart = ui.Chart.feature.groups(fc\_tipo, 'area\_ha', 'perimetro',
-'tipo')
-
+var chart = ui.Chart.feature.groups(fc_tipo, 'area_ha', 'perimetro', 'tipo')
 .setChartType('ScatterChart')
-
 .setOptions({
-
-  hAxis: {title: 'Area (Ha)'},
-
-  vAxis: {title: 'Perímetro (m)'},
-
+  hAxis: {title: 'Area (Ha)'},
+  vAxis: {title: 'Perímetro (m)'},
 }).setSeriesNames(["Bosque", "No Bosque"]);
 
 print(chart);
 
+```
+
 ![](images/image21.png)
 
-Bibliografía {#h.n9shj7ji2ll .c58}
+
+Bibliografía 
 ============
 
-API | Google Earth Engine API.
-[https://developers.google.com/earth-engine/api\_docs](https://developers.google.com/earth-engine/api_docs&sa=D&ust=1500416741653000&usg=AFQjCNEGSbERzdNudCWnXjdyiTKrUeLFPQ)
+API | Google Earth Engine API. [https://developers.google.com/earth-engine/api\_docs](https://developers.google.com/earth-engine/api_docs)
 
 * * * * *
 
