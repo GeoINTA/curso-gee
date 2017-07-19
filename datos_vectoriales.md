@@ -154,8 +154,8 @@ Veamos un ejemplo:
 | - | - |
 | Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. <br/>Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. <br/>Para dejar de dibujar se hace clic en la mano de la izquierda. | ![Selección\_508.png](images/image18.png) |
 | Una vez que se activa la herramienta esta se habilita para poder dibujar. <br/>Se asigna un color al azar y cada figura que se trace formará parte de una geometría múltiple. | ![Selección\_509.png](images/image28.png) |
-| Es posible incorporar desde la sección de Geometry Imports una nueva capa que <br/>se instancia como una nueva variable de la clase Geometry.XXXX. | ![Selección\_510.png](images/image1.png) |
-| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. <br/>Estos objetos son mostrados de manera formateada. Pero haciendo clic <br/>en el ícono azul se muestra el código fuente correspondiente para la creación de la geometría. | ![](images/image7.png) |
+| Es posible incorporar desde la sección de Geometry Imports una nueva capa.<br/>Esta se instancia como una nueva variable de la clase Geometry.XXXX. | ![Selección\_510.png](images/image1.png) |
+| Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. <br/>Estos objetos son mostrados de manera formateada. Pero haciendo clic en el ícono azul se muestra el código fuente correspondiente para la creación de la geometría. | ![](images/image7.png) |
 | El código fuente generado puede copiarse y pegarse en el script que se está escribiendo. <br/>**Ojo**: En algunos Navegadores no copia (Firefox 49.0.2, por ejemplo.) | ![Selección\_512.png](images/image24.png) |
 
 
