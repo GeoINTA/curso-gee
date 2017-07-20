@@ -367,7 +367,6 @@ var feature_ejemplo = ee.Feature(
         .set('Altura', 100);
 
 // Recupero una propiedad del feature
-
 var nombre = feature_ejemplo.get('Nombre');
 print(nombre);
 
@@ -376,7 +375,6 @@ feature_ejemplo = feature_ejemplo.set('Población', 75000);
 
 // Sobreescribo un nuevo diccionario
 var newDict = {Nombre: 'El Lote', Altura: 300};
-
 var feature_ejemplo = feature_ejemplo.set(newDict);
 
 // Se muestran los resultados
@@ -390,7 +388,9 @@ Map.addLayer(feature_ejemplo, {}, 'Ejemplo 2');
 
 Los grupos de features relacionados se pueden combinar en una [FeatureCollection](https://developers.google.com/earth-engine/api_docs#eefeaturecollection), para permitir operaciones adicionales en todo el conjunto tales como: filtrado, clasificación y renderizado. Además de simples features (geometría + propiedades), FeatureCollection también puede contener otras colecciones.
 
-1.  Podemos construir un FeatureCollection a partir de una lista de features, donde estos pueden tener o no el mismo tipo de geometría.
+### 1. FeatureCollection a partir de lista de Features
+
+Podemos construir un FeatureCollection a partir de una lista de features, donde estos pueden tener o no el mismo tipo de geometría.
 
 ```javascript
 
@@ -407,9 +407,11 @@ Map.addLayer(fc_desdeUnaLista, {}, 'FC_Puntos');
 Map.centerObject(fc_desdeUnaLista);
 ```
 
-2.  También podemos incorporar un FeatureCollection a partir de un Google Fusion Table. Google Fusion Tables (GFT) es un servicio de Google que permite manejar tablas. Esto habilita la importación de archivos vectoriales a la plataforma Google Earth Engine (GEE) a través de archivos vectoriales en formato KML.
+### 2. FeatureCollection a partir de Google Fusion Table 
 
-    * Crear un nuevo Fusion Table
+También podemos incorporar un FeatureCollection a partir de un Google Fusion Table. Google Fusion Tables (GFT) es un servicio de Google que permite manejar tablas. Esto habilita la importación de archivos vectoriales a la plataforma Google Earth Engine (GEE) a través de archivos vectoriales en formato KML.
+
+#### Crear un nuevo Fusion Table
 
 Estas tablas las gestionamos desde [Google Drive](https://drive.google.com), la utilidad debe estar habilitada si no aparece en el menú NUEVO. La habilitación se realiza desde:
 
@@ -461,18 +463,16 @@ También en la opción “Enlace para compartir” disponible en Share, tenemos
 ![](images/image10.png)
 
 
-**Crear un FeatureCollection desde GFT**
-
-Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a **ft:**. Por ejemplo:
+**Crear un FeatureCollection desde GFT**: Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a **ft:**. Por ejemplo:
 
 ```javascript
-    var desdeFT = ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw_mqM_8f3sZxZX0ltICc');
-    print(desdeFT);
-    Map.addLayer(desdeFT, {}, 'Región Chaqueña');
-    Map.centerObject(desdeFT);
+var desdeFT = ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw_mqM_8f3sZxZX0ltICc');
+print(desdeFT);
+Map.addLayer(desdeFT, {}, 'Región Chaqueña');
+Map.centerObject(desdeFT);
 ```
 
-3.  Creación de un FeatureCollection a partir de Tablas
+### 3.  Creación de un FeatureCollection a partir de Tablas
 
 Es posible instanciar un FC utilizando tablas que tenemos almacenadas en un Assets. Para crear esta nueva tabla podemos utilizar un Shapefile o
 un .zip que contenga todos los archivos que componen el Shapefile. El tamaño máximo permitido es 10GB.
@@ -504,18 +504,16 @@ El upload no es instantáneo y puede demorar algunos minutos dependiendo de la c
 | Finalizada la carga la Tabla estará <br/> disponible en el Assets de nuestro usuario. | ![](images/image30.png)              |
 
 ```javascript
-
 var txt_assets = 'users/<usuario>/muestras';
-
 var muestreos = ee.FeatureCollection(txt_assets);
-
 print(muestreos);
-
 Map.addLayer(muestreos, {}, 'Muestras');
 ```
         
 
-4.  Es posible crear un FeatureCollection a partir de generar una muestra al azar [ee.FeatureCollection.randomPoints](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionrandompoints) de puntos dada una región.
+### 4. FeatureCollection de una muestra al azar
+
+Es posible crear un FeatureCollection a partir de generar una muestra al azar [ee.FeatureCollection.randomPoints](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionrandompoints) de puntos dada una región.
 
 ```javascript
 
@@ -531,7 +529,7 @@ Map.centerObject(randomPoints);
 Map.addLayer(randomPoints, {}, 'Puntos al azar');
 ```
 
-5.  Creación de FeaturesCollection desde el Mapa
+### 5.  Creación de FeaturesCollection desde el Mapa
 
 Al igual que mostramos anteriormente como dibujar geometrías, es posible definir FeaturesCollection dibujando desde el mapa.
 
@@ -552,19 +550,14 @@ Podemos incorporar esto FeaturesCollection desde la sección de Imports.
 Existen varios métodos para recuperar información y metadatos de un FC.
 
 ```javascript
-
 var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 
 var muestreos = ee.FeatureCollection(key);
-
 Map.addLayer(muestreos, {}, 'Áreas muestreadas');
-
 Map.centerObject(muestreos);
 
 print(muestreos.limit(1)); // Limitamos el # de features
-
 print('Lista de atributos:',muestreos.first().propertyNames()); //Listar los atributos del primer feature
-
 print('Cantidad: ', muestreos.size()); // # de features en la colección
 ```
 
@@ -575,7 +568,7 @@ Operaciones de agregación por columnas.
 print('Clases Distintas:',  muestreos.aggregate_count_distinct('class'));
 
 // Suma toda la columna area_ha
-print('Superficie Total (Ha):', muestreos.aggregate\_sum('area\_ha'));
+print('Superficie Total (Ha):', muestreos.aggregate_sum('area_ha'));
 ```
 
 **Desafío 4**: Calcule el tamaño promedio de las parcelas muestreadas.
@@ -583,17 +576,17 @@ print('Superficie Total (Ha):', muestreos.aggregate\_sum('area\_ha'));
 
 ## Construcción de Filtros
 
-[ee.Filter.gt](https://developers.google.com/earth-engine/api_docs#eefiltergt)
+Todos los objetos de tipo colección tienen una método de aplicación de filtros (.filter) que a menudo requieren como parámetro de un objeto del tipo [ee.Filter](https://developers.google.com/earth-engine/api_docs#eefilter).
+
+**Importante:** los filtros aplican sobre las __instancias__, es decir, sobre las filas.
 
 ```javascript
 
 var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
 var muestreos = ee.FeatureCollection(key);
-
 Map.addLayer(muestreos, {}, 'Áreas muestreadas');
 
 var limites = ee.Geometry.Rectangle( [-60.501708984375, -26.754194629270284, -60.373992919921875, -26.84051574561839]);
-
 var filtrados = muestreos.filterBounds(limites);
 
 print('Cantidad de features después de filtrar:', filtrados.size());
@@ -615,6 +608,9 @@ Map.addLayer(filtradasXarea, {color: 'f4df42'}, 'Más de 10  ha');
 
 Selección de propiedades de un Feature para generar un nuevo FeatureCollection.
 
+**Importante:** las selecciones aplican sobre las __columnas__, es decir, sobre los atributos de una colección de features o las bandas cuando veamos colecciones de imágenes.
+
+
 ```javascript
 
 var fc_seleccion = filtrados.select( ['area_ha', 'class'], ['AREA','CLASE']);
@@ -626,6 +622,7 @@ print(fc_seleccion);
 Existen varias opciones para poder iterar sobre un FeatureCollection, una forma simple de modificar cada uno de los Features de un FeatureCollection es utilizando la instrucción [ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionmap). Esta instrucción permite recorrer cada Feature y generar un FeatureCollection nuevo. 
 
 Veamos un ejemplo simple, supongamos que queremos incorporar al FeatureCollection de las muestras un atributo que sea perímetro. Esto requiere que para cada elemento (de tipo Feature) de la colección hagamos el cálculo, eso sería: 
+
 
 ```javascript
 
@@ -699,11 +696,11 @@ Para exportar un FeatureCollection a Google Drive se requiere la instrucción Ex
 ### KML
 
 ```javascript
-    Export.table.toDrive({
-              collection: <Nombre del FC>,
-              description:'Una descripción de la capa para encontrarlo en Drive',
-              fileFormat: 'KML o KMZ'
-    });
+Export.table.toDrive({
+          collection: <Nombre del FC>,
+          description:'Una descripción de la capa para encontrarlo en Drive',
+          fileFormat: 'KML o KMZ'
+});
 ```
 
 ### CSV
