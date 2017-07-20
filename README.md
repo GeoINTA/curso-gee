@@ -10,8 +10,8 @@ Nociones básicas de Code Editor: Introducción al lenguaje Javascript. Visión 
 
 ### Inicio del tutorial
 
-  * Manejo de datos vectoriales: Manejo de geometrías y generación de features. Creación y administración de colecciones de features. Carga y visualización de vectores utilizando Google Fusion Table (FT). Manejo de iteraciones sobre colecciones de features. Exportar como tabla de datos. Realizar gráficos.
-  * Manejo de datos rasters: Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices (NDVI, spectral unmixing e indicadores MapBiomas ndfi, por ejemplo, etc.). Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
+  * [Manejo de datos vectoriales](https://github.com/GeoINTA/curso-gee/blob/master/datos_vectoriales.md): Manejo de geometrías y generación de features. Creación y administración de colecciones de features. Carga y visualización de vectores utilizando Google Fusion Table (FT). Manejo de iteraciones sobre colecciones de features. Exportar como tabla de datos. Realizar gráficos.
+  * [Manejo de datos rasters](https://github.com/GeoINTA/curso-gee/blob/master/datos_rasters.md): Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices (NDVI, spectral unmixing e indicadores MapBiomas ndfi, por ejemplo, etc.). Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
 
 ## Día 2
 
