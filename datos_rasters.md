@@ -122,7 +122,7 @@ Luego se indica la ecuación y el diccionario de bandas a utilizar:
 var ndvi = stack1.expression('(NIR - RED) / (NIR + RED)', bandas_indices);
 
 // ver imagen en mapa:
-Map.addLayer (ndvi, { min: [-1], max: [1] }, "NDVI 1" );
+Map.addLayer(ndvi, { min: [-1], max: [1] }, "NDVI 1" );
 ```
 
 ​
@@ -135,10 +135,10 @@ var ndvi2 = stack1.select('B5').subtract(stack1.select('B4'))
     .divide(stack1.select('B5').add(stack1.select('B4')));
 
 // ver imagen en mapa:
-Map.addLayer (ndvi2, { min: [-1], max: [1] }, "NDVI 2" );
+Map.addLayer(ndvi2, { min: [-1], max: [1] }, "NDVI 2" );
 ```
 
-​### Funciones definidas en la API
+### Funciones definidas en la API
 
 En este caso se usa una función de normalización disponible en la plataforma ([normalizedDifference](https://developers.google.com/earth-engine/api_docs#eeimagenormalizeddifference)), indicando las bandas a normalizar:
 
@@ -162,7 +162,7 @@ imagen1 = imagen1.addBands(ndvi.rename('NDVI'));
 Map.addLayer (stack1, {bands: ['NDVI'], min: [-1], max: [1] }, "NDVI" );
 ```
 
-## Visualización de imágenes en mapa:
+## Visualización de imágenes en mapa
 
 Se puede asignar una escala de colores para bandas únicas (e.g. NDVI) a través de dos métodos: 
 
@@ -180,9 +180,9 @@ Map.addLayer(ndvi3, {min:0, max:0.7 ,palette: ['339820', 'e6f0c2']},"NDVI 3 con 
 
 Podemos utilizar un *Style Layer Description* ([SLD](http://www.opengeospatial.org/standards/sld)) para crear una paleta de colores. La misma puede ser generada a mano o con alguna otra imagen desde QGIS u otra herramienta que guarde estilos SLD.
 
-
 ```javascript
 // Generar estilo con SLD
+
 var sld_intervals =
   '<RasterSymbolizer>' +
     '<ColorMap  type="intervals" extended="false" >' +
@@ -195,7 +195,7 @@ var sld_intervals =
     '</ColorMap>' +
   '</RasterSymbolizer>';
 
-Map.addLayer (ndvi3.sldStyle(sld\_intervals), {}, "NDVI 3 con SLD" );
+Map.addLayer (ndvi3.sldStyle(sld_intervals), {}, "NDVI 3 con SLD" );
 
 ```
 
@@ -206,7 +206,6 @@ Permite guardar imágenes o tablas en una carpeta de Google Drive.
 Se pueden seleccionar bandas para exportar o exportar todas las bandas.
 
 Puede convenir cambiar el formato de los valores para que ocupe menos espacio. En este caso dado que contiene valores entre -1 y 1 en formato de 4 Bytes por pixel (números con decimales), lo vamos a convertir a número entero (2 bytes por píxel) con un factor de conversión de 10000.
-
 
 ```javascript
 // Seleccionamos una sola banda (NDVI) para guardar.
