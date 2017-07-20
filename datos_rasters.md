@@ -10,35 +10,15 @@ suelo de la República Argentina”
 
 # Unidad 2: Manejo de datos rasters
 
- 
-
-Contenidos: Seleccionar colecciones, filtros por áreas, por fechas y por
-nubes. Construir máscaras. Visualización. Cómo exportar imágenes
-(ventajas y limitaciones del servicio). Funciones de agregación.
-Cálculos de índices (NDVI, spectral unmixing e indicadores MapBiomas
-ndfi, por ejemplo, etc.). Generación de expresiones. Extracción de
-información a partir de features (agregación por medias, máximos,
-mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
-
- 
+Contenidos: Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices (NDVI, spectral unmixing e indicadores MapBiomas ndfi, por ejemplo, etc.). Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
 
 ## Seleccionar Colecciones
 
-Existe cargado (o ya descargado más bien) en la plataforma una gran
-cantidad de fuentes de información entre las que se incluye tanto
-información de base como imágenes satelitales, bases de datos
-meteorológicas, como productos generados: Modelos Digitales de Elevación
-(DEMs), Máscaras de cuerpos de agua y áreas urbanas, etc.
+Existe cargado (o ya descargado más bien) en la plataforma una gran cantidad de fuentes de información entre las que se incluye tanto información de base como imágenes satelitales, bases de datos meteorológicas, como productos generados: Modelos Digitales de Elevación (DEMs), Máscaras de cuerpos de agua y áreas urbanas, etc.
 
-En este caso vamos a seleccionar un producto y lo vamos a filtrar
-(acotar) a las necesidades particulares (intervalo de tiempo y área de
-interés), ya que generalmente el alcance es global y se disponen largas
-series temporales.
+En este caso vamos a seleccionar un producto y lo vamos a filtrar (acotar) a las necesidades particulares (intervalo de tiempo y área de interés), ya que generalmente el alcance es global y se disponen largas series temporales.
 
-Cada producto tiene un código asociado (ImageCollection ID) y una
-nomenclatura de bandas. El buscador del Code Editor permite ver las
-colecciones disponibles, el ID y las bandas, presenta una breve
-explicación del producto y el origen del mismo:
+Cada producto tiene un código asociado (ImageCollection ID) y una nomenclatura de bandas. El buscador del Code Editor permite ver las colecciones disponibles, el ID y las bandas, presenta una breve explicación del producto y el origen del mismo:
 
 ![](images/ras_image4.png)
 
@@ -48,12 +28,11 @@ Inicio Código:
 
 // área de estudio (de sección anterior)
 
-var geometry =
-ee.FeatureCollection('ft:1NOdzgdcCiWZ6YcoEharXG\_IYmW03G-ZJeUSZtoOB');
+var geometry = ee.FeatureCollection('ft:1NOdzgdcCiWZ6YcoEharXG_IYmW03G-ZJeUSZtoOB');
 
 // Seleccionar producto. Indicar el ImageCollection ID
 
-var producto = ee.ImageCollection('LANDSAT/LC8\_L1T\_TOA');
+var producto = ee.ImageCollection('LANDSAT/LC8_L1T_TOA');
 ```
  
 
@@ -72,7 +51,7 @@ var coleccion1 = producto
     .filterDate('2016-08-01', '2016-10-31')
 
     // por cobertura de nubes máxima
-    .filterMetadata('CLOUD\_COVER','less\_than', 40)
+    .filterMetadata('CLOUD_COVER','less_than', 40)
 
     // por bandas (definidas más arriba)
     .select(bandas);
@@ -83,33 +62,34 @@ Opcional. Más opciones de filtrado:
 
 ```javascript
 // por Path y Row (solo para LANDSAT)
-.filter(ee.Filter.eq('WRS\_PATH', 226))
-.filter(ee.Filter.eq('WRS\_ROW', 84))
+.filter(ee.Filter.eq('WRS_PATH', 226))
+.filter(ee.Filter.eq('WRS_ROW', 84))
 ```
 
 En la consola se pueden ver los detalles de la colección seleccionada y filtrada (que fue lo que encontró). Para ello hay que invocar a la función “print” desde el code editor:
 
 ```javascript
 // ver detalles de colección y filtros aplicados
-print("Coleccion seleccionada",coleccion1);
+print("Coleccion seleccionada", coleccion1);
 ```
 
-Dado que una colección (objeto ee.ImageCollection) implica un catálogo, un grupo de imágenes. Para poder generar nuevas bandas, o exportar se requiere convertirla al objeto [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage). Esto se puede hacer creando una imagen a partir de bandas de la colección o aplicando algoritmos de reducción a la colección (e.g:mediana, promedio o valor máximo de pixels). En este caso, vamos a obtener como resultado una única imágen para cada banda (ahora objeto ee.Image), la cual puede ser posteriormente exportada y permite generar índices a partir de sus bandas.
+Dado que una colección (objeto [ee.ImageCollection](https://developers.google.com/earth-engine/api_docs#eeimagecollection)) implica un catálogo, un grupo de imágenes. Para poder generar nuevas bandas, o exportar se requiere convertirla al objeto [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage). Esto se puede hacer creando una imagen a partir de bandas de la colección o aplicando algoritmos de reducción a la colección (e.g:mediana, promedio o valor máximo de pixels). En este caso, vamos a obtener como resultado una única imágen para cada banda (ahora objeto ee.Image), la cual puede ser posteriormente exportada y permite generar índices a partir de sus bandas.
+
 
 ```javascript
-
 // Aplicar reducción de mediana
-var stack1=coleccion1.median();
+var stack1 = coleccion1.median();
 ```
 
 Podemos visualizar la imagen identificando las bandas a mostrar (orden R,G,B), seleccionar los valores máximos y mínimos para ecualizar cada banda y una descripción de la capa. Mover el visor hacia el área de estudio para ver la imagen.
 
+
 ```javascript
 // ver imagen en mapa:
-Map.addLayer(stack1, {bands: ['B5', 'B4', 'B3'], min: [0,0,0], max:[1,1,1] } , "Landsat 8 B5-B4-B3" );
+Map.addLayer( stack1, {bands: ['B5', 'B4', 'B3'], min: [0,0,0], max:[1,1,1] } , "Landsat 8 B5-B4-B3" );
 
 // centrar en area de estudio - indicar nivel de zoom
-Map.centerObject(geometry,8);
+Map.centerObject( geometry, 8 );
 ```
 
 ## Generación de índices
@@ -117,10 +97,13 @@ Map.centerObject(geometry,8);
 Existen varias formas de generación de índices a partir de bandas:
 
 1.  Por medio de una expresión
-2.  Aplicando algoritmos directamente sobre una imagen
+2.  Utilizando las funciones básicas de operadores matemáticos aplicados sobre la imagen.
 3.  Por medio de una función
 
-1- Consideramos que la más sencilla es por medio de una expresión. Lo que requiere primero definir un diccionario (ver detalles en Tutorial Code Editor) indicando las bandas que se van a utilizar para generar el índice.
+
+### Expresiones
+
+Consideramos que la más sencilla es por medio de una expresión. Lo que requiere primero definir un diccionario (ver detalles en [Earth Engine Objects](https://developers.google.com/earth-engine/tutorial_js_02)) indicando las bandas que se van a utilizar para generar el índice.
 
 
 ```javascript
@@ -133,6 +116,7 @@ var bandas_indices = {
 
 Luego se indica la ecuación y el diccionario de bandas a utilizar:
 
+
 ```javascript
 // cálculo del NDVI usando una expresión
 var ndvi = stack1.expression('(NIR - RED) / (NIR + RED)', bandas_indices);
@@ -141,7 +125,9 @@ var ndvi = stack1.expression('(NIR - RED) / (NIR + RED)', bandas_indices);
 Map.addLayer (ndvi, { min: [-1], max: [1] }, "NDVI 1" );
 ```
 
-​2. Realizar operaciones directamente sobre la imagen:
+​
+### Realizar operaciones directamente sobre la imagen
+
 
 ```javascript
 // cálculo NDVI - operaciones sobre la imagen
@@ -152,18 +138,20 @@ var ndvi2 = stack1.select('B5').subtract(stack1.select('B4'))
 Map.addLayer (ndvi2, { min: [-1], max: [1] }, "NDVI 2" );
 ```
 
-​3. Por medio de una función. En este caso se usa una función de normalización disponible en la plataforma, indicando las bandas a normalizar:
+​### Funciones definidas en la API
+
+En este caso se usa una función de normalización disponible en la plataforma ([normalizedDifference](https://developers.google.com/earth-engine/api_docs#eeimagenormalizeddifference)), indicando las bandas a normalizar:
 
 
 ```javascript
 // cálculo NDVI - Por medio de una función
-var ndvi3= stack1.normalizedDifference(['B5', 'B4']);
+var ndvi3 = stack1.normalizedDifference(['B5', 'B4']);
 
 // ver imagen en mapa:
 Map.addLayer (ndvi3, { min: [-1], max: [1] }, "NDVI 3" );
 ```
 
-Agregar índice generado al stack. Se recomienda darle un nombre a la nueva banda con la función “rename”:
+Agregar índice generado al stack. Se recomienda darle un nombre a la nueva banda con la función [rename](https://developers.google.com/earth-engine/api_docs#eeimagerename):
 
 
 ```javascript
@@ -178,14 +166,20 @@ Map.addLayer (stack1, {bands: ['NDVI'], min: [-1], max: [1] }, "NDVI" );
 
 Se puede asignar una escala de colores para bandas únicas (e.g. NDVI) a través de dos métodos: 
 
-1. Asignando una paleta de colores (requiere asignar un rango de colores en formato hexadecimal RGB) 
+### Utilizando paletas de colores
+
+La definición de paletas de colores requiere asignar un rango de colores en formato hexadecimal RGB (como vimos en el [picker color](https://www.google.com.ar/#q=picker+color)).
+
 
 ```javascript
 // Paleta de colores
 Map.addLayer(ndvi3, {min:0, max:0.7 ,palette: ['339820', 'e6f0c2']},"NDVI 3 con Paleta");
 ```
 
-2. Cargando archivo SDL (se puede exportar desde QGIS).
+### Utilizando un SLD
+
+Podemos utilizar un *Style Layer Description* ([SLD](http://www.opengeospatial.org/standards/sld)) para crear una paleta de colores. La misma puede ser generada a mano o con alguna otra imagen desde QGIS u otra herramienta que guarde estilos SLD.
+
 
 ```javascript
 // Generar estilo con SLD
@@ -435,8 +429,11 @@ Export.table.toDrive({
 
 Análisis de información Extraída. La información extraída en formato CSV puede ser analizada por supuesto en otras herramientas: Excel, R, etc. En este caso vamos a generar algunos gráficos desde Earth Engine para hacer un análisis preliminar de la información.
 
-Así generamos un gráfico de tipo XY (“ScatterChart”). Se debe indicar en la función ui.Chart.feature.groups el set de datos (“training”), las bandas a graficar (primero la banda que va a eje de las X (“B5”) y luego la banda que va al eje de las Y (“B4”) un atributo de agrupamiento (“clase”). Se puede el texto de los ejes y la leyenda:
 
+## Gráficos
+
+Desde la API [ui.Chart](https://developers.google.com/earth-engine/charts) podemos generar algunos gráficos a partir de datos extraídos desde las imágenes.
+A continuación se muestra cómo generar un gráfico de tipo XY (“ScatterChart”). Se debe indicar en la función [ui.Chart.feature.groups](https://developers.google.com/earth-engine/charts_feature_groups) el set de datos (“training”), las bandas a graficar (primero la banda que va a eje de las X (“B5”) y luego la banda que va al eje de las Y (“B4”) un atributo de agrupamiento (“clase”). Se pueden modificar todos los parámetros del gráfico como: el texto de los ejes y la leyenda.
 
 ```javascript
 // Generar Grafico XY. indicar set de datos, banda en eje X, banda en eje Y y grupo
@@ -452,5 +449,5 @@ var chart = ui.Chart.feature.groups(training, 'B5', 'B4', 'clase')
 print(chart);
 ```
 
-Seleccione otras bandas para agregar en el gráfico y analizar, identifique que bandas tienen mayor separabilidad
+**Desafío:** Seleccione otras bandas para agregar en el gráfico y analizar, identifique que bandas tienen mayor separabilidad
 
