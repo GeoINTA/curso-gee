@@ -49,28 +49,27 @@ var producto_filtrado = producto
 
 ```
 
+En la consola se pueden ver los detalles de la colección filtrada o seleccionada. Para ello hay que invocar a la función **print()** desde el Code Editor:
+
+```javascript
+// ver detalles de colección y filtros aplicados
+print("Coleccion seleccionada", producto_filtrado);
+```
+
 Existen otras opciones de filtrado, en el caso de utilizar colecciones LANDSAT podemos utilizar path/row.
 
 ```javascript
 producto_filtrado = producto_filtrado     // por Path y Row
     .filter(ee.Filter.eq('WRS_PATH', 226))
-    .filter(ee.Filter.eq('WRS_ROW', 84))
-
+    .filter(ee.Filter.eq('WRS_ROW', 84));
 ```
+
 Veamos cómo seleccionar ([.select()](https://developers.google.com/earth-engine/api_docs#eeimagecollectionselect).) las bandas de interés.
 
 ```javascript
 // Definir bandas a seleccionar
 var bandas = ['B2','B3','B4','B5','B6','B7']
 producto_filtrado = producto_filtrado.select(bandas);
-```
-
-
-En la consola se pueden ver los detalles de la colección seleccionada y filtrada (que fue lo que encontró). Para ello hay que invocar a la función “print” desde el code editor:
-
-```javascript
-// ver detalles de colección y filtros aplicados
-print("Coleccion seleccionada", producto_filtrado);
 ```
 
 Dado que una colección (objeto [ee.ImageCollection](https://developers.google.com/earth-engine/api_docs#eeimagecollection)) implica un catálogo, un grupo de imágenes. Para poder generar nuevas bandas, o exportar se requiere convertirla al objeto [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage). Esto se puede hacer creando una imagen a partir de bandas de la colección o aplicando algoritmos de reducción a la colección (e.g:mediana, promedio o valor máximo de pixels). En este caso, vamos a obtener como resultado una única imágen para cada banda (ahora objeto ee.Image), la cual puede ser posteriormente exportada y permite generar índices a partir de sus bandas.
