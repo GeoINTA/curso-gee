@@ -20,13 +20,14 @@ Comenzamos definiendo un área de estudio a partir de un vector.
 var geometry = ee.FeatureCollection('ft:1NOdzgdcCiWZ6YcoEharXG_IYmW03G-ZJeUSZtoOB');
 ```
 
-Ahora seleccionamos una colección, en este caso: **LANDSAT/LC8\_L1T\_TOA**.
-
+Ahora seleccionamos una colección, en este caso: **LANDSAT/LC8\_L1T\_TOA**. El objeto que se utiliza para representar colecciones de imágenes es un [ee.ImageCollection](https://developers.google.com/earth-engine/api_docs#eeimagecollection).
 
 ```javascript
 // Seleccionar producto. Indicar el ImageCollection ID
 var producto = ee.ImageCollection('LANDSAT/LC8_L1T_TOA');
 ```
+Cada elemento de la colección instanciada en la variable _producto_ es a su vez un objeto de tipo [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage).
+
 
 A partir de la colección de imágenes instanciada vamos a aplicar diferentes filtros y selecciones.
 Recordemos:
@@ -64,7 +65,7 @@ producto_filtrado = producto_filtrado     // por Path y Row
     .filter(ee.Filter.eq('WRS_ROW', 84));
 ```
 
-Veamos cómo seleccionar ([.select()](https://developers.google.com/earth-engine/api_docs#eeimagecollectionselect).) las bandas de interés.
+Veamos cómo seleccionar ([.select()](https://developers.google.com/earth-engine/api_docs#eeimagecollectionselect)) las bandas de interés.
 
 ```javascript
 // Definir bandas a seleccionar
