@@ -1,13 +1,3 @@
-
-Programa Nacional de Recursos Naturales, Gestión Ambiental y
-Ecorregiones
-
-PNNAT 1128032 Dinámica territorial del uso y cobertura del suelo de la
-Rep. Argentina
-
-Taller “Google Earth Engine para el monitoreo del uso y cobertura del
-suelo de la República Argentina”
-
 # Unidad 2: Manejo de datos rasters
 
 Contenidos: Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices (NDVI, spectral unmixing e indicadores MapBiomas ndfi, por ejemplo, etc.). Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
@@ -22,55 +12,65 @@ Cada producto tiene un código asociado (ImageCollection ID) y una nomenclatura 
 
 ![](images/ras_image4.png)
 
-Inicio Código:
+Comenzamos definiendo un área de estudio a partir de un vector.
+
 
 ```javascript
-
 // área de estudio (de sección anterior)
-
 var geometry = ee.FeatureCollection('ft:1NOdzgdcCiWZ6YcoEharXG_IYmW03G-ZJeUSZtoOB');
+```
 
+Ahora seleccionamos una colección, en este caso: **LANDSAT/LC8\_L1T\_TOA**.
+
+
+```javascript
 // Seleccionar producto. Indicar el ImageCollection ID
-
 var producto = ee.ImageCollection('LANDSAT/LC8_L1T_TOA');
 ```
- 
+
+A partir de la colección de imágenes instanciada vamos a aplicar diferentes filtros y selecciones.
+Recordemos:
+ - Los filtros aplican sobre metadatos, valores de la imagen o utilizando geometrías.
+ - Las selecciones aplican sobre las bandas.
 
 ```javascript
 
-// Definir bandas a seleccionar
-
-var bandas=['B2','B3','B4','B5','B6','B7']
-
 // Filtrar colección
-var coleccion1 = producto
-    // por área de estudio. Debe estar cargada el área en este caso en la variable “geometry”
-    .filterBounds(geometry)
-    
+var producto_filtrado = producto
+    // Por área de estudio. Debe estar cargada el área
+    // en este caso en la variable “geometry”
+    .filterBounds( geometry )
+
     //por rango de fechas
     .filterDate('2016-08-01', '2016-10-31')
 
     // por cobertura de nubes máxima
-    .filterMetadata('CLOUD_COVER','less_than', 40)
+    .filterMetadata('CLOUD_COVER','less_than', 40);
 
-    // por bandas (definidas más arriba)
-    .select(bandas);
-    
 ```
 
-Opcional. Más opciones de filtrado:
+Existen otras opciones de filtrado, en el caso de utilizar colecciones LANDSAT podemos utilizar path/row.
 
 ```javascript
-// por Path y Row (solo para LANDSAT)
-.filter(ee.Filter.eq('WRS_PATH', 226))
-.filter(ee.Filter.eq('WRS_ROW', 84))
+producto_filtrado = producto_filtrado     // por Path y Row
+    .filter(ee.Filter.eq('WRS_PATH', 226))
+    .filter(ee.Filter.eq('WRS_ROW', 84))
+
 ```
+Veamos cómo seleccionar ([.select()](https://developers.google.com/earth-engine/api_docs#eeimagecollectionselect).) las bandas de interés.
+
+```javascript
+// Definir bandas a seleccionar
+var bandas = ['B2','B3','B4','B5','B6','B7']
+producto_filtrado = producto_filtrado.select(bandas);
+```
+
 
 En la consola se pueden ver los detalles de la colección seleccionada y filtrada (que fue lo que encontró). Para ello hay que invocar a la función “print” desde el code editor:
 
 ```javascript
 // ver detalles de colección y filtros aplicados
-print("Coleccion seleccionada", coleccion1);
+print("Coleccion seleccionada", producto_filtrado);
 ```
 
 Dado que una colección (objeto [ee.ImageCollection](https://developers.google.com/earth-engine/api_docs#eeimagecollection)) implica un catálogo, un grupo de imágenes. Para poder generar nuevas bandas, o exportar se requiere convertirla al objeto [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage). Esto se puede hacer creando una imagen a partir de bandas de la colección o aplicando algoritmos de reducción a la colección (e.g:mediana, promedio o valor máximo de pixels). En este caso, vamos a obtener como resultado una única imágen para cada banda (ahora objeto ee.Image), la cual puede ser posteriormente exportada y permite generar índices a partir de sus bandas.
@@ -78,7 +78,7 @@ Dado que una colección (objeto [ee.ImageCollection](https://developers.google.c
 
 ```javascript
 // Aplicar reducción de mediana
-var stack1 = coleccion1.median();
+var stack1 = producto_filtrado.median();
 ```
 
 Podemos visualizar la imagen identificando las bandas a mostrar (orden R,G,B), seleccionar los valores máximos y mínimos para ecualizar cada banda y una descripción de la capa. Mover el visor hacia el área de estudio para ver la imagen.
@@ -164,7 +164,7 @@ Map.addLayer (stack1, {bands: ['NDVI'], min: [-1], max: [1] }, "NDVI" );
 
 ## Visualización de imágenes en mapa
 
-Se puede asignar una escala de colores para bandas únicas (e.g. NDVI) a través de dos métodos: 
+Se puede asignar una escala de colores para bandas únicas (e.g. NDVI) a través de dos métodos:
 
 ### Utilizando paletas de colores
 
@@ -247,10 +247,10 @@ var clase0 = ee.FeatureCollection(
     ee.Feature( ee.Geometry.Point([-62.02537536621094, -28.463862268869118]), {"clase": 0,"system:index": "4"}),
     ee.Feature( ee.Geometry.Point([-61.820068359375, -28.46688043752887]), {"clase": 0,"system:index": "5"}),
     ee.Feature( ee.Geometry.Point([-61.82487487792969, -28.47774513090882]), {"clase": 0,"system:index": "6"}),
-    ee.Feature( ee.Geometry.Point([-61.80015563964844, -28.46989851998662]), {"clase": 0,"system:index": "7"}), 
-    ee.Feature( ee.Geometry.Point([-61.73561096191406, -28.461447671879828]), {"clase": 0,"system:index": "8"}), 
+    ee.Feature( ee.Geometry.Point([-61.80015563964844, -28.46989851998662]), {"clase": 0,"system:index": "7"}),
+    ee.Feature( ee.Geometry.Point([-61.73561096191406, -28.461447671879828]), {"clase": 0,"system:index": "8"}),
     ee.Feature( ee.Geometry.Point([-62.307586669921875, -28.34487788226893]), {"clase": 0,"system:index": "9" })]);
-    
+
 var clase1 = ee.FeatureCollection(
     [ee.Feature( ee.Geometry.Point([-62.36457824707031, -28.355150836534136]),{"clase": 1,"system:index": "0"}),
     ee.Feature( ee.Geometry.Point([-62.33848571777344, -28.349712337487777]),{"clase": 1,"system:index": "1"}),
@@ -333,4 +333,3 @@ print(chart);
 ```
 
 **Desafío:** Seleccione otras bandas para agregar en el gráfico y analizar, identifique que bandas tienen mayor separabilidad
-
