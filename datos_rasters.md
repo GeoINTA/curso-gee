@@ -67,8 +67,8 @@ Existen otras opciones de filtrado, en el caso de utilizar colecciones LANDSAT p
 
 ```javascript
 producto_filtrado = producto_filtrado     // por Path y Row
-    .filter(ee.Filter.eq('WRS_PATH', 226))
-    .filter(ee.Filter.eq('WRS_ROW', 84));
+    .filter(ee.Filter.eq('WRS_PATH', 227))
+    .filter(ee.Filter.eq('WRS_ROW', 79));
 ```
 
 Veamos cómo seleccionar ([.select()](https://developers.google.com/earth-engine/api_docs#eeimagecollectionselect)) las bandas de interés.
@@ -125,7 +125,7 @@ Luego se indica la ecuación y el diccionario de bandas a utilizar:
 
 ```javascript
 // cálculo del NDVI usando una expresión
-var ndvi = stack1.expression('(NIR - RED) / (NIR + RED)', bandas_indices);
+var ndvi = stack1.expression('(NIR - RED) / (NIR + RED)', bandas_indices).rename('NDVI');
 
 // ver imagen en mapa:
 Map.addLayer(ndvi, { min: [-1], max: [1] }, "NDVI 1" );
@@ -167,6 +167,12 @@ imagen1 = imagen1.addBands(ndvi.rename('NDVI'));
 // ver imagen en mapa:
 Map.addLayer (stack1, {bands: ['NDVI'], min: [-1], max: [1] }, "NDVI" );
 ```
+
+**Desafío:** ¿Qué método de los visto para calcular índices considera adecuado implementar este índice?
+
+$$GVI = -0.2941*Banda2 - 0.243 * Banda3 -0.5424 * Banda4 + 0.7276 * Banda5 + 0.0713 * Banda6 - 0.1608 * Banda7$$
+
+
 
 ## Visualización de imágenes en mapa
 
