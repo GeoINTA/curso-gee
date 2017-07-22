@@ -1,10 +1,10 @@
 # Unidad 2: Manejo de datos rasters
 
-Contenidos: Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices (NDVI, spectral unmixing e indicadores MapBiomas ndfi, por ejemplo, etc.). Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
+Contenidos: Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices. Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
 
-## Seleccionar Colecciones
+## Trabajar con colecciones de imágenes
 
-Existe cargado (o ya descargado más bien) en la plataforma una gran cantidad de fuentes de información entre las que se incluye tanto información de base como imágenes satelitales, bases de datos meteorológicas, como productos generados: Modelos Digitales de Elevación (DEMs), Máscaras de cuerpos de agua y áreas urbanas, etc.
+En la plataforma existe una gran cantidad de fuentes de información entre las que se incluye tanto información de base como imágenes satelitales, bases de datos meteorológicas, como productos generados: Modelos Digitales de Elevación (DEMs), Máscaras de cuerpos de agua y áreas urbanas, etc.
 
 En este caso vamos a seleccionar un producto y lo vamos a filtrar (acotar) a las necesidades particulares (intervalo de tiempo y área de interés), ya que generalmente el alcance es global y se disponen largas series temporales.
 
@@ -12,27 +12,33 @@ Cada producto tiene un código asociado (ImageCollection ID) y una nomenclatura 
 
 ![](images/ras_image4.png)
 
-Comenzamos definiendo un área de estudio a partir de un vector.
+### Escoger una colección
 
-
-```javascript
-// área de estudio (de sección anterior)
-var geometry = ee.FeatureCollection('ft:1NOdzgdcCiWZ6YcoEharXG_IYmW03G-ZJeUSZtoOB');
-```
-
-Ahora seleccionamos una colección, en este caso: **LANDSAT/LC8\_L1T\_TOA**. El objeto que se utiliza para representar colecciones de imágenes es un [ee.ImageCollection](https://developers.google.com/earth-engine/api_docs#eeimagecollection).
+Seleccionaremos una colección, en este caso: **LANDSAT/LC8\_L1T\_TOA**. El objeto que se utiliza para representar colecciones de imágenes es un [ee.ImageCollection](https://developers.google.com/earth-engine/api_docs#eeimagecollection).
 
 ```javascript
 // Seleccionar producto. Indicar el ImageCollection ID
 var producto = ee.ImageCollection('LANDSAT/LC8_L1T_TOA');
 ```
+
 Cada elemento de la colección instanciada en la variable _producto_ es a su vez un objeto de tipo [ee.Image](https://developers.google.com/earth-engine/api_docs#eeimage).
 
+
+### Filtrar las escenas de interés
 
 A partir de la colección de imágenes instanciada vamos a aplicar diferentes filtros y selecciones.
 Recordemos:
  - Los filtros aplican sobre metadatos, valores de la imagen o utilizando geometrías.
  - Las selecciones aplican sobre las bandas.
+
+Comenzamos definiendo un área de estudio a partir de un vector para luego poder filtrar por región.
+
+ ```javascript
+ // área de estudio (de sección anterior)
+ var geometry = ee.FeatureCollection('ft:1NOdzgdcCiWZ6YcoEharXG_IYmW03G-ZJeUSZtoOB');
+ ```
+
+Ahora vamos a aplicar varios filtros, sigamos el script:
 
 ```javascript
 

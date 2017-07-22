@@ -4,15 +4,14 @@ Unidad 1: Manejo de datos vectoriales: Manejo de geometrías y generación de fe
 
 ## Manejo de geometrías y generación de features
 
-Earth Engine maneja datos vectoriales con el tipo Geometry. La especificación [GeoJSON](https://tools.ietf.org/html/rfc7946) describe en detalle el tipo de geometrías soportadas por Earth Engine, incluyendo:
+Earth Engine maneja datos vectoriales con el tipo [ee.Geometry](https://developers.google.com/earth-engine/api_docs#eegeometry). La especificación [GeoJSON](https://tools.ietf.org/html/rfc7946) describe en detalle el tipo de geometrías soportadas por Earth Engine, incluyendo:
 
--   Point: una lista de coordenadas en alguna proyección,
--   LineString: una lista de puntos,
--   LinearRing: una LineString cerrada
--   Polygon: una lista de LinearRings donde la primera es una cáscara y
-    los anillos subsiguientes son agujeros.
+-   **Point**: una lista de coordenadas en alguna proyección,
+-   **LineString**: una lista de puntos,
+-   **LinearRing**: una LineString cerrada
+-   **Polygon**: una lista de LinearRings donde la primera es una cáscara y los anillos subsiguientes son agujeros.
 
-Earth Engine también soporta MultiPoint, MultiLineString y MultiPolygon. GeoJSON GeometryCollection también es compatible, aunque tiene el nombre MultiGeometry dentro de Earth Engine.
+Earth Engine también soporta **MultiPoint**, **MultiLineString** y **MultiPolygon**. GeoJSON GeometryCollection también es compatible, aunque tiene el nombre MultiGeometry dentro de Earth Engine.
 
 ### Creación de Geometrías
 
@@ -29,7 +28,7 @@ La definición de esa geometría (según la definición [GeoJSON](https://tools.
 
 ```javascript
     {
-      "geodesic": true, // WGS84 Lat/Lon 
+      "geodesic": true, // WGS84 Lat/Lon
       "type": "Point",
       "coordinates": [
         -60.54,
@@ -126,9 +125,9 @@ A mapear!!
             [-62.193,-33.008],
             [-62.166,-32.805]
             ]);
-            
+
     Map.addLayer(multiPoint, {'color':'16a322'} ,'multiPoint');
-    
+
 ```
 
 Vamos a imprimir los puntos de  la geometría, así que al objeto multiPoint le vamos a pedir todas las geometrías que lo componen.
@@ -170,7 +169,7 @@ var PoligonoGeo = ee.Geometry.Polygon([
 [
     [-71.411,-39.470], [-57.128,-39.402],
     [-57.304,-33.394], [-70.751,-33.358],
-    [-71.411,-39.470]] 
+    [-71.411,-39.470]]
 ]);
 ```
 
@@ -407,7 +406,7 @@ Map.addLayer(fc_desdeUnaLista, {}, 'FC_Puntos');
 Map.centerObject(fc_desdeUnaLista);
 ```
 
-### 2. FeatureCollection a partir de Google Fusion Table 
+### 2. FeatureCollection a partir de Google Fusion Table
 
 También podemos incorporar un FeatureCollection a partir de un Google Fusion Table. Google Fusion Tables (GFT) es un servicio de Google que permite manejar tablas. Esto habilita la importación de archivos vectoriales a la plataforma Google Earth Engine (GEE) a través de archivos vectoriales en formato KML.
 
@@ -518,7 +517,7 @@ Es posible crear un FeatureCollection a partir de generar una muestra al azar [e
 ```javascript
 
 var region = ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
-var randomPoints = ee.FeatureCollection.randomPoints( region, 
+var randomPoints = ee.FeatureCollection.randomPoints( region,
     100, // cantidad de puntos
     123); // seed
 
@@ -619,9 +618,9 @@ print(fc_seleccion);
 
 ## Manejo de  iteraciones sobre colecciones de features
 
-Existen varias opciones para poder iterar sobre un FeatureCollection, una forma simple de modificar cada uno de los Features de un FeatureCollection es utilizando la instrucción [ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionmap). Esta instrucción permite recorrer cada Feature y generar un FeatureCollection nuevo. 
+Existen varias opciones para poder iterar sobre un FeatureCollection, una forma simple de modificar cada uno de los Features de un FeatureCollection es utilizando la instrucción [ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionmap). Esta instrucción permite recorrer cada Feature y generar un FeatureCollection nuevo.
 
-Veamos un ejemplo simple, supongamos que queremos incorporar al FeatureCollection de las muestras un atributo que sea perímetro. Esto requiere que para cada elemento (de tipo Feature) de la colección hagamos el cálculo, eso sería: 
+Veamos un ejemplo simple, supongamos que queremos incorporar al FeatureCollection de las muestras un atributo que sea perímetro. Esto requiere que para cada elemento (de tipo Feature) de la colección hagamos el cálculo, eso sería:
 
 
 ```javascript
@@ -655,7 +654,7 @@ var agregar_geometria = function( elemento ){
             elemento.get('longitud'),
             elemento.get('latitud')
         ]);
-    
+
     return elemento.setGeometry(geom);
   };
 
@@ -813,7 +812,7 @@ print(chart);
 ![](images/image21.png)
 
 
-Bibliografía 
+Bibliografía
 ============
 
 API | Google Earth Engine API. [https://developers.google.com/earth-engine/api\_docs](https://developers.google.com/earth-engine/api_docs)
