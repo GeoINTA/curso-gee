@@ -30,7 +30,6 @@ Variables de tipo textos o cadenas de caracteres, se utilizan las comillas simpl
 ```javascript
 // Usamos comillas simples o dobles para crear un string
 var saludoString = 'Hola Mundo!!';
-
 print( saludoString );
 ```
 **Importante:** Tenga en cuenta que las variables se definen con la palabra clave **var**
@@ -46,7 +45,7 @@ print('El valor es:', numero);
 
 ### Lists
 
-Las listas las definimos con corchetes \[\].
+Las listas las definimos con corchetes \[ \].
 
 ```javascript
 // Lista de números
@@ -56,10 +55,28 @@ print('Lista de Números:', listDeNumeros);
 Las listas también pueden almacenar strings u otros objetos.
 
 ```javascript
-// Make a list of strings.
+// Lista de strings.
 var listDeStrings = ['a', 'b', 'c', 'd'];
 print('Lista de strings:', listDeStrings);
 ```
+
+### Objetos
+En JavaScript los objetos son diccionarios de pares **clave: valor**. Para crear un objeto (o diccionario) se utilizan las llaves \{ \}.
+
+```javascript
+// Usamos las llaves {} para hacer un diccionario de pares clave:valor
+var object = {
+  foo: 'bar',
+  baz: 38,
+  stuff: ['Algo', 'eso', 'otro más']
+};
+print('Diccionario:', object);
+// Para acceder al valor de un diccionario se utiliza la clave y los corchetes [ ].
+print('Imprime la clave foo:', object['foo']);
+// También se puede accider utilizando la notación con punto.
+print('Print stuff:', object.stuff);
+```
+
 
 ## Objetos de ee.
 
