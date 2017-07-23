@@ -171,7 +171,7 @@ Map.addLayer (stack1, {bands: ['NDVI'], min: [-1], max: [1] }, "NDVI" );
 **Desafío:**
   1. ¿Qué método de los visto para calcular índices considera adecuado implementar este índice?
 ```
-GVI = -0.2941*Banda2 - 0.243 * Banda3 -0.5424 * Banda4 + 0.7276 * Banda5 + 0.0713 * Banda6 - 0.1608 * Banda7
+GVI = -0.2941 * Banda2 - 0.243 * Banda3 -0.5424 * Banda4 + 0.7276 * Banda5 + 0.0713 * Banda6 - 0.1608 * Banda7
 ```
   2. Impleméntelo y agréguelo al mapa.
 
