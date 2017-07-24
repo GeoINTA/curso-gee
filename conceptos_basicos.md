@@ -77,8 +77,28 @@ print('Imprime la clave foo:', object['foo']);
 print('Print stuff:', object.stuff);
 ```
 
+### Funciones
 
-## Objetos de ee.
+Las funciones son otra forma de mejorar la legibilidad y reutilización del código mediante el agrupamiento de conjuntos de operaciones.
+- Defina una función con la palabra clave **function**.
+- Los nombres de las funciones comienzan con una letra y tienen un par de paréntesis al final.
+- Las funciones a menudo toman parámetros que le dicen a la función qué hacer. Estos parámetros van dentro de los paréntesis ().
+- El conjunto de declaraciones que componen la función van dentro de las llaves \{ \}. La palabra clave **return** indica cuál es la salida de la función.
+
+Hay varias maneras de declarar una función, pero aquí vamos a usar algo como esto:
+
+```javascript
+// Ejemplo de cómo se define una función
+var funcion_saludo = function( nombre ) {
+  var mensaje = '¡Hola ' + nombre + '! ¿Cómo estas?';
+  return mensaje;
+};
+
+// Invocamos a la función con su parámetro.
+print( funcion_saludo( 'Juan' ) );
+```
+
+## Objetos de GEE
 
 
 
