@@ -142,10 +142,23 @@ Para operar con un objeto de EE vamos a utilizar los métodos que son provistos 
 var logE = serverNumber.log();
 print('log(e) = ', logE);
 ```
+### Listas
+
+Podemos hacer una lista de JavaScript como un objeto **ee.List** en el servidor, ponemos un literal de JavaScript en un contenedor como con números y cadenas.
+
+```javascript
+// Ejemplos de listas, secuencia por extención
+var eeList = ee.List([1, 2, 3, 4, 5]);
+
+// Secuencia usando el método del objeto list
+var secuencia = ee.List.sequence(1, 5);
+print('Secuencia:', secuencia);
+```
 
 
 
 
 
-
-## Tipos de datos
+## Bibliografía
+-  Introduction to JavaScript for Earth Engine. https://developers.google.com/earth-engine/tutorial_js_01
+-  Earth Engine Objects. https://developers.google.com/earth-engine/tutorial_js_02
