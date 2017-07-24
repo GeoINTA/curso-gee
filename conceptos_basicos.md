@@ -164,9 +164,61 @@ print('Valor en la posición 2:', valor);
 ```
 
 ### Casting (Casteo en criollo :D)
-A veces, Earth Engine no sabe el tipo de objeto que es retornado por un método. Nosotros sabemos que la variable de **valor** en el ejemplo anterior es un objeto numérico. Pero si tratamos de sumarle 4 usando el método **add()** de un **ee.Number**, obtendrá un error así:
+
+A veces, Earth Engine no sabe el tipo de objeto que es retornado por un método. Nosotros sabemos que la variable de **valor** en el ejemplo anterior es un objeto numérico. Pero si tratamos de sumarle 3 usando el método **add()** de un **ee.Number**, obtendrá un error así:
 
 ![](images/image_intro01.png)
+
+Esto es común con la función **get()**, que puede devolver todo tipo de objetos de Earth Engine. Para corregirlo, utilice el constructor **ee.Number** para "castear" el resultado:
+
+```javascript
+// Cast el valor retornado por get() a number.
+print('Sin error:', ee.Number(valor).add(3));
+```
+
+### Diccionarios
+
+Podemos crear un diccionario en Earth Engine a partir de un objeto JavaScript, de la misma manera que lo hicimos con String, Number y List. El **ee.Dictionary** es construido desde un objeto JavaScript.
+
+```javascript
+// Make a Dictionary on the server.
+var diccionario = ee.Dictionary({
+  e: Math.E,
+  pi: Math.PI,
+  phi: (1 + Math.sqrt(5)) / 2
+});
+
+// Get some values from the diccionario.
+print('Euler:', diccionario.get('e'));
+print('Pi:', diccionario.get('pi'));
+print('Golden ratio:', diccionario.get('phi'));
+
+// Recuperar todas las claves
+print('Claves: ', diccionario.keys());
+```
+
+### Fechas
+
+Los objetos de tipo **ee.Date** nos permiten representar tiempo. Al igual que ocurre con otros tipos de datos no hay que confundir entre **Date** de JavaScript y el **ee.Date** de Earth Engine.
+
+Veamos los ejemplos:
+
+```javascript
+// Definir una fecha en Earth Engine.
+var fecha = ee.Date('2015-12-31');
+print('Fecha:', fecha);
+
+// Recuperar la fecha actual usando el método Date.now() de JavaScript.
+var now = Date.now();
+print('Milisegundos desde el 1 de Enero de 1970', now);
+
+// Inicializar el objeto ee.Date
+var eeNow = ee.Date(now);
+print('Now:', eeNow);
+```
+Los objetos fechas son muy importantes para filtrar las colecciones, especificamente como argumento del método **filterDate()**.
+
+
 
 
 
