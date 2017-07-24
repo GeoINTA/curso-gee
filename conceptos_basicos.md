@@ -100,6 +100,51 @@ print( funcion_saludo( 'Juan' ) );
 
 ## Objetos de GEE
 
+Ahora vamos a aprende cómo colocar primitivas y objetos JavaScript en los contenedores de Earth Engine para enviarlos al servidor y procesarlos en Google.
+
+### Strings
+
+Para definir un string, tenemos que agregarla al contenedor **ee.String()** y el contenedor será enviado a Earth Engine. Veamos:
+
+```javascript
+// Definimos un string y lo agregamos al contenedor
+var unString = 'en la nube';
+var eeString = ee.String(unString);
+print('Donde estabas? ', eeString);
+```
+
+Piense en **ee.algo** como un contenedor para una cosa que existe en el servidor.
+
+```javascript
+// Defino una cadena en el servidor.
+var serverString = ee.String('Está en el server.');
+print('¿Donde está el String?', serverString);
+```
+
+Aunque el primer argumento para **print()** es sólo una cadena en el cliente, el segundo argumento es realmente enviado al servidor para ser evaluado, y luego devuelto.
+
+### Números
+Utilice **ee.Number()** para crear un objeto número en el servidor. Por ejemplo, utilice el método JavaScript **Math.E**  para crear un valor de la constante en el servidor:
+
+```javascript
+// Definimos un número en el servidor
+var serverNumber = ee.Number(Math.E);
+print('e = ', serverNumber);
+```
+Los métodos **ee.String()** y **ee.Number()** son constructores. Un constructor tiene sus argumentos (y posiblemente otros parámetros) ponemos estos en un contenedor, y retornamos el contenedor y su contenido como un objeto EE que manipulamos en nuestro código. Un constructor comienza siempre con **ee** y retorna un objeto Earth Engine.
+
+### Métodos en un objeto EE
+
+Para operar con un objeto de EE vamos a utilizar los métodos que son provistos según la clase de objeto con la que trabajemos. En el caso anterior estábamos utilizando ee.Number(). ¿Cómo hacemos para calcular el logaritmo?
+
+```javascript
+// Utilice una función incorporada para realizar una operación en el número.
+var logE = serverNumber.log();
+print('log(e) = ', logE);
+```
+
+
+
 
 
 
