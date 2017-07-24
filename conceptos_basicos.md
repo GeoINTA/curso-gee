@@ -181,14 +181,14 @@ print('Sin error:', ee.Number(valor).add(3));
 Podemos crear un diccionario en Earth Engine a partir de un objeto JavaScript, de la misma manera que lo hicimos con String, Number y List. El **ee.Dictionary** es construido desde un objeto JavaScript.
 
 ```javascript
-// Make a Dictionary on the server.
+// Crear un diccionario en el servidor
 var diccionario = ee.Dictionary({
   e: Math.E,
   pi: Math.PI,
   phi: (1 + Math.sqrt(5)) / 2
 });
 
-// Get some values from the diccionario.
+// Recuperar algunos valores desde el diccionario.
 print('Euler:', diccionario.get('e'));
 print('Pi:', diccionario.get('pi'));
 print('Golden ratio:', diccionario.get('phi'));
