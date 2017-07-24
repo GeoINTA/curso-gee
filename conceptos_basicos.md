@@ -155,7 +155,18 @@ var secuencia = ee.List.sequence(1, 5);
 print('Secuencia:', secuencia);
 ```
 
+Podemos recuperar un elemento de la lista con el operador **get**. Recuerde que esta lista solo existe en el servidor, **ee** nos permite acceder a esos objetos solo a través de sus métodos.
 
+```javascript
+// Usamos un método de ee.List para recuperar un valor
+var valor = secuencia.get(2);
+print('Valor en la posición 2:', valor);
+```
+
+### Casting (Casteo en criollo :D)
+A veces, Earth Engine no sabe el tipo de objeto que es retornado por un método. Nosotros sabemos que la variable de **valor** en el ejemplo anterior es un objeto numérico. Pero si tratamos de sumarle 4 usando el método **add()** de un **ee.Number**, obtendrá un error así:
+
+![](images/image_intro01.png)
 
 
 
