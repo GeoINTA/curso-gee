@@ -1,6 +1,6 @@
 # Unidad 1: Manejo de datos vectoriales
 
-Unidad 1: Manejo de datos vectoriales: Manejo de geometrías y generación de features. Creación y administración de colecciones de features. Carga y visualización de vectores utilizando Google Fusion Table (FT). Manejo de  iteraciones sobre colecciones de features. Exportar como tabla de datos. Realizar gráficos.
+Contenidos: Manejo de datos vectoriales: Manejo de geometrías y generación de features. Creación y administración de colecciones de features. Carga y visualización de vectores utilizando Google Fusion Table (FT). Manejo de  iteraciones sobre colecciones de features. Exportar como tabla de datos. Realizar gráficos.
 
 ## Manejo de geometrías y generación de features
 
@@ -77,7 +77,7 @@ Podemos centrar el mapa en una geometría o feature particular, eso lo podemos h
     [[-63, -36.09],[-59.54,-31.85],
     [-58, -28], [-63, -25],
     [-64, -27],[-63, -36]]);
-```    
+```
 
 [ee.Geometry.LinearRing](https://developers.google.com/earth-engine/api_docs#eegeometrylinearring) recibe una lista de puntos que a diferencia de LineString comienza y termina con el mismo punto para poder cerrar el anillo. También tiene parámetros opcionales.
 
