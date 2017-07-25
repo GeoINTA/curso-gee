@@ -327,7 +327,7 @@ Entonces, necesitamos un objeto Geometry y opcionalmente un diccionario con los 
 ```javascript
 
 // La geometría
-var poligono = ee.Geometry.Polygon(\
+var poligono = ee.Geometry.Polygon(
        [[[-63.33892822265625, -25.150878651548442],
          [-63.33824157714844, -25.17791290009134],
          [-63.31043243408203, -25.17760219565173],
