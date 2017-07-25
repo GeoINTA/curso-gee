@@ -78,12 +78,11 @@ ee.Feature(ee.Geometry.Point([-61.5234375, -28.430656725969925]),{"clase": 1,"sy
 ee.Feature(ee.Geometry.Point([-61.92237854003906, -28.288661197831743]),{"clase": 1,"system:index": "9"})]);
 ```
 
-y agregar este código para combinar los FeatureCollection de cada clase en uno solo:
+Ahora vamos a combinar las dos variables **clase0** y **clase1** en un único FeatureCollection:
 
 ```javascript
 // Unir muestras por clase en un único FeatureCollection
-var samples = clase0;
-samples = samples.merge(clase1);
+var samples = clase0.merge( clase1 );
 
 // ver caracteristicas de FeatureCollection
 print ("muestras", samples);
@@ -92,6 +91,8 @@ print ("muestras", samples);
 ## Clasificaciones Supervisadas
 
 Las clasificaciones supervisadas se realizan cuando se tienen definidas las clases y se dispone  de información de casos correspondientes a esas clases (información de campo). Los distintos clasificadores se entrenan con la información de campo disponible a partir del comportamiento en las distintas bandas consideradas. La evaluación del resultado de una clasificación requiere disponer de datos independientes a los utilizados para el entrenamiento.  
+
+### Separación en train/testing
 
 Separación del conjunto de datos para entrenamiento y validación. La plataforma permite generar atributos (llamado “random” en este caso) con números al azar mediante la función randomColumn y agregarlos al FeatureCollection que contiene el set de datos. Genera valores entre 0 y 1. Esta requiere indicar el FeatureCollection y un valor inicial para generar los números al azar (“seed”):
 
