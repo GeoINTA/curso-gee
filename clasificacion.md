@@ -2,7 +2,7 @@
 
 Contenidos: Incorporación de datos de campo y generación de datos de entrenamiento desde la interfaz de GE. Cálculo de mosaicos de índices del área de estudio. Muestreo a partir de los datos de campo. Separación en training/testing. Algoritmos disponibles para clasificación supervisada. Parametrización de los algoritmos. Ajustes. Validación utilizando matrices de confusión (accuracy, kappa). Aplicación del modelo y mapeo de resultados. Visualizar y exportar los resultados de  la clasificación.
 
-## Pasos previos
+## Preprocesamiento y generación del conjunto de datos
 
 Algunos de los pasos requeridos para una clasificación ya fueron explicados en tutoriales anteriores. Estos son:
 
@@ -54,48 +54,46 @@ Para el punto 4 se pueden generar nuevos puntos, cargarlos a partir de un vector
 
 ```javascript
 var clase0 = ee.FeatureCollection(
-        [ee.Feature(ee.Geometry.Point([-61.69303894042969,-28.33279078149813]),{  "clase": 0,  "system:index": "0"}),
-        ee.Feature(ee.Geometry.Point([-62.17506408691406, -28.375693762957862]),{  "clase": 0,  "system:index": "1"}),
-        ee.Feature(ee.Geometry.Point([-62.31170654296875,-28.40529274756662]),{  "clase": 0,  "system:index": "2"}),
-        ee.Feature(ee.Geometry.Point([-62.15240478515625, -28.4451476995102]),{  "clase": 0,  "system:index": "3"}),
-        ee.Feature(ee.Geometry.Point([-62.02537536621094, -28.463862268869118]),{  "clase": 0,  "system:index": "4"}),
-        ee.Feature(ee.Geometry.Point([-61.820068359375, -28.46688043752887]),{  "clase": 0,  "system:index": "5"}),
-        ee.Feature(ee.Geometry.Point([-61.82487487792969, -28.47774513090882]),{  "clase": 0,  "system:index": "6"}),
-        ee.Feature(ee.Geometry.Point([-61.80015563964844, -28.46989851998662]),{  "clase": 0,  "system:index": "7"}),
-        ee.Feature(ee.Geometry.Point([-61.73561096191406, -28.461447671879828]),{  "clase": 0,  "system:index": "8"}),
-        ee.Feature(ee.Geometry.Point([-62.307586669921875, -28.34487788226893]),{  "clase": 0,  "system:index": "9"})]),
+[ee.Feature(ee.Geometry.Point([-61.69303894042969,-28.33279078149813]),{"clase": 0,"system:index": "0"}),
+ee.Feature(ee.Geometry.Point([-62.17506408691406, -28.375693762957862]),{"clase": 0,"system:index": "1"}),
+ee.Feature(ee.Geometry.Point([-62.31170654296875,-28.40529274756662]),{"clase": 0,"system:index": "2"}),
+ee.Feature(ee.Geometry.Point([-62.15240478515625, -28.4451476995102]),{"clase": 0,"system:index": "3"}),
+ee.Feature(ee.Geometry.Point([-62.02537536621094, -28.463862268869118]),{"clase": 0,"system:index": "4"}),
+ee.Feature(ee.Geometry.Point([-61.820068359375, -28.46688043752887]),{"clase": 0,"system:index": "5"}),
+ee.Feature(ee.Geometry.Point([-61.82487487792969, -28.47774513090882]),{"clase": 0,"system:index": "6"}),
+ee.Feature(ee.Geometry.Point([-61.80015563964844, -28.46989851998662]),{"clase": 0,"system:index": "7"}),
+ee.Feature(ee.Geometry.Point([-61.73561096191406, -28.461447671879828]),{"clase": 0,"system:index": "8"}),
+ee.Feature(ee.Geometry.Point([-62.307586669921875, -28.34487788226893]),{"clase": 0,"system:index": "9"})]),
 
 clase1 = ee.FeatureCollection(
-        [ee.Feature(ee.Geometry.Point([-62.36457824707031, -28.355150836534136]),{  "clase": 1,  "system:index": "0"}),
-        ee.Feature(ee.Geometry.Point([-62.33848571777344, -28.349712337487777]),{  "clase": 1,  "system:index": "1"}),
-        ee.Feature(ee.Geometry.Point([-61.98829650878906, -28.25177175656493]),{  "clase": 1,  "system:index": "2"}),
-        ee.Feature(ee.Geometry.Point([-61.95808410644531, -28.249352330644772]),{  "clase": 1,  "system:index": "3"}),
-        ee.Feature(ee.Geometry.Point([-61.37306213378906, -28.30921698045776]),{  "clase": 1,  "system:index": "4"}),
-        ee.Feature(ee.Geometry.Point([-61.96495056152344, -28.298335001920627]),{  "clase": 1,  "system:index": "5"}),
-        ee.Feature(ee.Geometry.Point([-62.16339111328125, -28.28745191050374]),{  "clase": 1,  "system:index": "6"}),
-        ee.Feature(ee.Geometry.Point([-62.1990966796875, -28.281405267834156]),{  "clase": 1,  "system:index": "7"}),
-        ee.Feature(ee.Geometry.Point([-61.5234375, -28.430656725969925]),{  "clase": 1,  "system:index": "8"}),
-        ee.Feature(ee.Geometry.Point([-61.92237854003906, -28.288661197831743]),{  "clase": 1,  "system:index": "9"})]);
+[ee.Feature(ee.Geometry.Point([-62.36457824707031, -28.355150836534136]),{"clase": 1,"system:index": "0"}),
+ee.Feature(ee.Geometry.Point([-62.33848571777344, -28.349712337487777]),{"clase": 1,"system:index": "1"}),
+ee.Feature(ee.Geometry.Point([-61.98829650878906, -28.25177175656493]),{"clase": 1,"system:index": "2"}),
+ee.Feature(ee.Geometry.Point([-61.95808410644531, -28.249352330644772]),{"clase": 1,"system:index": "3"}),
+ee.Feature(ee.Geometry.Point([-61.37306213378906, -28.30921698045776]),{"clase": 1,"system:index": "4"}),
+ee.Feature(ee.Geometry.Point([-61.96495056152344, -28.298335001920627]),{"clase": 1,"system:index": "5"}),
+ee.Feature(ee.Geometry.Point([-62.16339111328125, -28.28745191050374]),{"clase": 1,"system:index": "6"}),
+ee.Feature(ee.Geometry.Point([-62.1990966796875, -28.281405267834156]),{"clase": 1,"system:index": "7"}),
+ee.Feature(ee.Geometry.Point([-61.5234375, -28.430656725969925]),{"clase": 1,"system:index": "8"}),
+ee.Feature(ee.Geometry.Point([-61.92237854003906, -28.288661197831743]),{"clase": 1,"system:index": "9"})]);
 ```
 
 y agregar este código para combinar los FeatureCollection de cada clase en uno solo:
 
-// 4. Recuperar muestras ya generadas. Unir muestras por clase en un único FeatureCollection    
-
 ```javascript
+// Unir muestras por clase en un único FeatureCollection
 var samples = clase0;
 samples = samples.merge(clase1);
 
 // ver caracteristicas de FeatureCollection
-print ("muestras",samples);
+print ("muestras", samples);
 ```
 
 ## Clasificaciones Supervisadas
 
 Las clasificaciones supervisadas se realizan cuando se tienen definidas las clases y se dispone  de información de casos correspondientes a esas clases (información de campo). Los distintos clasificadores se entrenan con la información de campo disponible a partir del comportamiento en las distintas bandas consideradas. La evaluación del resultado de una clasificación requiere disponer de datos independientes a los utilizados para el entrenamiento.  
 
-Separación de set de datos para entrenamiento y validación. La plataforma permite generar atributos (llamado “random” en este caso) con
-números al azar mediante la función randomColumn y agregarlos al FeatureCollection que contiene el set de datos. Genera valores entre 0 y 1. Esta requiere indicar el FeatureCollection y un valor inicial para generar los números al azar (“seed”):
+Separación del conjunto de datos para entrenamiento y validación. La plataforma permite generar atributos (llamado “random” en este caso) con números al azar mediante la función randomColumn y agregarlos al FeatureCollection que contiene el set de datos. Genera valores entre 0 y 1. Esta requiere indicar el FeatureCollection y un valor inicial para generar los números al azar (“seed”):
 
 ```javascript
 // Separacion de set de datos (polígonos) para entrenamiento y validación
