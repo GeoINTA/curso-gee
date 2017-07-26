@@ -661,7 +661,7 @@ var agregar_geometria = function( elemento ){
 Map.addLayer( muestreos.map(agregar_geometria), {}, 'Muestras');
 ```
 
-**Desafío 7**: Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”.
+**Desafío 7**: Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”. [Solución](https://code.earthengine.google.com/c41df28ae30874a0096ec677dfdfe58e).
 
 
 Existe otra forma de recorrer un FeatureCollection que es con el método [iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
