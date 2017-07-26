@@ -162,7 +162,7 @@ Agregar índice generado al stack. Se recomienda darle un nombre a la nueva band
 
 ```javascript
 // agregar bandas de indices
-imagen1 = imagen1.addBands(ndvi.rename('NDVI'));
+stack1 = stack1.addBands(ndvi.rename('NDVI'));
 
 // ver imagen en mapa:
 Map.addLayer (stack1, {bands: ['NDVI'], min: [-1], max: [1] }, "NDVI" );
