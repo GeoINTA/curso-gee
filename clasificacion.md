@@ -115,7 +115,7 @@ var set_datos = stack1.sampleRegions({
   scale: 30
 });
 ```
-El resultado de la extracción es una Feature Collection que contiene información de cada banda y cada polígono:
+El resultado de la extracción es una FeatureCollection que contiene información de cada banda y cada polígono:
 
 ![](images/clas_image2.png)
 
@@ -129,7 +129,8 @@ var testing = set_datos.filterMetadata('random', 'less_than', 0.6);
 print ("Set de datos entrenamiento", training);
 print ("Set de datos validación", testing);
 ```
-Entrenamiento. Aquí debemos seleccionar el algoritmo de clasificación, el set de datos de entrenamiento (“training”), el atributo de separación en clases (“clase”) y las bandas seleccionadas. En este caso usamos el algoritmo Random Forest:
+### Entrenamiento
+Aquí debemos seleccionar el algoritmo de clasificación, el set de datos de entrenamiento (“training”), el atributo de separación en clases (“clase”) y las bandas seleccionadas. En este caso usamos el algoritmo Random Forest:
 
 ```javascript
 // Entrenamiento
@@ -143,7 +144,7 @@ Una vez entrenado el modelo, se lo aplica a una imagen y se genera la clasificac
 // clasificación con el modelo entrenado
 var classified = stack1.select(bandas).classify(trained).clip(geometry);
 Map.addLayer(classified, {min:0, max:1, palette: ['339820', 'e6f0c2']}, 'Clasificacion');
-print (classified);
+print(classified);
 ```
 La clasificación puede ser exportada:
 
@@ -193,7 +194,7 @@ var cfmt2x2 =  errorMatrix.array().toList().map(
 
 print(cfmt2x2);
 ```
-
+**Ejemplo de clase**: [Ir](https://code.earthengine.google.com/903e37eee98a73117813675b43588350)
 
 ## Actividad Propuesta:
 
