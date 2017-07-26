@@ -194,7 +194,7 @@ var cfmt2x2 =  errorMatrix.array().toList().map(
 
 print(cfmt2x2);
 ```
-**Ejemplo de clase**: [Ir](https://code.earthengine.google.com/903e37eee98a73117813675b43588350)
+**Ejemplo de clase**: [Ir](https://code.earthengine.google.com/2d2aa48aabfd3b5a2a6c821a307ea5c0)
 
 ## Actividad Propuesta:
 
