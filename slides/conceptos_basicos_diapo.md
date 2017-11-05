@@ -1,10 +1,11 @@
 <!-- $theme: default -->
 <!-- footer: Taller GEE - MapBiomas - EEA Salta. Noviembre 2017 -->
 <!-- page_number: true -->
+![100% top bg](../images/mapbiomas-bg.jpg)
 
+<br>
 Conceptos Básicos de GEE
 ========================
-Banchero, Santiago
 
 ---
 Conceptos Básicos de GEE
@@ -34,9 +35,7 @@ En un lenguaje de programación se llama comentario al texto que no es interpret
 ```
 ---
 
-# Tipos de datos básicos de JavaScript
-
-## Strings
+# Tipos de datos básicos de JavaScript: Strings
 Variables de tipo textos o cadenas de caracteres, se utilizan las comillas simple o dobles para definir una cadena.
 
 ```javascript
@@ -45,11 +44,10 @@ var saludoString = 'Hola Mundo!!';
 print( saludoString );
 ```
 **Importante:** Tenga en cuenta que las variables se definen con la palabra clave **var**. SIEMPRE!!
-![130% center](images/var_error1.png)
+![130% center](../images/var_error1.png)
 
 ---
-# Tipos de datos básicos de JavaScript
-## Números
+# Tipos de datos básicos de JavaScript: Números
 En las variables podemos almacenar números:
 
 ```javascript
@@ -59,8 +57,7 @@ print('El valor es:', numero);
 ```
 
 ---
-# Tipos de datos básicos de JavaScript
-## Lists
+# Tipos de datos básicos de JavaScript: Lists
 
 Las listas las definimos con corchetes \[ \].
 
@@ -77,8 +74,7 @@ var listDeStrings = ['a', 'b', 'c', 'd'];
 print('Lista de strings:', listDeStrings);
 ```
 ---
-# Tipos de datos básicos de JavaScript
-## Objetos
+# Tipos de datos básicos de JavaScript: Objetos
 En JavaScript los objetos son diccionarios de pares **clave: valor**. Para crear un objeto (o diccionario) se utilizan las llaves \{ \}.
 
 ```javascript
@@ -98,8 +94,7 @@ print('Imprime la clave foo:', object['foo']);
 print('Print stuff:', object.stuff);
 ```
 ---
-# Tipos de datos básicos de JavaScript
-## Funciones
+# Tipos de datos básicos de JavaScript: Funciones
 
 Las funciones son otra forma de mejorar la legibilidad y reutilización del código mediante el agrupamiento de conjuntos de operaciones.
 - Defina una función con la palabra clave **function**.
@@ -108,8 +103,7 @@ Las funciones son otra forma de mejorar la legibilidad y reutilización del cód
 - El conjunto de declaraciones que componen la función van dentro de las llaves \{ \}. La palabra clave **return** indica cuál es la salida de la función.
 
 ---
-# Tipos de datos básicos de JavaScript
-## Funciones
+# Tipos de datos básicos de JavaScript: Funciones
 
 Hay varias maneras de declarar una función, pero aquí vamos a usar algo como esto:
 
@@ -198,9 +192,9 @@ print('Valor en la posición 2:', valor);
 ---
 # Objetos de GEE: Casting
 
-A veces, Earth Engine no sabe el tipo de objeto que es retornado por un método. Nosotros sabemos que la variable de **valor** en el ejemplo anterior es un objeto numérico. Pero si tratamos de sumarle 3 usando el método **add()** de un **ee.Number**, obtendrá un error así:
+A veces, Earth Engine no sabe el tipo de objeto que es retornado por un método. Nosotros sabemos que la variable **valor** en el ejemplo anterior es un objeto numérico. Pero si tratamos de sumarle 3 usando el método **add()** de un **ee.Number**, obtendrá un error así:
 
-![150% center](images/image_intro01.png)
+![150% center](../images/image_intro01.png)
 
 Esto es común con la función **get()**, que puede devolver todo tipo de objetos de Earth Engine. Para corregirlo, utilice el constructor **ee.Number** para "castear" el resultado:
 
