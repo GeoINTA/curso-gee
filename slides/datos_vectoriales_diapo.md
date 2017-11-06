@@ -875,7 +875,7 @@ Escriba una función de mapeo que para valores de class entre 20 y 23 completen
 [Solución](https://code.earthengine.google.com/c41df28ae30874a0096ec677dfdfe58e).
 
 ---
-
+# Iteraciones con Iterate
 Existe otra forma de recorrer un FeatureCollection que es con el método [iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
 
 
@@ -894,7 +894,9 @@ var contar_clases = function(feat, n_dict){
     );
 }
 
-var n_class = muestreos.distinct(['class']).iterate(contar_clases, n_dict);
+var n_class = muestreos.distinct(['class'])
+          	.iterate(contar_clases, n_dict);
+            
 print(n_class);
 ```
 ---
