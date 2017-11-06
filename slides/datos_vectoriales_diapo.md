@@ -5,7 +5,7 @@
 
 <br>
 
-Unidad 1: Manejo de datos vectoriales
+Manejo de datos vectoriales
 ==
 
 ---
@@ -37,8 +37,9 @@ Vamos a crear y mapear una geometría
 var point = ee.Geometry.Point([-60.54, -31.85]);
 ```
 
-[ee.Geometry.Point](https://developers.google.com/earth-engine/api_docs#eegeometrypoint) es la llamada a la API Earth Engine que recibe dos parámetros una lista
-**ee.List([])** y el segundo que es opcional una proyección que puede ser especificada como código EPSG [[1]](#ftnt1). El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
+[ee.Geometry.Point](https://developers.google.com/earth-engine/api_docs#eegeometrypoint) es la llamada a la API Earth Engine que recibe dos parámetros una lista **ee.List([])** y el segundo que es opcional una proyección que puede ser especificada como código EPSG [[1]](#ftnt1). 
+
+El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
 
 ---
 
@@ -101,7 +102,7 @@ Map.centerObject(lineString, 7);
 Ver ejemplo [aquí](https://code.earthengine.google.com/68da9c6a1b71fac1e3c56a60a9f5da3a)
 
 ---
-# Geometría de línea
+# Geometría LinearRing
 
 ```javascript
 var linearRing = ee.Geometry.LinearRing(
@@ -197,7 +198,7 @@ Veamos un ejemplo:
  - Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. 
  - Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. <br/>Para dejar de dibujar se hace clic en la mano de la izquierda. 
 
-![100% ](../images/image18.png)
+![120% center](../images/image18.png)
 
 ---
 # Crear Geometrías desde el mapa
@@ -210,32 +211,34 @@ Veamos un ejemplo:
 ---
 # Crear Geometrías desde el mapa
 
-- Es posible incorporar desde la sección de Geometry Imports una nueva capa. 
+- Es posible incorporar desde la sección de __Geometry Imports__ una nueva capa. 
 - Esta se instancia como una nueva variable de la clase Geometry.XXXX. 
 
 ![100% center](../images/image1.png)
 
 ---
-# Crear Geometrías desde el mapa
+# Sección _Imports_
 
-- Las capas de geometrías que se van incorporando serán ubicadas en la sección de Imports del editor de código fuente. 
+- Las capas de geometrías que se van incorporando serán ubicadas en la sección __Imports__ del editor de código fuente. 
 - Estos objetos son mostrados de manera formateada. Pero haciendo clic en el ícono azul se muestra el código fuente correspondiente para la creación de la geometría. 
 
 ![100% center](../images/image7.png)
 
+Todo lo que esté en __Imports__ lo puedo compartir con el link.
+
 ---
 
-# Crear Geometrías desde el mapa
+# Código fuente del _Import_
 
 El código fuente generado puede copiarse y pegarse en el script que se está escribiendo. 
 
-**Ojo**: En algunos Navegadores no copia (Firefox 49.0.2, por ejemplo.) 
+![100% center](../images/image24.png)
 
-![Selección\_512.png](../images/image24.png)
+**Ojo**: Solo funciona con Chrome! 
 
 ---
 
-# Geometrías Geodésicas y planas
+# Geometrías Geodésicas y Planas
 
 - Una geometría creada en Earth Engine es **geodésica** (_los bordes son la trayectoria más corta en la superficie de una esfera_) o **planar** (_los bordes son el camino más corto en un plano cartesiano bidimensional_).
 
@@ -272,7 +275,7 @@ Map.addLayer(PoligonoPlano, {color: '000000'}, 'Plano');
 # Operaciones con Geometrías
 
 
-Earth Engine admite una amplia variedad de operaciones en objetos Geometry. Estos incluyen operaciones en geometrías individuales tales como calcular un buffer, centroide, bounding box, perímetro, envolvente convexa, etc.
+Earth Engine admite una amplia variedad de operaciones en objetos Geometry. Estos incluyen operaciones unarias en geometrías individuales tales como calcular un buffer, centroide, bounding box, perímetro, envolvente convexa, etc.
 
 ---
 
@@ -280,7 +283,7 @@ Earth Engine admite una amplia variedad de operaciones en objetos Geometry. Esto
 
 Utilizando la definición del polígono de la anterior vamos a realizar algunas operaciones de geometrías:
 
--   Cálculo de área en KM²
+- Cálculo de área en KM²
 
 ```javascript
 print('Área: ', poligono.area().divide(1000 * 1000));
@@ -352,11 +355,9 @@ Map.centerObject(buffer, 7);
 
 ---
 
-# Operaciones con Geometrías
+# Operaciones con Geometrías: Binarias
 
 Las  operaciones que hemos realizado han sido todas con operadores unarios, donde a la geometría le pedimos (o le calculamos) algo. Ahora vamos a probar algunos operadores entre geometrías.
-
-Comenzamos con dos geometrías de polígono que las he creado desde el mapa como se mostró previamente.
 
 ```javascript
 
@@ -389,48 +390,71 @@ Map.centerObject(poli1Upoli2, 12);
 ```
 ---
 
-# Operaciones con Geometrías
+# Intersección de geometrías
  
 
-Calculamos la intersección de los dos polígonos con la función intersection que
+Calculamos la __intersección__ de los dos polígonos con la función intersection
 
 ```javascript
-var intersection = poli1.intersection(poli2, ee.ErrorMargin(1));
-Map.addLayer(intersection, {color: '00FF00'}, 'Intersección');
+var intersection = poli1.intersection(
+    poli2, 
+    ee.ErrorMargin(1));
+Map.addLayer(intersection, 
+	{color: '00FF00'}, 'Intersección');
 ```
- 
+
+---
+# Diferencia entre geometrías
 
 Calculamos la diferencia entre el polígono 1 y el polígono 2. Es el área de la primer geometría que no comparte con la segunda.
 
 ```javascript
 var diff1 = poli1.difference(poli2, ee.ErrorMargin(1));
-Map.addLayer(diff1, {color: 'FFFF00'}, 'Diferencia( P1 - P2)');
+
+Map.addLayer(
+	diff1, 
+    	{color: 'FFFF00'},
+	'Diferencia( P1 - P2)');
 ```
+---
+# Diferencia Simétrica
 
 Calculamos la diferencia simétrica, esta se define como el área de la geometría A y el área de la geometría B excepción el área común a ambas.
 
 ```javascript
-var dif_sim = poli1.symmetricDifference( poli2, ee.ErrorMargin(1));
-Map.addLayer(dif_sim, {color: '000000'}, 'Diferencia Simétrica');
+var dif_sim = poli1.symmetricDifference( 
+	poli2, 
+    	ee.ErrorMargin(1));
+Map.addLayer(dif_sim, 
+		{color: '000000'}, 
+        'Diferencia Simétrica');
 
-// Mapeamos las dos geometrías con las que hicimos los ejemplos.
+// Mapeamos las dos geometrías con las que 
+// hicimos los ejemplos.
 Map.addLayer(poli1, {color: 'FF0000'}, 'Polígono 1');
 Map.addLayer(poli2, {color: '0000FF'}, 'Polígono 2');
 ```
+---
+# Desafío 2
+Verifique si la recta que pasan por los puntos **[-63.635, -25.051]** y **[-63.617, -25.146]** intersecta la intersección (valga la redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
 
-**Desafío 2:** Verifique si una de las rectas que pasan por los puntos **[-63.635, -25.051]** y **[-63.617, -25.146]** intersecta la intersección (valga la redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
-
-**Desafío 3:** Ahora compruebe si el punto definido abajo está contenido en la geometría que resultó de la diferencia simétrica.
+--- 
+# Desafío 3:
+Ahora compruebe si el punto definido abajo está contenido en la geometría que resultó de la diferencia simétrica.
 
 ```javascript
 var punto = ee.Geometry.Point([-63.6084366, -25.0803128]);
 ```
+---
+# Creación de Features
 
-## Creación de Features
+- Un Feature de Earth Engine se define como un GeoJSON Feature. 
+- En pocas palabras, es un objeto con una propiedad de tipo **Geometry** y una **propiedad** de properties que almacena un diccionario de otras propiedades.
 
-Un Feature de Earth Engine se define como un GeoJSON Feature. En pocas palabras, es un objeto con una propiedad de tipo Geometry y una propiedad de properties que almacena un diccionario de otras propiedades.
+---
+# Creación de Features
 
-Entonces, necesitamos un objeto Geometry y opcionalmente un diccionario con los atributos de ese Feature.
+Entonces, necesitamos un objeto __Geometry__ y opcionalmente un diccionario con los atributos de ese Feature.
 
 ```javascript
 
@@ -442,7 +466,8 @@ var poligono = ee.Geometry.Polygon(
          [-63.31043243408203, -25.15025710411473]]]);
 ```
 
-La declaración del Feature:
+---
+# Declaración de Features
 
 ```javascript
 var miFeature = ee.Feature(poligono,
@@ -461,18 +486,30 @@ Map.centerObject(miFeature, 12);
 La geometría del Feature puede ser nula y se podría crear el Feature solo con un diccionario:
 
 ```javascript
-var dict = {distancia: ee.Number(10).add(150), lugar: 'Chivilcoy'};
+var dict = {distancia: ee.Number(10).add(150), 
+			lugar: 'Chivilcoy'};
 var featureSinGeo = ee.Feature(null, dict);
 ```
+---
+# Operaciones básicas sobre Features
 
-Los Features tienen las mismas funcionalidades para gestionar sus geometrías que los objetos Geometry. Además, poseen otros métodos setters & getters para el manejo de las propiedades.
+Los Features tienen las mismas funcionalidades para gestionar sus geometrías que los objetos Geometry. Además, poseen otros métodos __setters & getters__ para el manejo de las propiedades.
+
 
 ```javascript
-var feature_ejemplo = ee.Feature(
-      ee.Geometry.Point([-63.2951545715332,-25.163930416282465]))
+// Creamos un Feature y le incorporamos dos atributos
+// Nombre y Altura
+var feature_ejemplo = 
+      ee.Feature( ee.Geometry.Point(
+        [-63.2951545715332,-25.163930416282465]))
         .set('Nombre', 'Eldes Monte')
         .set('Altura', 100);
+```
 
+---
+# Operaciones básicas sobre Features II
+
+```
 // Recupero una propiedad del feature
 var nombre = feature_ejemplo.get('Nombre');
 print(nombre);
@@ -488,127 +525,164 @@ var feature_ejemplo = feature_ejemplo.set(newDict);
 print(feature_ejemplo);
 
 Map.addLayer(feature_ejemplo, {}, 'Ejemplo 2');
-
 ```
+---
 
-## Creación y administración de colecciones de features
+# Creación y administración de FeatureCollection
 
-Los grupos de features relacionados se pueden combinar en una [FeatureCollection](https://developers.google.com/earth-engine/api_docs#eefeaturecollection), para permitir operaciones adicionales en todo el conjunto tales como: filtrado, clasificación y renderizado. Además de simples features (geometría + propiedades), FeatureCollection también puede contener otras colecciones.
+- Los grupos de features relacionados se pueden combinar en una [FeatureCollection](https://developers.google.com/earth-engine/api_docs#eefeaturecollection), para permitir operaciones adicionales en todo el conjunto tales como: filtrado, clasificación y renderizado. 
 
-### 1. FeatureCollection a partir de lista de Features
+- Además de simples features (geometría + propiedades), FeatureCollection también puede contener otras colecciones.
 
-Podemos construir un FeatureCollection a partir de una lista de features, donde estos pueden tener o no el mismo tipo de geometría.
+---
 
+# FeatureCollection a partir de lista de Features
+
+Podemos construir un FeatureCollection a partir de una lista de features.
 ```javascript
-
+// Las geometrias pueden ser distintas
 var features = [
-    ee.Feature(ee.Geometry.Point(-62.709,-31.428), {Estación: 'La Francia'}),
-    ee.Feature(ee.Geometry.Point(-61.248,-31.475), {Estación: 'Pilar'}),
-    ee.Feature(ee.Geometry.Point(-61.765,-31.840), {Estación: 'Sastre'}),
-    ee.Feature(ee.Geometry.Point(-62.534,-31.858), {Estación: 'Las Varas'})];
-
+    ee.Feature(ee.Geometry.Point(-62.709,-31.428), 
+    		{Estación: 'La Francia'}),
+    ee.Feature(ee.Geometry.Point(-61.248,-31.475), 
+            	{Estación: 'Pilar'}),
+    ee.Feature(ee.Geometry.Point(-61.765,-31.840), 
+    		{Estación: 'Sastre'}),
+    ee.Feature(ee.Geometry.Point(-62.534,-31.858), 
+    		{Estación: 'Las Varas'})];
 var fc_desdeUnaLista = ee.FeatureCollection(features);
 
 print(fc_desdeUnaLista);
 Map.addLayer(fc_desdeUnaLista, {}, 'FC_Puntos');
 Map.centerObject(fc_desdeUnaLista);
 ```
-
-### 2. FeatureCollection a partir de Google Fusion Table
+---
+# FeatureCollection a partir de Google Fusion Table
 
 También podemos incorporar un FeatureCollection a partir de un Google Fusion Table. Google Fusion Tables (GFT) es un servicio de Google que permite manejar tablas. Esto habilita la importación de archivos vectoriales a la plataforma Google Earth Engine (GEE) a través de archivos vectoriales en formato KML.
 
-#### Crear un nuevo Fusion Table
+---
+
+# Crear un nuevo Fusion Table I
 
 Estas tablas las gestionamos desde [Google Drive](https://drive.google.com), la utilidad debe estar habilitada si no aparece en el menú NUEVO. La habilitación se realiza desde:
 
     NUEVO > Más > + Conectar más aplicaciones
 
-![Selección\_536.png](../images/image15.png)
+![100% center](../images/image15.png)
 
+---
+# Crear un nuevo Fusion Table II
 Una vez habilitada vamos a poder subir una nueva tabla a través de la opción NUEVO > Más > Google Fusion Table (o Tablas dinámicas de Google en español).
 
 
 |  |  |
 | - | - |
-| ![Screenshot - 170617 - 16:58:15.png](../images/image22.png) | ![Screenshot - 170617 - 17:18:05.png](../images/image5.png) |
+| ![100% center](../images/image22.png) | ![100% center](../images/image5.png) |
 
+---
+# Crear un nuevo Fusion Table III
 
 La creación del Fusion Table importamos desde el sistema de archivos un documento .kml y luego hacemos clic en Next.
 
-![](../images/image2.png)
+![100% center](../images/image2.png)
 
+--- 
+
+# Crear un nuevo Fusion Table IV
 
 Nos va a mostrar un preview del archivo donde podremos verificar los nombres de los atributos y el tipo de geometría que estamos subiendo.
 Luego, Next.
 
-![](../images/image31.png)
+![100% center](../images/image31.png)
 
+---
+# Crear un nuevo Fusion Table V
 
 En esta sección podremos editar algunos parámetros de la nueva tabla como el nombre, la descripción y algunos permisos básicos. Damos clic en Finish.
 
 ![](../images/image12.png)
 
+---
+# Crear un nuevo Fusion Table VI
 
 Ahora si ya está disponible la nueva tabla. Si vamos a la solapa Map of geometry podemos ver desplegada sobre un mapa de Google la columna geometría que se subió con el archivo kml.
 
-![](../images/image9.png)
+![90% center](../images/image9.png)
 
+---
+# Crear un nuevo Fusion Table VII
 
 En la opción Share se puede ajustar las opción de seguridad de la nueva capa que fue subida al GFT.
 
-![](../images/image23.png)
+![center](../images/image23.png)
 
+---
+# Crear un nuevo Fusion Table VIII
 
 Para poder importar este archivo a GEE necesitamos el ID de la tabla, para ello vamos a File y seleccionamos About this table. Ahí encontraremos el identificador (Id).
 
 ![](../images/image6.png)
 
+---
+# Crear un nuevo Fusion Table IX (La última :D)
 
 También en la opción “Enlace para compartir” disponible en Share, tenemos disponible el identificador de la GFT a través del cual vamos a vincular la tabla con nuestro script.
 
 ![](../images/image10.png)
 
+---
 
-**Crear un FeatureCollection desde GFT**: Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a **ft:**. Por ejemplo:
+# Crear un FeatureCollection desde GFT
+Para cargar una FeatureCollection desde una Fusion Table, proporcione al constructor (ee.FeatureCollection) el ID de tabla agregado a **ft:**. Por ejemplo:
 
 ```javascript
-var desdeFT = ee.FeatureCollection('ft:1ns9ErIEndlHyVe3hOB8tw_mqM_8f3sZxZX0ltICc');
+var key = 'ft:1ns9ErIEndlHyVe3hOB8tw_mqM_8f3sZxZX0ltICc';
+var desdeFT = ee.FeatureCollection(key);
 print(desdeFT);
 Map.addLayer(desdeFT, {}, 'Región Chaqueña');
 Map.centerObject(desdeFT);
 ```
+---
+# Creación de un FeatureCollection a partir de Tablas
 
-### 3.  Creación de un FeatureCollection a partir de Tablas
+Es posible instanciar un FC utilizando tablas que tenemos almacenadas en un Assets. Para crear esta nueva tabla podemos utilizar un Shapefile o un .zip que contenga todos los archivos que componen el Shapefile. El tamaño máximo permitido es 10GB.
 
-Es posible instanciar un FC utilizando tablas que tenemos almacenadas en un Assets. Para crear esta nueva tabla podemos utilizar un Shapefile o
-un .zip que contenga todos los archivos que componen el Shapefile. El tamaño máximo permitido es 10GB.
+Los pasos para subir un Shapefile son seleccionar desde Assets NEW \> Table Upload.  
 
-| | |
-| - | - |
-| Los pasos para subir un Shapefile son seleccionar desde Assets NEW \> Table Upload.  | ![](../images/image25.png)              |
+![100% center](../images/image25.png)              |
 
+---
+# Selección del Shapefile
+Luego seleccionamos desde nuestro sistema de archivo el shapefile y todos los archivos que lo componen (.dbf, .shp, .shx, .prj) (podemos seleccionar el .zip también). 
 
-| | |
-| - | - |
-| Luego seleccionamos desde nuestro sistema de archivo el shapefile y todos los archivos <br/>que lo componen (podemos seleccionar el .zip también).   | ![](../images/image4.png)               |
+![100% center](../images/image4.png)               |
 
+---
+# Selección del Shapefile
 
-| | |
-| - | - |
-| Por default toma el nombre del shp para la tabla pero se puede editar. Además, podemos indicar la <br>codificación de caracteres que posee el shp para no encontrarnos luego<br>con caracteres mal interpretados.<br>Esta opción está en Advanced.<br><br>Ok para finalizar. | ![](../images/image3.png)               |
+Por default toma el nombre del shp para la tabla pero se puede editar. Además, podemos indicar la codificación de caracteres que posee el shp para no encontrarnos luego con caracteres mal interpretados. Esta opción está en Advanced.
+Ok para finalizar. 
+![70% center](../images/image3.png)
 
-El upload no es instantáneo y puede demorar algunos minutos dependiendo de la congestión de la plataforma y el tamaño que tenga el archivo. Podemos verificar el progreso desde la solapa TASK:
+---
+# Upload/Task Panel
+El upload no es instantáneo y puede demorar algunos minutos dependiendo de la congestión de la plataforma y el tamaño que tenga el archivo. 
+
+Podemos verificar el progreso desde la solapa TASK:
 
 
 | | |
 | - | - |
 | Tarea en proceso.                    | ![](../images/image20.png)              |
 | Tarea finalizada.                    | ![](../images/image8.png)               |
+---
 
-| | |
-| - | - |
-| Finalizada la carga la Tabla estará <br/> disponible en el Assets de nuestro usuario. | ![](../images/image30.png)              |
+# Crear un FC desde una tabla 
+
+Finalizada la carga la Tabla estará disponible en el Assets de nuestro usuario. 
+![100 center](../images/image30.png)
+
 
 ```javascript
 var txt_assets = 'users/<usuario>/muestras';
@@ -616,16 +690,17 @@ var muestreos = ee.FeatureCollection(txt_assets);
 print(muestreos);
 Map.addLayer(muestreos, {}, 'Muestras');
 ```
-        
 
-### 4. FeatureCollection de una muestra al azar
+---
+
+# FeatureCollection de una muestra al azar
 
 Es posible crear un FeatureCollection a partir de generar una muestra al azar [ee.FeatureCollection.randomPoints](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionrandompoints) de puntos dada una región.
 
 ```javascript
-
 var region = ee.Geometry.Rectangle(-63.457, -25.155, -62.699, -24.714);
-var randomPoints = ee.FeatureCollection.randomPoints( region,
+var randomPoints = ee.FeatureCollection.randomPoints( 
+    region,
     100, // cantidad de puntos
     123); // seed
 
@@ -635,24 +710,33 @@ Map.centerObject(randomPoints);
 
 Map.addLayer(randomPoints, {}, 'Puntos al azar');
 ```
+--- 
 
-### 5.  Creación de FeaturesCollection desde el Mapa
+# Creación de FeaturesCollection desde el Mapa
 
 Al igual que mostramos anteriormente como dibujar geometrías, es posible definir FeaturesCollection dibujando desde el mapa.
 
-![](../images/image17.png)        
+![100% center](../images/image17.png)        
+
+
+---
+# Creación de FeaturesCollection desde el Mapa
 
 En la configuración podemos darle un nombre al Layer y agregar propiedades con valores por defecto y definir el color.
 
-![](../images/image29.png)
+![](../images/features_desde_mapa.png)
 
-![](../images/image27.png)
+---
+# Creación de FeaturesCollection desde el Mapa
 
-Podemos incorporar esto FeaturesCollection desde la sección de Imports.
+Podemos incorporar este FeaturesCollection desde la sección de Imports.
 
 ![](../images/image14.png)
 
-## Operaciones Básicas sobre FeaturesCollection
+
+--- 
+
+# Operaciones Básicas sobre FeaturesCollection
 
 Existen varios métodos para recuperar información y metadatos de un FC.
 
@@ -667,23 +751,33 @@ print(muestreos.limit(1)); // Limitamos el # de features
 print('Lista de atributos:',muestreos.first().propertyNames()); //Listar los atributos del primer feature
 print('Cantidad: ', muestreos.size()); // # de features en la colección
 ```
+--- 
 
-Operaciones de agregación por columnas.
+# Operaciones de agregación por columnas.
 
 ```javascript
 // Contar cuántas instancias de cada clase hay
-print('Clases Distintas:',  muestreos.aggregate_count_distinct('class'));
+print('Clases Distintas:', 
+	muestreos.aggregate_count_distinct('class'));
 
 // Suma toda la columna area_ha
-print('Superficie Total (Ha):', muestreos.aggregate_sum('area_ha'));
+print('Superficie Total (Ha):', 
+	muestreos.aggregate_sum('area_ha'));
 ```
 
-**Desafío 4**: Calcule el tamaño promedio de las parcelas muestreadas.
+---
+# Desafío 4 
 
+Calcule el tamaño promedio de las parcelas muestreadas.
 
-## Construcción de Filtros
+---
+
+# Construcción de Filtros
 
 Todos los objetos de tipo colección tienen una método de aplicación de filtros (.filter) que a menudo requieren como parámetro de un objeto del tipo [ee.Filter](https://developers.google.com/earth-engine/api_docs#eefilter).
+
+---
+# Construcción de Filtros
 
 **Importante:** los filtros aplican sobre las __instancias__, es decir, sobre las filas.
 
@@ -706,12 +800,18 @@ print('Parcelas de más de 10 ha:', filtradasXarea.size());
 Map.addLayer(filtradasXarea, {color: 'f4df42'}, 'Más de 10  ha');
 
 ```
+---
 
-**Desafío 5**: Construya un filtro que permita filtrar las clases de tipo 131.
+# Desafío 5
+Construya un filtro que permita filtrar las clases de tipo 131.
 
-**Desafío 6**: ¿Cuántas parcelas fueron etiquetadas como ARBUSTAL en la descripción?
+---
+# Desafío 6
+¿Cuántas parcelas fueron etiquetadas como ARBUSTAL en la descripción?
 
-## Operador Selection
+---
+
+# Operador Selection
 
 Selección de propiedades de un Feature para generar un nuevo FeatureCollection.
 
@@ -719,20 +819,23 @@ Selección de propiedades de un Feature para generar un nuevo FeatureCollection.
 
 
 ```javascript
+var fc_seleccion = filtrados.select( 
+ 	['area_ha', 'class'], ['AREA','CLASE']);
 
-var fc_seleccion = filtrados.select( ['area_ha', 'class'], ['AREA','CLASE']);
 print(fc_seleccion);
 ```
+---
 
-## Manejo de  iteraciones sobre colecciones de features
+# Manejo de  iteraciones sobre colecciones de features
 
 Existen varias opciones para poder iterar sobre un FeatureCollection, una forma simple de modificar cada uno de los Features de un FeatureCollection es utilizando la instrucción [ee.FeatureCollection.map](https://developers.google.com/earth-engine/api_docs#eefeaturecollectionmap). Esta instrucción permite recorrer cada Feature y generar un FeatureCollection nuevo.
 
+
+---
+# Cómo funciona el Map
 Veamos un ejemplo simple, supongamos que queremos incorporar al FeatureCollection de las muestras un atributo que sea perímetro. Esto requiere que para cada elemento (de tipo Feature) de la colección hagamos el cálculo, eso sería:
 
-
 ```javascript
-
 var get_perimetro = function(elemento){
         return elemento.set(
             {perimetro: elemento.geometry().perimeter()}
@@ -741,19 +844,17 @@ var get_perimetro = function(elemento){
 
 var m_con_perimetro = muestreos.map(get_perimetro);
 print(m_con_perimetro);
-
 ```
+---
+# Otro ejemplo de map
 
-Otro ejemplo de map, supongamos que tenemos un CSV con las coordenadas expresadas en grados decimales y queremos generar la geometría para cada Feature del FeatureCollection:
+Supongamos que tenemos un CSV con las coordenadas expresadas en grados decimales y queremos generar la geometría para cada Feature del FeatureCollection:
 
 ```javascript
-
 var key = 'ft:1t-2SIDNQHZji_6iSWww0pAbd_4i33l8o68NUh4an';
-
 var muestreos = ee.FeatureCollection(key);
 
 // Muestreo sin geometría
-
 print( muestreos.limit(1) );
 
 var agregar_geometria = function( elemento ){
@@ -762,15 +863,18 @@ var agregar_geometria = function( elemento ){
             elemento.get('longitud'),
             elemento.get('latitud')
         ]);
-
     return elemento.setGeometry(geom);
   };
-
 Map.addLayer( muestreos.map(agregar_geometria), {}, 'Muestras');
 ```
+---
 
-**Desafío 7**: Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”. [Solución](https://code.earthengine.google.com/c41df28ae30874a0096ec677dfdfe58e).
+# Desafío 7
+Escriba una función de mapeo que para valores de class entre 20 y 23 completen un nuevo atributo llamado TIPO con el valor “Bosque” y en caso contrario complete con “No Bosque”. 
 
+[Solución](https://code.earthengine.google.com/c41df28ae30874a0096ec677dfdfe58e).
+
+---
 
 Existe otra forma de recorrer un FeatureCollection que es con el método [iterate](https://developers.google.com/earth-engine/api_docs#eefeaturecollectioniterate).
 
@@ -793,14 +897,16 @@ var contar_clases = function(feat, n_dict){
 var n_class = muestreos.distinct(['class']).iterate(contar_clases, n_dict);
 print(n_class);
 ```
+---
 
-## Exportar como tabla de datos
+# Exportar como tabla de datos
 
 Para exportar un FeatureCollection a Google Drive se requiere la instrucción Export.table.toDrive()
 
 ![](../images/image26.png)
 
-### KML
+---
+# KML
 
 ```javascript
 Export.table.toDrive({
@@ -810,7 +916,7 @@ Export.table.toDrive({
 });
 ```
 
-### CSV
+# CSV
 
 ```javascript
 Export.table.toDrive({
@@ -819,8 +925,8 @@ Export.table.toDrive({
     fileFormat: 'CSV'
 });
 ```
-
-Ejemplo:
+---
+# Un ejemplo picante! :D
 
 ```javascript
 var key = 'ft:1t-2SIDNQHZji_6iSWww0pAbd_4i33l8o68NUh4an';
@@ -842,20 +948,20 @@ description: 'TablaBosqueNoBosque', //Es el nombre que tendrá el archivo
 fileFormat: 'CSV'
 });
 ```
+---
 
+# Tareas de exportación
 Luego de exportar se incluirá una nueva tarea que hay que poner a
 correr.
 
 ![](../images/image11.png)
 
-Dependiendo de la cantidad de features en la colección el proceso puede
-demorar mucho o poco y además también dependerá de la carga de trabajo
-de la plataforma.
+Dependiendo de la cantidad de features en la colección el proceso puede demorar mucho o poco y además también dependerá de la carga de trabajo de la plataforma.
 
 ![](../images/image19.png)
 
-
-## Realizar gráficos
+---
+# Realizar gráficos
 
 En GEE es posible realizar diferentes tipos de gráficos utilizando la librería ui.Chart. Las opciones disponibles para FeaturesCollection son:
 
@@ -866,10 +972,8 @@ En GEE es posible realizar diferentes tipos de gráficos utilizando la librería
 -   ui.Chart.feature.histogram(features, property, maxBuckets,
     minBucketWidth, maxRaw)
 
-Ejemplos:
-
-Graficar Features por Histogramas
-
+---
+# Graficar Histogramas desde Features
 
 ```javascript
 var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
@@ -881,30 +985,13 @@ var histograma = ui.Chart.feature.histogram(muestreos, 'area_ha', 5);
 print(histograma);
 ```
 
-![](../images/image16.png)
+![120% center](../images/image16.png)
 
-Graficar Features por Grupos
+---
+
+# Graficar Features por Grupos
 
 ```javascript
-
-var key = 'ft:1ExULsxnCc7x8AJQmD7bsg9iQKrKMVbkbOJi62XVy';
-var muestreos = ee.FeatureCollection(key);
-
-// Agrego el perímetro
-var get_perimetro = function(elemento){
-return elemento.set({perimetro: elemento.geometry().perimeter()});
-}
-
-var m_con_perimetro = muestreos.map(get_perimetro);
-
-// Agrego el tipo Bosque / No Bosque
-var mapear_clase = function( elemento ){
-return elemento.set('tipo',
-ee.Algorithms.If( ee.Number(elemento.get('class')).gte(20).and(ee.Number(elemento.get('class')).lte(23))  ,
-      'Bosque',
-      'No Bosque'));
-};
-var fc_tipo = m_con_perimetro.map( mapear_clase );
 
 var chart = ui.Chart.feature.groups(fc_tipo, 'area_ha', 'perimetro', 'tipo')
 .setChartType('ScatterChart')
@@ -917,8 +1004,12 @@ print(chart);
 
 ```
 
-![](../images/image21.png)
+![100% center](../images/image21.png)
 
+Probar ejemplo completo [aquí](https://code.earthengine.google.com/f8543ab23cf51b4d1ffb10e729bf949c)
+
+
+---
 
 Bibliografía
 ============
