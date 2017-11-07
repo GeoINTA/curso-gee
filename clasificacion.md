@@ -50,33 +50,14 @@ Map.centerObject(geometry, 8);
 
 4.  Cargar o generar puntos (o polígonos) de entrenamiento y validación
 
-Para el punto 4 se pueden generar nuevos puntos, cargarlos a partir de un vector disponible previamente, o obtenerlo de puntos ya generados en la plataforma GEE. Para el último caso, se puede copiar como ejemplo el siguiente código:
+Para el punto 4 se pueden generar nuevos puntos, cargarlos a partir de un vector disponible previamente, u obtenerlos de puntos ya generados en la plataforma GEE. 
 
-```javascript
-var clase0 = ee.FeatureCollection(
-[ee.Feature(ee.Geometry.Point([-61.69303894042969,-28.33279078149813]),{"clase": 0,"system:index": "0"}),
-ee.Feature(ee.Geometry.Point([-62.17506408691406, -28.375693762957862]),{"clase": 0,"system:index": "1"}),
-ee.Feature(ee.Geometry.Point([-62.31170654296875,-28.40529274756662]),{"clase": 0,"system:index": "2"}),
-ee.Feature(ee.Geometry.Point([-62.15240478515625, -28.4451476995102]),{"clase": 0,"system:index": "3"}),
-ee.Feature(ee.Geometry.Point([-62.02537536621094, -28.463862268869118]),{"clase": 0,"system:index": "4"}),
-ee.Feature(ee.Geometry.Point([-61.820068359375, -28.46688043752887]),{"clase": 0,"system:index": "5"}),
-ee.Feature(ee.Geometry.Point([-61.82487487792969, -28.47774513090882]),{"clase": 0,"system:index": "6"}),
-ee.Feature(ee.Geometry.Point([-61.80015563964844, -28.46989851998662]),{"clase": 0,"system:index": "7"}),
-ee.Feature(ee.Geometry.Point([-61.73561096191406, -28.461447671879828]),{"clase": 0,"system:index": "8"}),
-ee.Feature(ee.Geometry.Point([-62.307586669921875, -28.34487788226893]),{"clase": 0,"system:index": "9"})]),
 
-clase1 = ee.FeatureCollection(
-[ee.Feature(ee.Geometry.Point([-62.36457824707031, -28.355150836534136]),{"clase": 1,"system:index": "0"}),
-ee.Feature(ee.Geometry.Point([-62.33848571777344, -28.349712337487777]),{"clase": 1,"system:index": "1"}),
-ee.Feature(ee.Geometry.Point([-61.98829650878906, -28.25177175656493]),{"clase": 1,"system:index": "2"}),
-ee.Feature(ee.Geometry.Point([-61.95808410644531, -28.249352330644772]),{"clase": 1,"system:index": "3"}),
-ee.Feature(ee.Geometry.Point([-61.37306213378906, -28.30921698045776]),{"clase": 1,"system:index": "4"}),
-ee.Feature(ee.Geometry.Point([-61.96495056152344, -28.298335001920627]),{"clase": 1,"system:index": "5"}),
-ee.Feature(ee.Geometry.Point([-62.16339111328125, -28.28745191050374]),{"clase": 1,"system:index": "6"}),
-ee.Feature(ee.Geometry.Point([-62.1990966796875, -28.281405267834156]),{"clase": 1,"system:index": "7"}),
-ee.Feature(ee.Geometry.Point([-61.5234375, -28.430656725969925]),{"clase": 1,"system:index": "8"}),
-ee.Feature(ee.Geometry.Point([-61.92237854003906, -28.288661197831743]),{"clase": 1,"system:index": "9"})]);
-```
+https://code.earthengine.google.com/ce97d96621040d67a1ec08ffc0df322c
+
+
+![80% center](images/puntos_relevados_clasificacion.png)
+
 
 Ahora vamos a combinar las dos variables **clase0** y **clase1** en un único FeatureCollection:
 
