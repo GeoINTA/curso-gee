@@ -685,10 +685,10 @@ Finalizada la carga la Tabla estará disponible en el Assets de nuestro usuario.
 
 
 ```javascript
-var txt_assets = 'users/<usuario>/muestras';
+var txt_assets = 'users/<usuario>/puntos';
 var muestreos = ee.FeatureCollection(txt_assets);
 print(muestreos);
-Map.addLayer(muestreos, {}, 'Muestras');
+Map.addLayer(muestreos, {}, 'Puntos');
 ```
 
 ---
