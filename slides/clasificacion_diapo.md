@@ -249,12 +249,15 @@ var cfmt2x2 =  errorMatrix.array().toList().map(
 print(cfmt2x2);
 ```
 ---
-**Ejemplo de clase**: [Ir](https://code.earthengine.google.com/2d2aa48aabfd3b5a2a6c821a307ea5c0)
 
-## Actividad Propuesta:
+# Ejemplo de clase
 
-Modifique el script para que funcione con CART y almacene el árbol generado en una nueva variable utilizando la función explain. Luego
-realice una nueva clasificación con el árbol ya generado y utilizando la funcionalidad provista por ee.Classifier.decisionTree en la región cubierta por el siguiente polígono:
+[Actividad Propuesta](https://code.earthengine.google.com/2d2aa48aabfd3b5a2a6c821a307ea5c0)
+
+
+Modifique el script para que funcione con CART y almacene el árbol generado en una nueva variable utilizando la función __explain__.
+
+Luego realice una nueva clasificación con el árbol ya generado y utilizando la funcionalidad provista por ee.Classifier.decisionTree en la región cubierta por el siguiente polígono:
 
 ```javascript
 var nueva_zona = ee.Geometry.Rectangle([-64.456, -24.417, -61.369, -26.214]);
@@ -262,3 +265,8 @@ var nueva_zona = ee.Geometry.Rectangle([-64.456, -24.417, -61.369, -26.214]);
 
 1. ¿Qué pasa si incremento el número de árboles de un RandomForest?
 2. ¿Qué pasa si limito la profundidad en CART?
+
+--- 
+# Ejemplo completo
+[Aquí](https://code.earthengine.google.com/fea0d8781a27839d7c3daace74c30bc2) está el ejemplo completo de la clasificación supervisada y no supervisada.
+![100% center](../images/sup_nosup.png)
