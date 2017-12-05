@@ -10,7 +10,7 @@ Clasificaciones Supervisadas
 
 ---
 # Contenidos
-
+	
 Incorporación de datos de campo y generación de datos de entrenamiento desde la interfaz de GE. Cálculo de mosaicos de índices del área de estudio. Muestreo a partir de los datos de campo. Separación en training/testing. Algoritmos disponibles para clasificación supervisada. Parametrización de los algoritmos. Ajustes. Validación utilizando matrices de confusión (accuracy, kappa). Aplicación del modelo y mapeo de resultados. Visualizar y exportar los resultados de  la clasificación.
 
 ---
@@ -267,6 +267,35 @@ var nueva_zona = ee.Geometry.Rectangle([-64.456, -24.417, -61.369, -26.214]);
 2. ¿Qué pasa si limito la profundidad en CART?
 
 --- 
+#  Muestreo para la clasificación no supervisada
+```javascript
+// Seleccionamos los pixeles para correr el agrupamiento
+var datos_km = stack1.clip(area_estudio).sample({
+    region: area_estudio,
+    scale: 30,
+    numPixels: 5000,
+    seed: 10
+  });
+
+```
+---
+# Configuramos el algoritmo wekaXMeans
+
+```javascript
+var TOTALK = 10; // Máxima cantidad de clusters
+var clasificadorNoSup = ee.Clusterer.wekaXMeans(
+  {minClusters: 2,  // Mínima cantidad de clusters
+   maxClusters: TOTALK, 
+   maxIterations: 100, 
+   distanceFunction: "Euclidean", 
+   seed: 123});
+
+// Entreno con las muestras
+clasificadorNoSup = clasificadorNoSup.train(datos_km);
+```
+
+---
+
 # Ejemplo completo
 [Aquí](https://code.earthengine.google.com/fea0d8781a27839d7c3daace74c30bc2) está el ejemplo completo de la clasificación supervisada y no supervisada.
 ![100% center](../images/sup_nosup.png)
