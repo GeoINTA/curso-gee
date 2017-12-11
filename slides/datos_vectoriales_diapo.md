@@ -1,12 +1,20 @@
 <!-- $theme: default -->
-<!-- footer: Taller GEE - MapBiomas - EEA Salta. Noviembre 2017 -->
+<!-- footer: Taller GEE - para el monitoreo del uso y cobertura del suelo. Mendoza. Diciembre 2017 -->
 <!-- page_number: true -->
-![100% top bg](../images/mapbiomas-bg.jpg)
 
-<br>
 
 Manejo de datos vectoriales
 ==
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+![50% top](../images/logos_pie_de_pagina.png)
+
+
 
 ---
 
@@ -43,7 +51,8 @@ El valor predeterminado es EPSG:4326 (WGS84 Lat/Lon)
 
 ---
 
-# Creación de Geometrías
+# Representación interna
+<br/>
 
 La definición de esa geometría (según la definición [GeoJSON](https://tools.ietf.org/html/rfc7946)) sería:
 
@@ -57,19 +66,37 @@ La definición de esa geometría (según la definición [GeoJSON](https://tools.
       ]
     }
 ```
+
+---
+# Geometrías Disponibles
+
+- Geometrías Simples
+	- [ee.Geometry.LinearString](https://developers.google.com/earth-engine/api_docs#eegeometrylinearring) 
+	- [ee.Geometry.LinearRing](https://developers.google.com/earth-engine/api_docs#eegeometrylinearring) 
+ 	- [ee.Geometry.Rectangle](https://developers.google.com/earth-engine/api_docs#eegeometryrectangle)
+ 	- [ee.Geometry.Polygon](https://developers.google.com/earth-engine/api_docs#eegeometrypolygon)
+ 	- [ee.Geometry.Rectangle](https://developers.google.com/earth-engine/api_docs#eegeometryrectangle)
+ - Geometrías Múltiples
+ 	- [ee.Geometry.MultiPoint](https://developers.google.com/earth-engine/api_docs#eegeometrymultiPoint)
+ 	- [ee.Geometry.MultiLineString](https://developers.google.com/earth-engine/api_docs#eegeometrymultilinestring)
+	- [ee.Geometry.MultiPolygon](https://developers.google.com/earth-engine/api_docs#eegeometrymultipolygon)
+
+Veamos un ejemplo con todas [ [Ver](https://code.earthengine.google.com/ad526731fd0bdf18393df8fe303ca19f) ]
+
 --- 
 # Mapear e imprimir un objeto geometry
 
-De esa forma los datos son __almacenados__ y __utilizados__ internamente por la librería. 
-Para poder ver en el [Code Editor](https://code.earthengine.google.com/) el formato nativo podemos hacer **print(point);** y luego en la consola hacer clic en JSON.
+Un objeto Geometry puede ser inspeccionado  desde la consola mediante **print(objetoGeometry);**
 
-También podemos agregar la geometría en el mapa utilizando la siguiente instrucción:
+También podemos __agregar la geometría en el mapa__ utilizando la siguiente instrucción:
 
 ```javascript
 Map.addLayer(point,{'color':'00FF11'} ,'Punto');
 ```
 
 **Tips**: Si quiere modificar el color de la geometría el formato hexadecimal de [colores html](http://htmlcolorcodes.com/es/) puede obtenerse desde Google realizando la búsqueda con [picker color](https://www.google.com.ar/#q=picker+color).
+
+<!--
 
 ---
 # Geometría de línea
@@ -90,6 +117,8 @@ var lineString = ee.Geometry.LineString([
 //Agreganos la geometría al mapa
 Map.addLayer(lineString,{'color':'CC0011'} ,'Linea');
 ```
+-->
+
 ---
 # TIPS: Centrar el mapa
 Podemos centrar el mapa en una geometría o _feature_ particular, eso lo podemos hacer con Map.centerObject así:
@@ -99,7 +128,8 @@ Podemos centrar el mapa en una geometría o _feature_ particular, eso lo podemos
 // 2do elemento el nivel de zoom 0 más lejos
 Map.centerObject(lineString, 7);
 ```
-Ver ejemplo [aquí](https://code.earthengine.google.com/68da9c6a1b71fac1e3c56a60a9f5da3a)
+
+<!--
 
 ---
 # Geometría LinearRing
@@ -168,8 +198,11 @@ Map.addLayer(multiPoint,{'color':'16a322'},'multiPoint');
 ```
 Para dividir una Geometría de varias partes en sus geometrías constitutivas, use **geometry.geometries()**.
 
+-->
+
 ---
-# Geometrías multiparte
+# Método _geometries_
+
 Vamos a imprimir los puntos de  la geometría, así que al objeto multiPoint le vamos a pedir todas las geometrías que lo componen.
 
 ```javascript
@@ -196,14 +229,14 @@ Existe una forma muy práctica de dibujar Geometrías desde el mismo mapa del Co
 Veamos un ejemplo:
 
  - Las opciones para dibujar están ubicadas en el sector superior izquierdo del mapa. 
- - Las herramientas disponibles permiten activar el dibujado de geometrías múltiples de: puntos, líneas y polígonos. <br/>Para dejar de dibujar se hace clic en la mano de la izquierda. 
+ - Las herramientas disponibles permiten activar el dibujado de geometrías de: puntos, líneas y polígonos. <br/>Para dejar de dibujar se hace clic en la mano de la izquierda. 
 
 ![120% center](../images/image18.png)
 
 ---
 # Crear Geometrías desde el mapa
 
- - Una vez que se activa la herramienta esta se habilita para poder dibujar. 
+ - Una vez que se activa la herramienta esta se habilita un **nuevo Layer** para poder dibujar. 
  - Se asigna un color al azar y cada figura que se trace formará parte de una geometría múltiple. 
 
 ![100% center](../images/image28.png)
@@ -236,7 +269,9 @@ El código fuente generado puede copiarse y pegarse en el script que se está es
 
 **Ojo**: Solo funciona con Chrome! 
 
----
+
+
+<!--
 
 # Geometrías Geodésicas y Planas
 
@@ -244,7 +279,8 @@ El código fuente generado puede copiarse y pegarse en el script que se está es
 
 En la configuración predeterminada de la instanciación de un objeto ee.Geometry.XXXXX este se crea como EPSG:4326, es decir, será una geometría geodésica.
 
----
+
+
 # Geometrías Geodésicas y planas
 
 ```javascript
@@ -269,13 +305,20 @@ Map.centerObject(PoligonoGeo);
 Map.addLayer(PoligonoGeo, {color: 'FF0000'}, 'Geodésico');
 Map.addLayer(PoligonoPlano, {color: '000000'}, 'Plano');
 ```
+-->
 
 ---
 
-# Operaciones con Geometrías
+# Operaciones básicas con Geometrías
 
-
-Earth Engine admite una amplia variedad de operaciones en objetos Geometry. Estos incluyen operaciones unarias en geometrías individuales tales como calcular un buffer, centroide, bounding box, perímetro, envolvente convexa, etc.
+- Earth Engine admite una amplia variedad de operaciones en objetos Geometry. 
+- Estos incluyen operaciones unarias:
+	- calcular un buffer, 
+	- centroide, 
+	- bounding box, 
+	- perímetro, 
+	- envolvente convexa, 
+    - ...
 
 ---
 
@@ -362,16 +405,16 @@ Las  operaciones que hemos realizado han sido todas con operadores unarios, don
 ```javascript
 
 var poli1 = ee.Geometry.Polygon(
-     [[[-63.62113952636719, -25.129433436071757],
-       [-63.572044372558594, -25.128811779454853],
-       [-63.57135772705078, -25.054501051619468],
-       [-63.622169494628906, -25.05512308589585]]]);
-
+        [[[-69.182, -33.399],
+          [-69.129, -33.398],
+          [-69.128, -33.324],
+          [-69.183, -33.325]]]);
+          
 var poli2 = ee.Geometry.Polygon(
-       [[[-63.645172119140625, -25.061965254565465],
-         [-63.65753173828125, -25.13005508952488],
-         [-63.59367370605469, -25.128811779454853],
-         [-63.59367370605469, -25.061343255018567]]]);
+        [[[-69.214, -33.328],
+          [-69.228, -33.396],
+          [-69.158, -33.395],
+          [-69.158, -33.328]]]);
 ```
 
 --- 
@@ -436,20 +479,20 @@ Map.addLayer(poli2, {color: '0000FF'}, 'Polígono 2');
 ```
 ---
 # Desafío 2
-Verifique si la recta que pasan por los puntos **[-63.635, -25.051]** y **[-63.617, -25.146]** intersecta la intersección (valga la redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
+Verifique si la recta que pasan por los puntos **[-69.2094, -33.3251]** y **[-69.172, -33.4094]** intersecta la intersección (valga la redundancia) de las geometrías utilizadas previamente (poli1 y poli2).
 
 --- 
 # Desafío 3:
 Ahora compruebe si el punto definido abajo está contenido en la geometría que resultó de la diferencia simétrica.
 
 ```javascript
-var punto = ee.Geometry.Point([-63.6084366, -25.0803128]);
+var punto = ee.Geometry.Point([-69.1692, -33.3675]);
 ```
 ---
 # Creación de Features
 
 - Un Feature de Earth Engine se define como un GeoJSON Feature. 
-- En pocas palabras, es un objeto con una propiedad de tipo **Geometry** y una **propiedad** de properties que almacena un diccionario de otras propiedades.
+- En pocas palabras, es un objeto con una propiedad de tipo **Geometry** y un conjunto de atributos almacenados en un diccionario (__ee.Dict({})__).
 
 ---
 # Creación de Features
