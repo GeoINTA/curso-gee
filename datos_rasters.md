@@ -98,6 +98,22 @@ Map.addLayer( stack1, {bands: ['B5', 'B4', 'B3'], min: [0,0,0], max:[1,1,1] } , 
 Map.centerObject( geometry, 8 );
 ```
 
+## Colección Sentinel 2
+
+Para ver imágenes Sentinel 2 se requiere modifcar el ID de la colección: __'COPERNICUS/S2'__
+
+[](images/sentinel.png)
+
+Con respecto a las imágenes LANDSAT, cambia la codificación de las bandas, contiene bandas a 10 metros de resolución y cambian los metadatos. El escalado de los datos puede cambiar según el producto que se utilice.
+Para hacer un filtrado de imágenes con cierto porcentaje aceptable de nubes, se requiere modificar el filtro por metadatos:
+
+```javascript
+// por cobertura de nubes máxima – Sentinel 2
+.filterMetadata('CLOUDY_PIXEL_PERCENTAGE','less_than', 40);
+``` 
+
+
+
 ## Generación de índices
 
 Existen varias formas de generación de índices a partir de bandas:
