@@ -102,7 +102,7 @@ Map.centerObject( geometry, 8 );
 
 Para ver imágenes Sentinel 2 se requiere modifcar el ID de la colección: __'COPERNICUS/S2'__
 
-[](images/sentinel.png)
+![](images/sentinel.png)
 
 Con respecto a las imágenes LANDSAT, cambia la codificación de las bandas, contiene bandas a 10 metros de resolución y cambian los metadatos. El escalado de los datos puede cambiar según el producto que se utilice.
 Para hacer un filtrado de imágenes con cierto porcentaje aceptable de nubes, se requiere modificar el filtro por metadatos:
