@@ -2,7 +2,8 @@
 
 Contenidos: Seleccionar colecciones, filtros por áreas, por fechas y por nubes. Construir máscaras. Visualización. Cómo exportar imágenes (ventajas y limitaciones del servicio). Funciones de agregación. Cálculos de índices. Generación de expresiones. Extracción de información a partir de features (agregación por medias, máximos, mínimos, etc.). Exportar como tabla de datos. Realizar gráficos.
 
-Script de ejemplo: [Acá](https://code.earthengine.google.com/5d74fb6613b8aacfbec59b41ebce91aa)
+ - Script de ejemplo __Landsat 8__: [Acá](https://code.earthengine.google.com/5d74fb6613b8aacfbec59b41ebce91aa)
+ - Script de ejemplo __Sentinel 2__: [Acá](https://code.earthengine.google.com/cb4ab8f4ffe698d45c0022972bf26b9f)
 
 ## Trabajar con colecciones de imágenes
 
