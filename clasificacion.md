@@ -2,6 +2,8 @@
 
 Contenidos: Incorporación de datos de campo y generación de datos de entrenamiento desde la interfaz de GE. Cálculo de mosaicos de índices del área de estudio. Muestreo a partir de los datos de campo. Separación en training/testing. Algoritmos disponibles para clasificación supervisada. Parametrización de los algoritmos. Ajustes. Validación utilizando matrices de confusión (accuracy, kappa). Aplicación del modelo y mapeo de resultados. Visualizar y exportar los resultados de  la clasificación.
 
+Ejemplo de clasificación con Sentinel 2 [[Acá](https://code.earthengine.google.com/8e73e3316d230da0d4720a5c96fe408c)]
+
 ## Preprocesamiento y generación del conjunto de datos
 
 Algunos de los pasos requeridos para una clasificación ya fueron explicados en tutoriales anteriores. Estos son:
